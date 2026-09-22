@@ -118,6 +118,7 @@ body.dark-mode {
 
 html {
     -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 88px; /* clears the sticky header */
     scrollbar-color: var(--line-strong) var(--ground);
 }
 

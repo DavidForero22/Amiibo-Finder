@@ -1,6 +1,7 @@
 import React from "react";
 import { IoHeart, IoHeartOutline, IoChevronDown } from "react-icons/io5";
 import { useAmiibo, type Amiibo } from "../context/AmiiboContext";
+import { formatUnlockedAt, formatReleaseDate } from "../logic/utils";
 import FigureImage from "./FigureImage";
 import "../styles/amiibo-card.css";
 
@@ -14,14 +15,6 @@ const REGIONS: { key: keyof Amiibo["release"]; label: string }[] = [
 	{ key: "jp", label: "Japan" },
 	{ key: "au", label: "Australia" },
 ];
-
-const formatRelease = (date: string | null | undefined) => {
-	if (!date) return "Not released";
-	const parsed = new Date(`${date}T00:00:00`);
-	return Number.isNaN(parsed.getTime())
-		? date
-		: parsed.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
-};
 
 /**
  * One figure in the ledger: a small display box with the figure on its plinth,
@@ -61,7 +54,7 @@ const AmiiboCard: React.FC<Props> = ({ amiibo }) => {
 					{amiibo.unlockedAt && (
 						<div>
 							<dt>Unlocked</dt>
-							<dd>{amiibo.unlockedAt}</dd>
+							<dd>{formatUnlockedAt(amiibo.unlockedAt)}</dd>
 						</div>
 					)}
 					<div>
@@ -72,7 +65,7 @@ const AmiiboCard: React.FC<Props> = ({ amiibo }) => {
 						<div key={key}>
 							<dt>{label}</dt>
 							<dd className={amiibo.release?.[key] ? "" : "is-muted"}>
-								{formatRelease(amiibo.release?.[key])}
+								{formatReleaseDate(amiibo.release?.[key]) ?? "Not released"}
 							</dd>
 						</div>
 					))}

@@ -183,7 +183,13 @@
     color: var(--ink-soft);
 }
 
+.tile-details dt {
+    flex: none;
+}
+
 .tile-details dd {
+    min-width: 0;
+    overflow-wrap: anywhere;
     margin: 0;
     font-weight: 700;
     text-align: right;

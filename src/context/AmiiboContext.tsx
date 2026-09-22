@@ -20,6 +20,7 @@ export interface Amiibo {
 	};
 	tail: string;
 	type?: string;
+	/** ISO 8601 timestamp; collections saved before the migration hold a locale-formatted date. */
 	unlockedAt?: string;
 	isFavorite?: boolean;
 }
