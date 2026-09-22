@@ -29,6 +29,7 @@
     --brass: #d4a03a;
     --brass-light: #f0c768;
     --brass-deep: #9c7121;
+    --paper: #faf7ef;
     --sky-top: #7fb5e6;
     --sky-bottom: #cfe4f5;
     --lamp-glow: 0;
@@ -56,13 +57,14 @@
 
     /* Motion */
     --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-    /* One soft settle: a small overshoot for things landing in the room */
-    --ease-settle: cubic-bezier(0.3, 1.12, 0.5, 1);
+    /* Landing curve: steep exponential deceleration. The overshoot of the
+       "settle" lives in the landing keyframes themselves, not in the curve. */
+    --ease-settle: cubic-bezier(0.22, 1, 0.36, 1);
     --dur-fast: 160ms;
     --dur-mid: 320ms;
 
     /* Layout */
-    --page-max: 1240px;
+    --page-max: 1360px;
     --gutter: clamp(16px, 4vw, 40px);
 }
 
@@ -89,6 +91,7 @@ body.dark-mode {
     --brass: #d9a845;
     --brass-light: #f3cf7e;
     --brass-deep: #9c7426;
+    --paper: #e8dfcb;
     --sky-top: #0c1430;
     --sky-bottom: #1f2d57;
     --lamp-glow: 1;
@@ -304,7 +307,7 @@ main {
     --btn-bg: var(--cobalt);
     --btn-ink: var(--on-cobalt);
     --btn-line: var(--cobalt);
-    box-shadow: 0 2px 0 var(--brass-deep), 0 6px 16px rgb(35 68 214 / 0.25);
+    box-shadow: 0 2px 4px rgb(20 25 31 / 0.18), 0 8px 20px rgb(35 68 214 / 0.28);
 }
 
 .btn-primary:hover {
@@ -362,20 +365,62 @@ body.dark-mode .btn-danger {
     border-color: var(--line);
 }
 
-/* Brass plaque: the small engraved label used for counts and metadata */
+/* Plaque: a flat walnut plate edged in brass, like the countdown and the shelves */
 .plaque {
     display: inline-flex;
     align-items: baseline;
     gap: 0.4em;
-    padding: 0.3em 0.7em;
+    padding: 0.35em 0.75em;
+    border: 1.5px solid var(--brass);
     border-radius: var(--radius-s);
-    background: linear-gradient(180deg, var(--brass-light), var(--brass));
-    color: #2a1d06;
+    background: var(--walnut-deep);
+    color: var(--brass-light);
     font-family: var(--font-mono);
     font-size: 0.8125rem;
     font-weight: 700;
     font-variant-numeric: tabular-nums;
-    box-shadow: inset 0 -1px 0 var(--brass-deep), 0 1px 2px rgb(20 25 31 / 0.2);
+}
+
+/* Paper tag: a luggage-tag silhouette (chamfered left end) in paper stock with
+   a brass-ringed punched hole. Paper stays paper in both themes, so the tag
+   carries its own ink scope for any controls inside it. */
+.paper-tag {
+    --ink: #1d1a14;
+    --ink-soft: #4d4538;
+    --surface: #ebe3d1;
+    --line: #cdc2ab;
+    --line-strong: #9d927c;
+
+    position: relative;
+    isolation: isolate;
+    padding: 14px 16px 14px 48px;
+    color: var(--ink);
+    filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.16)) drop-shadow(0 6px 10px rgb(0 0 0 / 0.14));
+}
+
+/* The tag body */
+.paper-tag::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: 0 var(--radius-m) var(--radius-m) 0;
+    background: var(--paper);
+    clip-path: polygon(22px 0, 100% 0, 100% 100%, 22px 100%, 0 calc(100% - 22px), 0 22px);
+}
+
+/* The punched hole, anchored in the chamfered end */
+.paper-tag::before {
+    content: "";
+    position: absolute;
+    left: 13px;
+    top: 50%;
+    width: 13px;
+    height: 13px;
+    margin-top: -6.5px;
+    border-radius: 50%;
+    background: var(--ground);
+    box-shadow: inset 0 0 0 2.5px var(--brass), 0 0 0 1px rgb(0 0 0 / 0.08);
 }
 
 

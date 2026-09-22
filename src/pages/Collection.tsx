@@ -80,7 +80,7 @@ const Collection = () => {
                     )}
 
                     {!isCollectionComplete && (
-                        <div className={`delivery-tag ${isLocked ? "" : "is-ready"}`}>
+                        <div className={`paper-tag delivery-tag ${isLocked ? "" : "is-ready"}`}>
                             {isLocked ? (
                                 <>
                                     <p className="delivery-tag-text">

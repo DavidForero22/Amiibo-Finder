@@ -37,7 +37,7 @@ Not a catalogue or database viewer: a gacha-style ritual around real Amiibo data
 - Stack: React 19 + TypeScript, Vite, React Router 7, vanilla CSS, react-icons, react-confetti. Deployed on Vercel.
 - Data: community AmiiboAPI fork (`amiiboapi.org/api/amiibo/?type=figure`, 258 figures), cached locally. Every figure has `image`, `imgwebp`, and `gameSeries`; regional `release` dates may be null. Collections saved before the API switch lack `imgwebp`, so `image` is the fallback.
 - Data layer (AmiiboContext, FilterContext, `src/logic/*`, API modules) is owned by a separate workstream; UI consumes its contract: `useUnlockLogic` exposes `error: 'network' | 'server' | 'unknown' | null`, `retry()`, `isCollectionComplete`; `importFromFile` returns `'ok' | 'invalid' | 'read'`.
-- UI language: English.
+- UI language: English source copy; Spanish and French translations via react-i18next are in progress on a separate workstream (`i18n` branch). Layouts must tolerate ~30% longer strings.
 - Must preserve through any redesign: the mystery gift box metaphor, the real-time 2-hour cooldown with notifications, persistent light/dark theme, and confetti on unlock.
 
 ## Brand Commitments

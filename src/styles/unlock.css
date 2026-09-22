@@ -4,13 +4,13 @@
 
 .stage {
     display: grid;
-    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
     align-items: center;
-    gap: clamp(24px, 4vw, 64px);
+    gap: clamp(24px, 4vw, 56px);
 }
 
 .stage-room {
-    max-width: 720px;
+    max-width: 820px;
     width: 100%;
     justify-self: center;
 }
