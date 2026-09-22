@@ -108,6 +108,19 @@ export const preloadImage = (src: string) => {
     });
 };
 
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}T/;
+
+/**
+ * Formats a stored `unlockedAt` value for display in the given locale.
+ * Collections saved before the ISO migration hold pre-formatted strings, which are returned unchanged.
+ */
+export const formatUnlockedAt = (value: string, locale?: string): string => {
+    if (!ISO_DATE.test(value)) return value;
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return value;
+    return new Intl.DateTimeFormat(locale, { dateStyle: "medium" }).format(date);
+};
+
 /**
  * Formats a duration in milliseconds as "HH:MM:SS".
  */

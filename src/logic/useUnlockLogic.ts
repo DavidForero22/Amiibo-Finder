@@ -122,7 +122,7 @@ export const useUnlockLogic = () => {
 
 			const amiiboToSave: Amiibo = {
 				...random,
-				unlockedAt: new Date().toLocaleDateString(),
+				unlockedAt: new Date().toISOString(),
 			};
 			delete amiiboToSave.type;
 

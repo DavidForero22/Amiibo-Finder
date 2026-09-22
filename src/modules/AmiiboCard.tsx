@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useAmiibo } from "../context/AmiiboContext";
+import { formatUnlockedAt } from "../logic/utils";
 import { IoBookmark } from "react-icons/io5";
 import "../styles/amiibo-card.css";
 
@@ -101,7 +102,7 @@ const AmiiboCard: React.FC<Props> = ({ amiibo }) => {
 					{amiibo.unlockedAt && (
 						<div className="info-row">
 							<p className="label">Unlocked</p>
-							<span className="value highlight">{amiibo.unlockedAt}</span>
+							<span className="value highlight">{formatUnlockedAt(amiibo.unlockedAt)}</span>
 						</div>
 					)}
 
