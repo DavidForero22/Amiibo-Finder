@@ -201,3 +201,11 @@
         justify-content: center;
     }
 }
+
+/* Narrow phones: brand mark only, so logo and actions share one row
+   (the link keeps its accessible name through aria-label) */
+@media (max-width: 420px) {
+    .brand-name {
+        display: none;
+    }
+}
