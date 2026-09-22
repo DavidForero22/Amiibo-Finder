@@ -1,76 +1,55 @@
 /* =========================================
-   DELETE MODAL SPECIFICS
+   DELETE CONFIRMATION
    ========================================= */
 
-/* * Modal Container Modifier
- * This makes the delete box narrower than the unlock modal
- * to create a more focused, alert-like appearance.
- */
-.modal-box.delete-content {
-    max-width: 300px;
-    padding: 2rem;
+.dialog.confirm {
+    max-width: min(460px, calc(100vw - 32px));
 }
 
-/* Modal Heading */
-.delete-title {
-    margin-top: 0;
-    font-size: 1.2rem;
-    /* Often centers text if inherited, but specific alignment can be added here if needed */
-}
-
-
-/* =========================================
-   ACTION BUTTONS LAYOUT
-   ========================================= */
-
-/* * Button Container
- * Uses Flexbox to center the Cancel and Delete buttons
- * with consistent spacing between them.
- */
-
-.delete-actions {
+.confirm-body {
     display: flex;
-    gap: 1rem; /* Space between buttons */
-    justify-content: center; /* Center buttons horizontally */
-    margin-top: 1.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 28px;
 }
 
-
-/* =========================================
-   BUTTON STYLES
-   ========================================= */
-
-/* * Base Button Style
- * Shared properties for all buttons within the modal.
- */
-.modal-btn {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 4px;
-    
-    cursor: pointer;
-    color: white;
-    font-weight: bold;
-    
-    /* Smooth transition for hover effects */
-    transition: opacity 0.2s;
+.confirm-icon {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--danger-soft);
+    color: var(--danger);
 }
 
-/* Hover Effect: Slightly transparent to indicate interactivity */
-.modal-btn:hover {
-    opacity: 0.9;
+.confirm-icon svg {
+    width: 24px;
+    height: 24px;
 }
 
-/* * Cancel Button Variant
- * Neutral gray color to indicate a non-destructive action.
- */
-.modal-btn.cancel {
-    background-color: #777;
+.confirm-title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    font-stretch: 110%;
 }
 
-/* * Delete Button Variant
- * Bright red color to indicate a destructive/dangerous action.
- */
-.modal-btn.delete {
-    background-color: #d32f2f;
+.confirm-desc {
+    color: var(--ink-soft);
+}
+
+.confirm-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 10px;
+    width: 100%;
+    margin-top: 8px;
+}
+
+@media (max-width: 480px) {
+    .confirm-actions .btn {
+        flex: 1 1 100%;
+    }
 }

@@ -1,41 +1,29 @@
 /* =========================================
-   FOOTER LAYOUT & THEME
+   SITE FOOTER
    ========================================= */
 
-/* Main Footer Container */
 .site-footer {
-    /* Visual Appearance */
-    background-color: #1a1a1a; 
-    color: #f0f0f0;
-    border-top: 1px solid transparent;
-
-    /* Layout & Spacing */
-    text-align: center;
-    padding: 11px 20px;
-    margin-top: 40px;
-    font-size: 0.9rem;
-
-    /* Smooth transitions for theme switching (Background & Border) */
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+    border-top: 1px solid var(--line);
+    color: var(--ink-soft);
+    font-size: 0.875rem;
 }
 
-/* Dark Mode Overrides */
-body.dark-mode .site-footer {
-    background-color: #111; 
-    border-top: 1px solid #333;
+.site-footer-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 24px;
+    max-width: var(--page-max);
+    margin: 0 auto;
+    padding: 22px var(--gutter) 28px;
 }
 
-
-/* =========================================
-   FOOTER LINKS
-   ========================================= */
-
-.site-footer a {
-    color: #4db5ff; 
-    text-decoration: none;
-    transition: color 0.2s ease;
+.site-footer-note {
+    margin-left: auto;
 }
 
-.site-footer a:hover {
-    text-decoration: underline;
+@media (max-width: 720px) {
+    .site-footer-note {
+        margin-left: 0;
+    }
 }

@@ -1,277 +1,154 @@
 /* =========================================
-   1. MAIN LAYOUT & BODY
+   COLLECTION: the room on display, then the ledger
    ========================================= */
 
-/* Main Container */
-.collection-body {
-    padding-inline: 10rem;
-    min-height: 50vh;
-}
-
-/* Collection Frame (The box containing the grid) */
-.collection-frame {
-    margin-top: 20px;
-    
-    /* Base background with transparency for visual effect */
-    background-color: var(--bg-color); 
-    background-color: rgba(0,0,0,0.03); 
-    
-    border: 2px dashed var(--border-color);
-    border-radius: 12px;
-    padding: 2rem;
-    min-height: 400px;
-    
+.collection {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; 
-    
-    /* Smooth transition for theme switching */
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+    gap: clamp(40px, 7vw, 88px);
 }
 
-/* Dark Mode Adjustment for Frame */
-body.dark-mode .collection-frame {
-    background-color: rgba(255,255,255,0.05);
-}
-
-/* Grid Layout for Amiibo Cards */
-.amiibo-grid {
+.collection-top {
     display: grid;
-    /* Responsive columns: auto-fill ensures cards wrap cleanly */
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 1.5rem;
-}
-
-
-/* =========================================
-   2. HEADER CONTROLS (Filters & Count)
-   ========================================= */
-
-.collection-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center; /* Vertically centered */
-    padding-inline: 10rem;
-    margin-top: 40px;
-    margin-bottom: 10px;
-    flex-wrap: wrap; /* Wraps on smaller screens */
-    gap: 15px; 
-}
-
-/* Results Counter Text */
-.results-count {
-    color: var(--text-color);
-    opacity: 0.8;
-    font-size: 0.95rem;
-    transition: color 0.3s ease;
-    white-space: nowrap; /* Prevents awkward text breaking */
-}
-
-/* Filter Toggle Button */
-.filter-toggle-btn {
-    background-color: var(--card-bg);
-    color: var(--text-color);
-    border: 1px solid var(--border-color);
-    min-width: 120px;
-    padding: 8px 18px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.95rem;
-    font-weight: 500;
-    
-    display: flex;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
     align-items: center;
-    justify-content: center;
-    gap: 8px;
-    
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.1s;
+    gap: clamp(24px, 4vw, 64px);
 }
 
-.filter-toggle-btn:hover {
-    filter: brightness(0.9);
+.collection-room {
+    width: 100%;
+    max-width: 640px;
+    justify-self: center;
 }
 
-body.dark-mode .filter-toggle-btn:hover {
-    filter: brightness(1.2);
+.collection-intro {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+    max-width: 32rem;
 }
 
-/* Active State for Filter Button */
-.filter-toggle-btn.active {
-    background-color: #E60012; 
-    color: white;
-    border-color: #E60012;
+.collection-title {
+    font-size: clamp(2.5rem, 5.4vw, 4.5rem);
+    font-weight: 850;
+    font-stretch: 115%;
+    letter-spacing: -0.035em;
 }
 
-
-/* =========================================
-   3. FILTER PANEL (Expandable)
-   ========================================= */
-
-/* Filter Container (Handles animation) */
-.filter-panel {
-    max-height: 0;
-    opacity: 0;
-    overflow: hidden; 
-    transition: all 0.4s ease-in-out;
-    padding-inline: 10rem;
+.collection-lede {
+    font-size: 1.125rem;
+    color: var(--ink-soft);
+    max-width: 38ch;
 }
 
-/* Open State */
-.filter-panel.open {
-    max-height: 120px;
-    opacity: 1;
-    margin-bottom: 20px;
-}
-
-/* Inner Filter Content */
-.filter-content {
-    background-color: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    padding: 15px 20px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-    
+.collection-tally {
     display: flex;
     flex-wrap: wrap;
-    gap: 25px;
-    align-items: center;
-
-    /* Theme transitions */
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+    gap: 8px;
 }
 
-/* Input Groups */
-.filter-group {
+.collection-note {
+    font-size: 0.9375rem;
+    color: var(--ink-soft);
+    max-width: 40ch;
+}
+
+/* ---------- Delivery tag ---------- */
+
+.delivery-tag {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 10px;
+    justify-content: space-between;
+    gap: 10px 16px;
+    width: 100%;
+    margin-top: 6px;
+    padding: 12px 12px 12px 18px;
+    border: 1.5px dashed var(--line-strong);
+    border-radius: var(--radius-m);
 }
 
-.filter-group label {
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: var(--text-color);
-    transition: color 0.3s ease;
+.delivery-tag.is-ready {
+    border-style: solid;
+    border-color: var(--brass);
+    background: color-mix(in srgb, var(--brass-light) 22%, transparent);
 }
 
-/* Inputs and Selects Styling */
-.filter-group input,
-.filter-group select {
-    padding: 8px 12px;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    font-size: 0.9rem;
-    
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    
-    /* Theme transitions */
-    transition: border-color 0.2s, background-color 0.3s ease, color 0.3s ease;
+.delivery-tag-text {
+    font-weight: 700;
 }
 
-.filter-group input:focus,
-.filter-group select:focus {
-    border-color: #E60012;
-    outline: none;
+.delivery-tag-time {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
 }
 
+/* ---------- Ledger ---------- */
 
-/* =========================================
-   4. EMPTY STATE & UTILITIES
-   ========================================= */
-
-/* Empty Content Placeholder */
-.empty-content {
-    flex-grow: 1; 
+.ledger {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    
-    color: var(--text-color);
-    opacity: 0.7;
-    transition: color 0.3s ease;
+    gap: 20px;
+    padding-top: clamp(24px, 4vw, 40px);
+    border-top: 2px solid var(--ink);
 }
 
-.empty-title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: var(--text-color);
-    transition: color 0.3s ease;
+.ledger-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px 24px;
 }
 
-.empty-subtitle {
-    font-size: 1rem;
-    color: var(--text-color);
-    opacity: 0.6;
-    transition: color 0.3s ease;
+.ledger-title {
+    font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+    font-weight: 800;
+    font-stretch: 112%;
 }
 
-/* Delete Button (Legacy / If needed elsewhere) */
-.delete-collection {
-    background-color: #ff4d4d;
-    color: white;
-    padding: 10px 24px;
-    font-size: 16px;
-    font-weight: 600;
-    margin-top: 30px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+.ledger-count {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-soft);
 }
 
-.delete-collection:hover {
-    background-color: #ff1a1a;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(255, 26, 26, 0.3);
+.ledger-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 32px;
+    border: 1.5px dashed var(--line-strong);
+    border-radius: var(--radius-l);
+    color: var(--ink-soft);
 }
 
-.delete-collection:active {
-    transform: translateY(0);
+.ledger-empty-title {
+    font-family: var(--font-display);
+    font-size: 1.375rem;
+    font-weight: 800;
+    color: var(--ink);
 }
 
+/* ---------- Responsive ---------- */
 
-/* =========================================
-   5. RESPONSIVE DESIGN (Mobile)
-   ========================================= */
-
-@media (max-width: 1000px) {
-    /* Reduce side padding on smaller screens */
-    .collection-body,
-    .collection-header,
-    .filter-panel {
-        padding-inline: 1rem;
+@media (max-width: 880px) {
+    .collection-top {
+        grid-template-columns: 1fr;
+        gap: 8px;
     }
 
-    .results-count {
-        align-self: flex-end; 
-        font-size: 0.85rem;
+    .collection-intro {
+        max-width: none;
     }
-    
-    /* Expand filter panel height for stacked content */
-    .filter-panel.open {
-        max-height: 400px;
-    }
+}
 
-    /* Stack filters vertically */
-    .filter-content {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 15px;
-    }
-
-    .filter-group {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 5px;
-    }
-    
-    .filter-group input,
-    .filter-group select {
-        width: 100%;
+@media (max-width: 480px) {
+    .ledger-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px 12px;
     }
 }

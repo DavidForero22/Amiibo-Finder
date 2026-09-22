@@ -1,114 +1,99 @@
-import { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
-import { useTheme } from "../context/ThemeContext";
+import { NavLink, Link } from "react-router-dom";
 import {
-    IoMoon,
-    IoSunny,
-    IoNotifications,
-    IoNotificationsOff,
+    IoMoonOutline,
+    IoSunnyOutline,
+    IoNotificationsOutline,
+    IoNotificationsOffOutline,
 } from "react-icons/io5";
+import { useTheme } from "../context/ThemeContext";
 import { useToast } from "../context/ToastContext";
+import { useNotifications } from "./useNotifications";
 import UserMenu from "./UserMenu";
 import "../styles/header.css";
 
+/** Brand mark: a small isometric gift box. */
+const BrandMark = () => (
+    <svg className="brand-mark" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+        <polygon points="32,6 58,21 32,36 6,21" fill="#4a68f5" />
+        <polygon points="6,21 32,36 32,60 6,45" fill="#2d4ce0" />
+        <polygon points="58,21 32,36 32,60 58,45" fill="#1c34a8" />
+        <polygon points="19,13.5 45,28.5 45,31.5 19,16.5" fill="#f0c768" />
+        <polygon points="45,13.5 19,28.5 19,31.5 45,16.5" fill="#f0c768" />
+        <polygon points="17.5,27.8 20.5,29.5 20.5,53.5 17.5,51.8" fill="#d4a03a" />
+        <polygon points="46.5,27.8 43.5,29.5 43.5,53.5 46.5,51.8" fill="#9c7121" />
+    </svg>
+);
+
 /**
- * Header component displayed at the top of the application.
- * Features:
- * - Application Branding (H1).
- * - Main Navigation Links (Collection, Unlock).
- * - Global Actions: Notification Toggle, Theme Toggle.
- * - User Menu Component.
+ * Site header: brand, the two rooms of the app, and global actions
+ * (notifications, day/night, collection data menu).
  */
 const Header = () => {
     const { theme, toggleTheme } = useTheme();
     const { showToast } = useToast();
-    const [notificationsEnabled, setNotificationsEnabled] = useState(false);
+    const { status, request } = useNotifications();
 
-    // Check for existing notification permissions on component mount
-    useEffect(() => {
-        if ("Notification" in window && Notification.permission === "granted") {
-            setNotificationsEnabled(true);
-        }
-    }, []);
-
-    /**
-     * Handles the logic for toggling browser notifications.
-     * - If granted: Shows a toast (permissions cannot be revoked programmatically).
-     * - If default: Requests permission.
-     * - If denied: Shows an error toast.
-     */
     const toggleNotifications = async () => {
-        if (!("Notification" in window)) return;
-
-        if (Notification.permission === "granted") {
-            // Browsers don't allow revoking permission via JS, so we inform the user.
-            showToast("ℹ️ To disable notifications, reset browser permissions.");
-        } else if (Notification.permission !== "denied") {
-            const permission = await Notification.requestPermission();
-            if (permission === "granted") {
-                setNotificationsEnabled(true);
-                showToast("🔔 Notifications enabled!");
-            }
+        if (status === "unsupported") {
+            showToast("This browser doesn't support notifications.", "error");
+        } else if (status === "granted") {
+            // Browsers don't allow revoking permission from script
+            showToast("To turn notifications off, reset this site's permissions in your browser.");
+        } else if (status === "denied") {
+            showToast("Notifications are blocked in your browser settings.", "error");
         } else {
-            showToast("🚫 Notifications are blocked by browser.");
+            const result = await request();
+            if (result === "granted") showToast("Notifications on. We'll tell you when a gift arrives.", "success");
         }
     };
 
+    const notifyOn = status === "granted";
+    const nightTime = theme === "dark";
+
     return (
-        <header id="header">
-            <div className="header-main">
-                <h1>Amiibo Finder</h1>
-                {/* role="navigation" helps screen readers identify the link area */}
-                <nav id="header-links" aria-label="Main navigation">
-                    <NavLink 
-                        to="/" 
-                        end 
-                        className={({ isActive }) => (isActive ? "active" : "")}
-                        title="See your Amiibo collection"
-                    >
+        <header className="site-header">
+            <div className="site-header-inner">
+                <Link to="/" className="brand" aria-label="Amiibo Finder, go to your collection">
+                    <BrandMark />
+                    <span className="brand-name">Amiibo Finder</span>
+                </Link>
+
+                <nav className="site-nav" aria-label="Main">
+                    <NavLink to="/" end className="site-nav-link">
                         Collection
                     </NavLink>
-                    <NavLink 
-                        to="/unlock" 
-                        className={({ isActive }) => (isActive ? "active" : "")}
-                        title="Unlock new Amiibos"
-                    >
+                    <NavLink to="/unlock" className="site-nav-link">
                         Unlock
                     </NavLink>
                 </nav>
-            </div>
 
-            <div className="header-actions">
-                {/* Notification Toggle Button */}
-                <button
-                    onClick={toggleNotifications}
-                    className={`icon-btn ${notificationsEnabled ? "active-notify" : ""}`}
-                    // Dynamic aria-label describes the ACTION to be taken
-                    aria-label={notificationsEnabled ? "Disable notifications" : "Enable notifications"}
-                    title={notificationsEnabled ? "Disable notifications" : "Enable notifications"}
-                >
-                    {notificationsEnabled ? (
-                        <IoNotifications aria-hidden="true"/>
-                    ) : (
-                        <IoNotificationsOff aria-hidden="true"/>
-                    )}
-                </button>
+                <div className="header-actions">
+                    <button
+                        type="button"
+                        onClick={toggleNotifications}
+                        className={`icon-btn ${notifyOn ? "is-on" : ""}`}
+                        aria-label={notifyOn ? "Notifications are on" : "Turn on gift notifications"}
+                        title={notifyOn ? "Notifications are on" : "Turn on gift notifications"}
+                    >
+                        {notifyOn ? (
+                            <IoNotificationsOutline aria-hidden="true" />
+                        ) : (
+                            <IoNotificationsOffOutline aria-hidden="true" />
+                        )}
+                    </button>
 
-                {/* Theme Toggle Button */}
-                <button 
-                    onClick={toggleTheme} 
-                    className="icon-btn" 
-                    aria-label={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}
-                    title={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}
-                >
-                    {theme === "light" ? (
-                        <IoMoon aria-hidden="true"/>
-                    ) : (
-                        <IoSunny aria-hidden="true"/>
-                    )}
-                </button>
+                    <button
+                        type="button"
+                        onClick={toggleTheme}
+                        className="icon-btn"
+                        aria-label={nightTime ? "Switch to light mode" : "Switch to dark mode"}
+                        title={nightTime ? "Switch to light mode" : "Switch to dark mode"}
+                    >
+                        {nightTime ? <IoSunnyOutline aria-hidden="true" /> : <IoMoonOutline aria-hidden="true" />}
+                    </button>
 
-                <UserMenu />
+                    <UserMenu />
+                </div>
             </div>
         </header>
     );

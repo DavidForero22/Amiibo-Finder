@@ -1,0 +1,164 @@
+/* =========================================
+   THE ROOM
+   An isometric SVG scene with HTML figures layered on its shelves.
+   ========================================= */
+
+.room {
+    position: relative;
+    margin: 0;
+    width: 100%;
+    aspect-ratio: 770 / 800;
+    isolation: isolate;
+}
+
+.room-drawing {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+/* ---------- Materials ---------- */
+
+.r-wall { fill: var(--wall); }
+.r-wall-shade { fill: var(--wall-shade); }
+.r-wall-end { fill: var(--wall-cap); filter: brightness(0.78); }
+.r-wall-end--lit { filter: brightness(0.9); }
+.r-cap { fill: var(--wall-cap); }
+.r-trim { fill: var(--wall-trim); filter: brightness(0.85); }
+.r-trim--lit { filter: none; }
+.r-corner { stroke: rgb(0 0 0 / 0.18); stroke-width: 2; }
+
+.r-floor { fill: var(--floor); }
+.r-floor-edge { fill: var(--floor-edge); }
+.r-floor-edge--dark { filter: brightness(0.8); }
+.r-plank { stroke: var(--floor-grain); stroke-width: 1.4; opacity: 0.7; }
+
+.r-shelf-top { fill: var(--walnut); }
+.r-shelf-lip { fill: var(--brass); }
+.r-shelf-end { fill: var(--brass-deep); }
+.r-shelf-shadow { fill: rgb(0 0 0 / 0.16); }
+
+.r-window-frame { fill: var(--wall-cap); }
+.r-sill { fill: var(--wall-trim); }
+.r-sky-top { stop-color: var(--sky-top); }
+.r-sky-bottom { stop-color: var(--sky-bottom); }
+.r-sun { fill: #ffd76a; }
+.r-cloud { fill: #ffffff; opacity: 0.85; }
+.r-moon { fill: #f4e7c2; }
+.r-star { fill: #f4e7c2; }
+
+.r-night { display: none; }
+body.dark-mode .r-day { display: none; }
+body.dark-mode .r-night { display: inline; }
+
+.r-clock-rim { fill: var(--brass); }
+.r-clock-face { fill: #f7f3ea; }
+.r-clock-arc { fill: var(--brass-light); stroke: var(--brass); stroke-width: 1; transition: d 1s linear; }
+.r-clock-tick { stroke: #2a2f36; stroke-width: 2; stroke-linecap: round; }
+.r-clock-pin { fill: #2a2f36; }
+.r-clock-plate { fill: var(--walnut-deep); }
+.r-clock-text {
+    fill: var(--brass-light);
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    font-variant-numeric: tabular-nums;
+}
+
+.r-rug-edge { fill: var(--brass); }
+.r-rug { fill: var(--cobalt); }
+body.dark-mode .r-rug { fill: #2b3fa8; }
+.r-rug-ring { fill: none; stroke: var(--brass-light); stroke-width: 2.5; stroke-dasharray: 2 7; stroke-linecap: round; opacity: 0.8; }
+
+.r-lamp-base { fill: #23272d; }
+.r-lamp-pole { stroke: #23272d; stroke-width: 4; }
+.r-lamp-shade { fill: var(--wall-cap); }
+.r-lamp-bulb { fill: #fff2cf; opacity: calc(0.15 + var(--lamp-glow) * 0.85); }
+body.dark-mode .r-lamp-shade { fill: #f6d59a; }
+
+.r-lamp-light {
+    opacity: var(--lamp-glow);
+    mix-blend-mode: screen;
+    transition: opacity 600ms var(--ease-out);
+    pointer-events: none;
+}
+
+.r-pot { fill: #b5532f; }
+.r-pot-rim { fill: #cf6a43; }
+.r-leaf { fill: #2e7a4d; }
+.r-leaf--light { fill: #3f9a62; }
+body.dark-mode .r-leaf { fill: #245f3c; }
+body.dark-mode .r-leaf--light { fill: #2f774c; }
+
+
+/* ---------- Figures on the shelves ---------- */
+
+.room-shelf {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.room-figure {
+    position: absolute;
+    aspect-ratio: 60 / 66;
+    transform: translate(-50%, -100%);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.room-figure::after {
+    /* contact shadow on the shelf */
+    content: "";
+    position: absolute;
+    left: 18%;
+    right: 18%;
+    bottom: -3%;
+    height: 9%;
+    border-radius: 50%;
+    background: rgb(0 0 0 / 0.35);
+    filter: blur(2px);
+    z-index: -1;
+}
+
+.room-figure picture,
+.room-figure img {
+    width: 100%;
+    height: 100%;
+}
+
+.room-figure img {
+    object-fit: contain;
+    object-position: bottom center;
+    filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.25));
+}
+
+.room-figure.is-hidden {
+    visibility: hidden;
+}
+
+.room-figure.is-arriving img {
+    animation: figure-settle 700ms var(--ease-settle) 1;
+}
+
+@keyframes figure-settle {
+    0% { transform: translateY(-14%) scale(1.06); }
+    60% { transform: translateY(2%) scale(0.98); }
+    100% { transform: none; }
+}
+
+/* View transition: the figure flies from the reveal dialog to its shelf slot */
+::view-transition-group(arriving-figure) {
+    animation-duration: 720ms;
+    animation-timing-function: cubic-bezier(0.5, 0, 0.2, 1);
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation-duration: 360ms;
+}
