@@ -35,7 +35,7 @@ const AmiiboCard: React.FC<Props> = ({ amiibo }) => {
 	 */
 	const handleFavorite = (e: React.MouseEvent) => {
 		e.stopPropagation();
-		toggleFavorite(amiibo.head);
+		toggleFavorite(amiibo);
 	};
 
 	const favoriteLabel = amiibo.isFavorite

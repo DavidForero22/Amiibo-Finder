@@ -5,6 +5,9 @@ const CACHE_KEY = "amiiboFinderCatalog.v2";
 const LEGACY_CACHE_KEY = "amiiboFinderFullList";
 const CACHE_TTL = 24 * 60 * 60 * 1000;
 
+/** Unique figure id. `head` alone is shared by variants (e.g. Inkling / Inkling - Yellow). */
+export const amiiboId = (a: Pick<Amiibo, "head" | "tail">) => a.head + a.tail;
+
 export type ApiErrorCode = "network" | "server" | "unknown";
 
 export class ApiError extends Error {
@@ -129,7 +132,6 @@ export const triggerBrowserNotification = () => {
     if ("Notification" in window && Notification.permission === "granted") {
         new Notification("Amiibo Finder", {
             body: "🎁 Your gift is ready! Click to unlock a new Amiibo.",
-            icon: "/favicon.ico",
         });
     }
 };

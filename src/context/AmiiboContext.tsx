@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
-import { isAmiiboList } from "../logic/utils";
+import { amiiboId, isAmiiboList } from "../logic/utils";
 
 /**
  * Represents the structure of an Amiibo object.
@@ -33,7 +33,7 @@ export type ImportResult = "ok" | "invalid" | "read";
 interface AmiiboContextType {
 	userAmiibos: Amiibo[];
 	unlockAmiibo: (amiibo: Amiibo) => void;
-	toggleFavorite: (head: string) => void;
+	toggleFavorite: (amiibo: Amiibo) => void;
 	clearStorage: () => void;
 
 	// Data Management Methods (Import/Export)
@@ -86,9 +86,10 @@ export const AmiiboProvider: React.FC<{ children: React.ReactNode }> = ({
 	/**
 	 * Toggles the favorite status of a specific Amiibo.
 	 */
-	const toggleFavorite = (head: string) => {
+	const toggleFavorite = (target: Amiibo) => {
+		const targetId = amiiboId(target);
 		const updatedList = userAmiibos.map((amiibo) => {
-			if (amiibo.head === head) {
+			if (amiiboId(amiibo) === targetId) {
 				return { ...amiibo, isFavorite: !amiibo.isFavorite };
 			}
 			return amiibo;
