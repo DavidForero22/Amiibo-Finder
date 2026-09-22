@@ -56,8 +56,9 @@
 
     /* Motion */
     --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-    /* One soft settle: a small overshoot for things landing in the room */
-    --ease-settle: cubic-bezier(0.3, 1.12, 0.5, 1);
+    /* Landing curve: steep exponential deceleration. The overshoot of the
+       "settle" lives in the landing keyframes themselves, not in the curve. */
+    --ease-settle: cubic-bezier(0.22, 1, 0.36, 1);
     --dur-fast: 160ms;
     --dur-mid: 320ms;
 

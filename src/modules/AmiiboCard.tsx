@@ -31,7 +31,7 @@ const AmiiboCard: React.FC<Props> = ({ amiibo }) => {
 				<button
 					type="button"
 					className="tile-fav"
-					onClick={() => toggleFavorite(amiibo.head)}
+					onClick={() => toggleFavorite(amiibo)}
 					aria-pressed={isFavorite}
 					aria-label={`Favorite ${amiibo.name}`}
 					title={isFavorite ? "Remove from favorites" : "Add to favorites"}
