@@ -90,7 +90,7 @@ const Collection = () => {
                                             components={{ time: <span className="delivery-tag-time" /> }}
                                         />
                                     </p>
-                                    <Link to="/unlock" className="btn btn-quiet">
+                                    <Link to="/unlock" viewTransition className="btn btn-quiet">
                                         {t("collection.delivery.goToUnlock")}
                                         <IoArrowForward aria-hidden="true" />
                                     </Link>
@@ -98,7 +98,7 @@ const Collection = () => {
                             ) : (
                                 <>
                                     <p className="delivery-tag-text">{t("collection.delivery.waiting")}</p>
-                                    <Link to="/unlock" className="btn btn-primary">
+                                    <Link to="/unlock" viewTransition className="btn btn-primary">
                                         {isEmpty ? t("collection.delivery.openFirst") : t("collection.delivery.openIt")}
                                         <IoArrowForward aria-hidden="true" />
                                     </Link>

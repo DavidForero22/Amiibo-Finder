@@ -174,7 +174,7 @@ const en = {
 		favorite: "Favorite {{name}}",
 		addFavorite: "Add to favorites",
 		removeFavorite: "Remove from favorites",
-		details: "Details",
+		detailsFor: "Details for {{name}}",
 		unlocked: "Unlocked",
 		amiiboSeries: "Amiibo series",
 		region: {

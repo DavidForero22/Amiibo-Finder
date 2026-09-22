@@ -90,6 +90,13 @@
     border: 0;
     background: none;
     aspect-ratio: 220 / 275;
+    /* Fades out with the page on navigation (room.css), fades in on arrival */
+    view-transition-name: delivery;
+    animation: delivery-in 380ms var(--ease-out) backwards;
+}
+
+@keyframes delivery-in {
+    from { opacity: 0; }
 }
 
 .gift svg,

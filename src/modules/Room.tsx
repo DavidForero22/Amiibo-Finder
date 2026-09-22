@@ -91,6 +91,10 @@ const Room: React.FC<RoomProps> = ({
                         <polygon points={pts([0, 0, 0], [0, D, 0], [0, D, H], [0, 0, H])} />
                         <polygon points={pts([0, 0, 0], [W, 0, 0], [W, D, 0], [0, D, 0])} />
                     </clipPath>
+                    {/* The window glass, in the left wall's flat (pre-shear) coordinates */}
+                    <clipPath id="room-window">
+                        <rect x="100" y="-244" width="130" height="126" />
+                    </clipPath>
                 </defs>
 
                 {/* ---------- Floor slab ---------- */}
@@ -118,17 +122,20 @@ const Room: React.FC<RoomProps> = ({
                     {/* Window */}
                     <rect className="r-window-frame" x="92" y="-252" width="146" height="142" rx="4" />
                     <rect x="100" y="-244" width="130" height="126" fill="url(#room-sky)" />
-                    <g className="r-day">
-                        <circle className="r-sun" cx="198" cy="-214" r="13" />
-                        <path className="r-cloud" d="M118 -172 q6 -14 20 -10 q8 -12 22 -4 q14 -2 14 12 z" />
-                    </g>
-                    <g className="r-night">
-                        <path className="r-moon" d="M204 -226 a14 14 0 1 0 12 20 a11 11 0 1 1 -12 -20 z" />
-                        <circle className="r-star" cx="126" cy="-226" r="1.6" />
-                        <circle className="r-star" cx="150" cy="-200" r="1.2" />
-                        <circle className="r-star" cx="176" cy="-232" r="1.4" />
-                        <circle className="r-star" cx="132" cy="-150" r="1.1" />
-                        <circle className="r-star" cx="214" cy="-160" r="1.3" />
+                    {/* Sun and moon swap by sliding through the pane, clipped to the glass */}
+                    <g clipPath="url(#room-window)">
+                        <g className="r-day">
+                            <circle className="r-sun" cx="198" cy="-214" r="13" />
+                            <path className="r-cloud" d="M118 -172 q6 -14 20 -10 q8 -12 22 -4 q14 -2 14 12 z" />
+                        </g>
+                        <g className="r-night">
+                            <path className="r-moon" d="M204 -226 a14 14 0 1 0 12 20 a11 11 0 1 1 -12 -20 z" />
+                            <circle className="r-star" cx="126" cy="-226" r="1.6" />
+                            <circle className="r-star" cx="150" cy="-200" r="1.2" />
+                            <circle className="r-star" cx="176" cy="-232" r="1.4" />
+                            <circle className="r-star" cx="132" cy="-150" r="1.1" />
+                            <circle className="r-star" cx="214" cy="-160" r="1.3" />
+                        </g>
                     </g>
                     <rect className="r-window-frame" x="162" y="-244" width="6" height="126" />
                     <rect className="r-window-frame" x="100" y="-184" width="130" height="6" />

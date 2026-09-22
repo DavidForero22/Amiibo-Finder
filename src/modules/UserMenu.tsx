@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import {
 	IoEllipsisHorizontalCircleOutline,
 	IoDownloadOutline,
@@ -8,6 +8,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { useAmiibo } from "../context/AmiiboContext";
 import { useToast } from "../context/ToastContext";
+import { useDropdown } from "./useDropdown";
 import DeleteCollectionModal from "./DeleteModal";
 
 const IMPORT_MESSAGES = {
@@ -24,66 +25,13 @@ const UserMenu = () => {
 	const { t } = useTranslation();
 	const { userAmiibos, exportCollection, importFromFile, clearStorage } = useAmiibo();
 	const { showToast } = useToast();
+	const {
+		isOpen, isMounted, state, rootRef, buttonRef, menuRef,
+		close, toggle, onButtonKeyDown, onMenuKeyDown,
+	} = useDropdown();
 
-	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-
 	const fileInputRef = useRef<HTMLInputElement>(null);
-	const menuButtonRef = useRef<HTMLButtonElement>(null);
-	const menuRef = useRef<HTMLDivElement>(null);
-
-	const items = () =>
-		Array.from(menuRef.current?.querySelectorAll<HTMLButtonElement>('[role="menuitem"]') ?? []);
-
-	const closeMenu = (restoreFocus = true) => {
-		setIsMenuOpen(false);
-		if (restoreFocus) menuButtonRef.current?.focus();
-	};
-
-	// Focus the first item when the menu opens
-	useEffect(() => {
-		if (isMenuOpen) items()[0]?.focus();
-	}, [isMenuOpen]);
-
-	// Close on outside click
-	useEffect(() => {
-		if (!isMenuOpen) return;
-		const onPointerDown = (event: PointerEvent) => {
-			if (!(event.target as HTMLElement).closest(".user-menu")) setIsMenuOpen(false);
-		};
-		document.addEventListener("pointerdown", onPointerDown);
-		return () => document.removeEventListener("pointerdown", onPointerDown);
-	}, [isMenuOpen]);
-
-	const onMenuKeyDown = (e: React.KeyboardEvent) => {
-		const list = items();
-		const index = list.indexOf(document.activeElement as HTMLButtonElement);
-		switch (e.key) {
-			case "ArrowDown":
-				e.preventDefault();
-				list[(index + 1) % list.length]?.focus();
-				break;
-			case "ArrowUp":
-				e.preventDefault();
-				list[(index - 1 + list.length) % list.length]?.focus();
-				break;
-			case "Home":
-				e.preventDefault();
-				list[0]?.focus();
-				break;
-			case "End":
-				e.preventDefault();
-				list[list.length - 1]?.focus();
-				break;
-			case "Escape":
-				e.preventDefault();
-				closeMenu();
-				break;
-			case "Tab":
-				setIsMenuOpen(false);
-				break;
-		}
-	};
 
 	const onExportClick = () => {
 		if (userAmiibos.length === 0) {
@@ -91,7 +39,7 @@ const UserMenu = () => {
 		} else if (exportCollection()) {
 			showToast(t("userMenu.toast.exported"), "success");
 		}
-		closeMenu();
+		close();
 	};
 
 	const onFileSelected = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -108,38 +56,34 @@ const UserMenu = () => {
 		clearStorage();
 		setShowDeleteConfirm(false);
 		showToast(t("userMenu.toast.deleted"));
-		menuButtonRef.current?.focus();
+		buttonRef.current?.focus();
 	};
 
 	return (
-		<div className="user-menu">
+		<div className="user-menu" ref={rootRef}>
 			<button
-				ref={menuButtonRef}
+				ref={buttonRef}
 				type="button"
 				className="icon-btn"
-				onClick={() => setIsMenuOpen((open) => !open)}
-				onKeyDown={(e) => {
-					if (e.key === "ArrowDown" && !isMenuOpen) {
-						e.preventDefault();
-						setIsMenuOpen(true);
-					}
-				}}
+				onClick={toggle}
+				onKeyDown={onButtonKeyDown}
 				aria-label={t("userMenu.label")}
 				title={t("userMenu.label")}
 				aria-haspopup="menu"
-				aria-expanded={isMenuOpen}
-				aria-controls={isMenuOpen ? "user-dropdown" : undefined}
+				aria-expanded={isOpen}
+				aria-controls={isMounted ? "user-dropdown" : undefined}
 			>
 				<IoEllipsisHorizontalCircleOutline aria-hidden="true" />
 			</button>
 
-			{isMenuOpen && (
+			{isMounted && (
 				<div
 					ref={menuRef}
 					id="user-dropdown"
 					className="dropdown-menu"
 					role="menu"
 					aria-label={t("userMenu.label")}
+					data-state={state}
 					onKeyDown={onMenuKeyDown}
 				>
 					<button type="button" className="dropdown-item" role="menuitem" tabIndex={-1} onClick={onExportClick}>
@@ -153,7 +97,7 @@ const UserMenu = () => {
 						role="menuitem"
 						tabIndex={-1}
 						onClick={() => {
-							closeMenu();
+							close();
 							fileInputRef.current?.click();
 						}}
 					>
@@ -169,7 +113,7 @@ const UserMenu = () => {
 						role="menuitem"
 						tabIndex={-1}
 						onClick={() => {
-							setIsMenuOpen(false);
+							close(false);
 							setShowDeleteConfirm(true);
 						}}
 					>
@@ -194,7 +138,7 @@ const UserMenu = () => {
 					count={userAmiibos.length}
 					onCancel={() => {
 						setShowDeleteConfirm(false);
-						menuButtonRef.current?.focus();
+						buttonRef.current?.focus();
 					}}
 					onConfirm={onConfirmDelete}
 				/>

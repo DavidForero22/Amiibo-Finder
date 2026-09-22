@@ -2,6 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { IoSearch, IoOptionsOutline, IoCloseCircle } from "react-icons/io5";
 import type { FilterState } from "../context/FilterContext";
+import { usePresence } from "./usePresence";
 import "../styles/filters.css";
 
 interface Props {
@@ -35,6 +36,8 @@ const Filters: React.FC<Props> = ({
     onReset,
 }) => {
     const { t } = useTranslation();
+    // Matches the panel-close animation in filters.css
+    const panel = usePresence(isOpen, 220);
     const activeCount =
         (filters.series ? 1 : 0) +
         (filters.sortBy !== "date_new" ? 1 : 0) +
@@ -93,51 +96,61 @@ const Filters: React.FC<Props> = ({
                 )}
             </div>
 
-            <div id="filter-panel" className="filters-panel" hidden={!isOpen}>
-                <div className="field">
-                    <label htmlFor="filter-series">{t("filters.series")}</label>
-                    <select
-                        id="filter-series"
-                        value={filters.series}
-                        onChange={(e) => setFilters({ ...filters, series: e.target.value })}
-                    >
-                        <option value="">{t("filters.allSeries")}</option>
-                        {availableSeries.map((series) => (
-                            <option key={series} value={series}>
-                                {series}
-                            </option>
-                        ))}
-                    </select>
-                </div>
+            <div
+                id="filter-panel"
+                className="filters-panel-wrap"
+                data-state={panel.state}
+                hidden={!panel.isMounted}
+            >
+                {/* The clip lets the panel fold its height in and out */}
+                <div className="filters-panel-clip">
+                    <div className="filters-panel">
+                        <div className="field">
+                            <label htmlFor="filter-series">{t("filters.series")}</label>
+                            <select
+                                id="filter-series"
+                                value={filters.series}
+                                onChange={(e) => setFilters({ ...filters, series: e.target.value })}
+                            >
+                                <option value="">{t("filters.allSeries")}</option>
+                                {availableSeries.map((series) => (
+                                    <option key={series} value={series}>
+                                        {series}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
 
-                <div className="field">
-                    <label htmlFor="filter-sort">{t("filters.sortBy")}</label>
-                    <select
-                        id="filter-sort"
-                        value={filters.sortBy}
-                        onChange={(e) =>
-                            setFilters({ ...filters, sortBy: e.target.value as FilterState["sortBy"] })
-                        }
-                    >
-                        {SORT_OPTIONS.map((value) => (
-                            <option key={value} value={value}>
-                                {t(`filters.sort.${value}`)}
-                            </option>
-                        ))}
-                    </select>
-                </div>
+                        <div className="field">
+                            <label htmlFor="filter-sort">{t("filters.sortBy")}</label>
+                            <select
+                                id="filter-sort"
+                                value={filters.sortBy}
+                                onChange={(e) =>
+                                    setFilters({ ...filters, sortBy: e.target.value as FilterState["sortBy"] })
+                                }
+                            >
+                                {SORT_OPTIONS.map((value) => (
+                                    <option key={value} value={value}>
+                                        {t(`filters.sort.${value}`)}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
 
-                <label className="switch" htmlFor="filter-favorites">
-                    <input
-                        id="filter-favorites"
-                        type="checkbox"
-                        role="switch"
-                        checked={filters.showFavoritesOnly}
-                        onChange={(e) => setFilters({ ...filters, showFavoritesOnly: e.target.checked })}
-                    />
-                    <span className="switch-track" aria-hidden="true" />
-                    {t("filters.favoritesOnly")}
-                </label>
+                        <label className="switch" htmlFor="filter-favorites">
+                            <input
+                                id="filter-favorites"
+                                type="checkbox"
+                                role="switch"
+                                checked={filters.showFavoritesOnly}
+                                onChange={(e) => setFilters({ ...filters, showFavoritesOnly: e.target.checked })}
+                            />
+                            <span className="switch-track" aria-hidden="true" />
+                            {t("filters.favoritesOnly")}
+                        </label>
+                    </div>
+                </div>
             </div>
         </div>
     );
