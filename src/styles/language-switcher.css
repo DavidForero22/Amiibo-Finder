@@ -1,0 +1,27 @@
+/* Language picker. Neutral by design: inherits the header's type and colours
+   so the UI redesign can restyle it without fighting these rules. */
+.lang-switcher {
+	display: inline-flex;
+	align-items: center;
+}
+
+.lang-select {
+	font: inherit;
+	font-size: 0.875rem;
+	color: inherit;
+	background: transparent;
+	border: 1px solid currentColor;
+	border-radius: 999px;
+	padding: 0.3rem 0.75rem;
+	cursor: pointer;
+}
+
+.lang-select:focus-visible {
+	outline: 2px solid currentColor;
+	outline-offset: 2px;
+}
+
+.lang-select option {
+	color: initial;
+	background: initial;
+}
