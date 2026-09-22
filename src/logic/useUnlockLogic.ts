@@ -1,8 +1,10 @@
-import { useState, useEffect, useRef } from "react";
-import { useAmiibo } from "../context/AmiiboContext";
-// Import helper functions from the utility file in the same directory
+import { useState, useEffect, useRef, useMemo } from "react";
+import { useAmiibo, type Amiibo } from "../context/AmiiboContext";
 import {
+	ApiError,
+	type ApiErrorCode,
 	getFullAmiiboList,
+	readCachedAmiiboList,
 	preloadImage,
 	formatTime,
 	triggerBrowserNotification,
@@ -10,23 +12,36 @@ import {
 
 const COOLDOWN_TIME = 2 * 60 * 60 * 1000; // 2 Hours in milliseconds
 
+const amiiboId = (a: Amiibo) => a.head + a.tail;
+
 /**
  * Custom hook that manages the logic for the "Mystery Gift" unlock mechanism.
  * Handles the countdown timer, API fetching, random selection, filtering of owned items,
- * and manages UI states (animations, loading, modals).
+ * and manages UI states (animations, loading, errors, modals).
  */
 export const useUnlockLogic = () => {
-	// Global Context connection
 	const { unlockAmiibo, triggerConfetti, userAmiibos } = useAmiibo();
 
-	// Local UI States
-	const [unlockedAmiibo, setUnlockedAmiibo] = useState<any>(null);
+	const [unlockedAmiibo, setUnlockedAmiibo] = useState<Amiibo | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [isOpeningAnim, setIsOpeningAnim] = useState(false);
 	const [remainingTime, setRemainingTime] = useState<number>(0);
+	const [error, setError] = useState<ApiErrorCode | null>(null);
+	const [errorDetail, setErrorDetail] = useState<string | undefined>();
+	const [catalog, setCatalog] = useState<Amiibo[] | null>(() =>
+		readCachedAmiiboList()
+	);
 
 	// Ref to prevent notification trigger on initial page load
 	const isFirstCheck = useRef(true);
+
+	const ownedIds = useMemo(
+		() => new Set(userAmiibos.map(amiiboId)),
+		[userAmiibos]
+	);
+
+	const isCollectionComplete =
+		catalog !== null && catalog.every((a) => ownedIds.has(amiiboId(a)));
 
 	// --- TIMER LOGIC ---
 	useEffect(() => {
@@ -44,8 +59,8 @@ export const useUnlockLogic = () => {
 				} else {
 					setRemainingTime(0);
 
-					// Notification Logic: Only trigger if it's not the initial mount
-					// and if we haven't sent it yet for this cycle.
+					// Only notify when the timer expires while the page is open,
+					// and only once per cycle.
 					if (!isFirstCheck.current) {
 						const notificationSent = localStorage.getItem(
 							"amiiboNotificationSent"
@@ -56,7 +71,6 @@ export const useUnlockLogic = () => {
 							localStorage.setItem("amiiboNotificationSent", "true");
 						}
 					} else {
-						// If it's the first check and time is up, assume notification isn't needed immediately
 						localStorage.setItem("amiiboNotificationSent", "true");
 					}
 				}
@@ -77,55 +91,58 @@ export const useUnlockLogic = () => {
 
 		setIsLoading(true);
 		setIsOpeningAnim(true);
+		setError(null);
+		setErrorDetail(undefined);
 
 		try {
-			// 1. Fetch complete list from API (Utility function)
 			const fullList = await getFullAmiiboList();
+			setCatalog(fullList);
 
-			// 2. Filter out Amiibos already owned by the user
-			// We create a Set of IDs (head + tail) for O(1) lookup performance
-			const ownedIds = new Set(userAmiibos.map((a) => a.head + a.tail));
 			const availableAmiibos = fullList.filter(
-				(amiibo: any) => !ownedIds.has(amiibo.head + amiibo.tail)
+				(amiibo) => !ownedIds.has(amiiboId(amiibo))
 			);
 
-			// 3. Select Random & Save
-			if (availableAmiibos.length > 0) {
-				const random =
-					availableAmiibos[Math.floor(Math.random() * availableAmiibos.length)];
-
-				// Wait for both the minimum animation time (800ms) and the image preload
-				await Promise.all([
-					new Promise((resolve) => setTimeout(resolve, 800)),
-					preloadImage(random.image),
-				]);
-
-				// Reset Timer & Save Timestamp
-				localStorage.setItem("lastUnlockTime", Date.now().toString());
-				localStorage.setItem("amiiboNotificationSent", "false");
-				setRemainingTime(COOLDOWN_TIME);
-
-				const amiiboToSave = {
-					...random,
-					unlockedAt: new Date().toLocaleDateString(),
-				};
-				// Clean up unnecessary API properties if needed
-				delete amiiboToSave.type;
-
-				unlockAmiibo(amiiboToSave); // Update Global Context
-				setUnlockedAmiibo(amiiboToSave); // Update Local UI (Modal)
-				triggerConfetti(); // Trigger Effect
-			} else {
-				alert("Incredible! You have completed the entire collection.");
+			if (availableAmiibos.length === 0) {
+				setIsOpeningAnim(false);
+				return;
 			}
-		} catch (error) {
-			console.error(error);
+
+			const random =
+				availableAmiibos[Math.floor(Math.random() * availableAmiibos.length)];
+
+			// Wait for both the minimum animation time (800ms) and the image preload
+			await Promise.all([
+				new Promise((resolve) => setTimeout(resolve, 800)),
+				preloadImage(random.imgwebp ?? random.image),
+			]);
+
+			localStorage.setItem("lastUnlockTime", Date.now().toString());
+			localStorage.setItem("amiiboNotificationSent", "false");
+			setRemainingTime(COOLDOWN_TIME);
+
+			const amiiboToSave: Amiibo = {
+				...random,
+				unlockedAt: new Date().toLocaleDateString(),
+			};
+			delete amiiboToSave.type;
+
+			unlockAmiibo(amiiboToSave);
+			setUnlockedAmiibo(amiiboToSave);
+			triggerConfetti();
+		} catch (err) {
+			console.error(err);
+			setError(err instanceof ApiError ? err.code : "unknown");
+			setErrorDetail(err instanceof Error ? err.message : String(err));
+			setIsOpeningAnim(false);
 		} finally {
 			setIsLoading(false);
-			// Only stop animation state if logic finished;
-			// if locked, it stays locked visually.
-			if (isLocked) setIsOpeningAnim(false);
 		}
+	};
+
+	const retry = () => {
+		setError(null);
+		setErrorDetail(undefined);
+		void handleUnlock();
 	};
 
 	const closeModal = () => {
@@ -139,7 +156,11 @@ export const useUnlockLogic = () => {
 		isOpeningAnim,
 		remainingTime,
 		isLocked,
+		isCollectionComplete,
+		error,
+		errorDetail,
 		handleUnlock,
+		retry,
 		closeModal,
 		formatTime, // Re-exporting utility for the UI component
 	};
