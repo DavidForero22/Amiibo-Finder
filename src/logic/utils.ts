@@ -1,3 +1,4 @@
+import i18n from "../i18n";
 import type { Amiibo } from "../context/AmiiboContext";
 
 const API_URL = "https://amiiboapi.org/api/amiibo/?type=figure";
@@ -160,8 +161,8 @@ export const formatTime = (ms: number) => {
  */
 export const triggerBrowserNotification = () => {
     if ("Notification" in window && Notification.permission === "granted") {
-        new Notification("Amiibo Finder", {
-            body: "🎁 Your gift is ready! Click to unlock a new Amiibo.",
+        new Notification(i18n.t("common.appName"), {
+            body: i18n.t("notification.body"),
             icon: "/favicon.ico",
         });
     }

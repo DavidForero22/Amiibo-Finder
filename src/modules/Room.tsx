@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import type { Amiibo } from "../context/AmiiboContext";
 import FigureImage from "./FigureImage";
 import "../styles/room.css";
@@ -56,12 +57,13 @@ const Room: React.FC<RoomProps> = ({
     shelfLabel,
     className = "",
 }) => {
+    const { t } = useTranslation();
     const onShelf = figures.slice(0, SHELF_CAPACITY);
     const fraction = Math.min(1, Math.max(0, remainingTime / COOLDOWN));
     const totalMinutes = Math.ceil(remainingTime / 60000);
     const clockText = remainingTime > 0
         ? `${pad(Math.floor(totalMinutes / 60))}:${pad(totalMinutes % 60)}`
-        : "READY";
+        : t("room.clockReady");
 
     // Plank seams across the floor
     const planks = Array.from({ length: 9 }, (_, i) => 0.4 * (i + 1));

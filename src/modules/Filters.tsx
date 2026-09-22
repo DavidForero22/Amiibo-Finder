@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { IoSearch, IoOptionsOutline, IoCloseCircle } from "react-icons/io5";
 import type { FilterState } from "../context/FilterContext";
 import "../styles/filters.css";
@@ -12,13 +13,13 @@ interface Props {
     onReset: () => void;
 }
 
-const SORT_OPTIONS: { value: FilterState["sortBy"]; label: string }[] = [
-    { value: "date_new", label: "Newest first" },
-    { value: "date_old", label: "Oldest first" },
-    { value: "name_asc", label: "Name, A to Z" },
-    { value: "name_desc", label: "Name, Z to A" },
-    { value: "series", label: "Game series" },
-    { value: "favorites_first", label: "Favorites first" },
+const SORT_OPTIONS: FilterState["sortBy"][] = [
+    "date_new",
+    "date_old",
+    "name_asc",
+    "name_desc",
+    "series",
+    "favorites_first",
 ];
 
 /**
@@ -33,6 +34,7 @@ const Filters: React.FC<Props> = ({
     availableSeries,
     onReset,
 }) => {
+    const { t } = useTranslation();
     const activeCount =
         (filters.series ? 1 : 0) +
         (filters.sortBy !== "date_new" ? 1 : 0) +
@@ -44,13 +46,13 @@ const Filters: React.FC<Props> = ({
             <div className="filters-bar">
                 <div className="search-field">
                     <label htmlFor="filter-name" className="visually-hidden">
-                        Search your figures by name
+                        {t("filters.searchLabel")}
                     </label>
                     <IoSearch className="search-icon" aria-hidden="true" />
                     <input
                         id="filter-name"
                         type="search"
-                        placeholder="Search by name: Mario, Link…"
+                        placeholder={t("filters.searchPlaceholder")}
                         autoComplete="off"
                         value={filters.name}
                         onChange={(e) => setFilters({ ...filters, name: e.target.value })}
@@ -60,7 +62,7 @@ const Filters: React.FC<Props> = ({
                             type="button"
                             className="search-clear"
                             onClick={() => setFilters({ ...filters, name: "" })}
-                            aria-label="Clear search"
+                            aria-label={t("filters.clearSearch")}
                         >
                             <IoCloseCircle aria-hidden="true" />
                         </button>
@@ -75,31 +77,31 @@ const Filters: React.FC<Props> = ({
                     aria-controls="filter-panel"
                 >
                     <IoOptionsOutline aria-hidden="true" />
-                    Filters
+                    {t("filters.toggle")}
                     {activeCount > 0 && (
                         <span className="filters-badge">
-                            {activeCount}
-                            <span className="visually-hidden"> active</span>
+                            <span aria-hidden="true">{activeCount}</span>
+                            <span className="visually-hidden">{t("filters.activeSr", { count: activeCount })}</span>
                         </span>
                     )}
                 </button>
 
                 {isDirty && (
                     <button type="button" className="btn btn-quiet" onClick={onReset}>
-                        Reset
+                        {t("filters.reset")}
                     </button>
                 )}
             </div>
 
             <div id="filter-panel" className="filters-panel" hidden={!isOpen}>
                 <div className="field">
-                    <label htmlFor="filter-series">Game series</label>
+                    <label htmlFor="filter-series">{t("filters.series")}</label>
                     <select
                         id="filter-series"
                         value={filters.series}
                         onChange={(e) => setFilters({ ...filters, series: e.target.value })}
                     >
-                        <option value="">All series</option>
+                        <option value="">{t("filters.allSeries")}</option>
                         {availableSeries.map((series) => (
                             <option key={series} value={series}>
                                 {series}
@@ -109,7 +111,7 @@ const Filters: React.FC<Props> = ({
                 </div>
 
                 <div className="field">
-                    <label htmlFor="filter-sort">Sort by</label>
+                    <label htmlFor="filter-sort">{t("filters.sortBy")}</label>
                     <select
                         id="filter-sort"
                         value={filters.sortBy}
@@ -117,9 +119,9 @@ const Filters: React.FC<Props> = ({
                             setFilters({ ...filters, sortBy: e.target.value as FilterState["sortBy"] })
                         }
                     >
-                        {SORT_OPTIONS.map((o) => (
-                            <option key={o.value} value={o.value}>
-                                {o.label}
+                        {SORT_OPTIONS.map((value) => (
+                            <option key={value} value={value}>
+                                {t(`filters.sort.${value}`)}
                             </option>
                         ))}
                     </select>
@@ -134,7 +136,7 @@ const Filters: React.FC<Props> = ({
                         onChange={(e) => setFilters({ ...filters, showFavoritesOnly: e.target.checked })}
                     />
                     <span className="switch-track" aria-hidden="true" />
-                    Favorites only
+                    {t("filters.favoritesOnly")}
                 </label>
             </div>
         </div>

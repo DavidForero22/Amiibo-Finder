@@ -1,11 +1,13 @@
 import type { Catalog } from "./en";
 
-/** French catalog. Uses "vous", the usual register for French web interfaces. */
+/**
+ * French catalog. Uses "vous", the usual register for French web interfaces,
+ * and a narrow no-break space (U+202F) before "?", "!", ";" and ":" so they never wrap alone.
+ */
 const fr: Catalog = {
 	common: {
 		appName: "Amiibo Finder",
 		skipToContent: "Aller au contenu",
-		opensInNewTab: "(s’ouvre dans un nouvel onglet)",
 	},
 	language: {
 		label: "Langue",
@@ -47,7 +49,7 @@ const fr: Catalog = {
 	},
 	deleteModal: {
 		title: "Vider toutes les étagères ?",
-		desc_one: "{{count}} figurine sera supprimée de ce navigateur. Cette action est irréversible. Exportez d’abord votre collection si vous voulez une sauvegarde.",
+		desc_one: "Votre unique figurine sera supprimée de ce navigateur. Cette action est irréversible. Exportez d’abord votre collection si vous voulez une sauvegarde.",
 		desc_other: "Les {{count}} figurines seront supprimées de ce navigateur. Cette action est irréversible. Exportez d’abord votre collection si vous voulez une sauvegarde.",
 		descEmpty: "Votre collection est déjà vide. La suppression effacera aussi les données enregistrées dans ce navigateur.",
 		cancel: "Garder ma collection",
@@ -55,19 +57,29 @@ const fr: Catalog = {
 	},
 	footer: {
 		license: "© 2025 Davitroon · Licence MIT",
-		dataFrom: "Données des figurines issues du <link>projet communautaire AmiiboAPI</link>",
+		dataFrom: "Données des figurines issues du <api>projet communautaire AmiiboAPI<hint> (s’ouvre dans un nouvel onglet)</hint></api>",
 		disclaimer: "Projet de fan, non affilié à Nintendo ni approuvé par Nintendo.",
 	},
 	room: {
 		clockReady: "PRÊT",
-		shelfLabel: "Figurines sur vos étagères, les plus récentes d’abord",
+	},
+	tally: {
+		figures_one: "{{count}} figurine",
+		figures_other: "{{count}} figurines",
+		figuresOf_one: "{{count}} / {{total}} figurines",
+		figuresOf_other: "{{count}} / {{total}} figurines",
+		series_one: "{{count}} série",
+		series_other: "{{count}} séries",
+		favorites_one: "{{count}} favorite",
+		favorites_other: "{{count}} favorites",
 	},
 	reveal: {
 		close: "Fermer et poser la figurine sur l’étagère",
-		desc: "De <strong>{{gameSeries}}</strong>, de la série {{amiiboSeries}}. Elle emménage dans votre chambre.",
+		desc: "De {{gameSeries}}, de la série {{amiiboSeries}}. Elle emménage dans votre chambre.",
 		place: "La poser sur l’étagère",
 	},
 	unlock: {
+		shelfLabel: "Figurines sur vos étagères, les plus récentes d’abord",
 		error: {
 			network: {
 				title: "La livraison n’a pas pu vous parvenir.",
@@ -113,55 +125,67 @@ const fr: Catalog = {
 			notifyOn: "Nous vous préviendrons quand le prochain cadeau arrivera.",
 			notifyBlocked: "Les notifications sont bloquées dans les paramètres de votre navigateur.",
 		},
-		tally: {
-			figures_one: "{{count}} figurine",
-			figures_other: "{{count}} figurines",
-			figuresOf_one: "{{count}} / {{total}} figurines",
-			figuresOf_other: "{{count}} / {{total}} figurines",
-			series_one: "{{count}} série",
-			series_other: "{{count}} séries",
-		},
 	},
 	collection: {
 		title: "Ma collection",
-		filters: {
-			show: "Filtres",
-			hide: "Masquer les filtres",
-			name: "Nom",
-			namePlaceholder: "Mario, Link...",
-			series: "Série de jeux",
-			allSeries: "Toutes les séries",
-			sortBy: "Trier par",
-			sort: {
-				date_new: "Plus récents",
-				date_old: "Plus anciens",
-				name_asc: "Nom (A-Z)",
-				name_desc: "Nom (Z-A)",
-				series: "Série",
-				favorites_first: "Favoris",
-			},
-			favoritesOnly: "Favoris uniquement",
-			reset: "Réinitialiser tous les filtres",
-			clean: "Effacer",
+		shelfLabel: "En vitrine : les favorites d’abord, puis les plus récentes",
+		lede: {
+			empty: "Vos étagères sont vides. Votre première figurine vous attend dans la boîte cadeau.",
+			filled: "Les favorites ont les meilleures places sur les étagères. Tout ce que vous possédez est listé dans le registre ci-dessous.",
 		},
-		results: "<strong>{{shown}}</strong> amiibo(s) affiché(s) sur {{total}}",
-		noMatches: "Aucun amiibo ne correspond à vos filtres.",
-		empty: {
-			title: "Votre collection est vide",
-			subtitle: "Rendez-vous sur la page Débloquer pour obtenir votre premier Amiibo !",
+		shelfNote: "{{capacity}} de vos {{owned}} figurines tiennent sur les étagères. Marquez des favorites pour choisir celles qui sont exposées.",
+		delivery: {
+			nextIn: "Prochaine livraison dans <time>{{time}}</time>",
+			goToUnlock: "Aller à Débloquer",
+			waiting: "Un cadeau vous attend.",
+			openFirst: "Ouvrir votre premier cadeau",
+			openIt: "L’ouvrir",
+		},
+		ledger: {
+			title: "Toutes vos figurines",
+			countAll_one: "{{count}} figurine",
+			countAll_other: "{{count}} figurines",
+			countFiltered: "{{shown}} sur {{total}} affichées",
+			noMatchTitle: "Aucune figurine ne correspond à ces filtres.",
+			noMatchBody: "Essayez un autre nom ou une autre série, ou désactivez Favorites uniquement.",
+			resetFilters: "Réinitialiser les filtres",
 		},
 	},
+	filters: {
+		searchLabel: "Rechercher vos figurines par nom",
+		searchPlaceholder: "Rechercher par nom : Mario, Link…",
+		clearSearch: "Effacer la recherche",
+		toggle: "Filtres",
+		activeSr_one: "{{count}} actif",
+		activeSr_other: "{{count}} actifs",
+		reset: "Réinitialiser",
+		series: "Série de jeux",
+		allSeries: "Toutes les séries",
+		sortBy: "Trier par",
+		sort: {
+			date_new: "Plus récentes d’abord",
+			date_old: "Plus anciennes d’abord",
+			name_asc: "Nom, de A à Z",
+			name_desc: "Nom, de Z à A",
+			series: "Série de jeux",
+			favorites_first: "Favorites d’abord",
+		},
+		favoritesOnly: "Favorites uniquement",
+	},
 	card: {
-		addFavorite: "Ajouter {{name}} aux favoris",
-		removeFavorite: "Retirer {{name}} des favoris",
-		seeDetails: "Voir les détails de {{name}}",
-		closeDetails: "Fermer les détails",
-		series: "Série",
-		unlocked: "Débloqué le",
-		released: "Sortie",
-		notAvailable: "N/D",
-		unknown: "Inconnue",
-		tapToClose: "Touchez pour fermer",
+		favorite: "Marquer {{name}} comme favorite",
+		addFavorite: "Ajouter aux favoris",
+		removeFavorite: "Retirer des favoris",
+		details: "Détails",
+		unlocked: "Débloquée le",
+		amiiboSeries: "Série amiibo",
+		region: {
+			na: "Amérique du Nord",
+			eu: "Europe",
+			jp: "Japon",
+			au: "Australie",
+		},
+		notReleased: "Non sortie",
 	},
 	notification: {
 		body: "🎁 Votre cadeau est prêt ! Cliquez pour débloquer un nouvel Amiibo.",

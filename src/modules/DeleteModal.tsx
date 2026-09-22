@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { IoTrashOutline } from "react-icons/io5";
 import "../styles/modal-delete.css";
 
@@ -14,6 +15,7 @@ interface Props {
  * alertdialog role; focus starts on the safe choice (Cancel).
  */
 const DeleteModal = ({ count, onCancel, onConfirm }: Props) => {
+    const { t } = useTranslation();
     const dialogRef = useRef<HTMLDialogElement>(null);
     const cancelRef = useRef<HTMLButtonElement>(null);
 
@@ -45,19 +47,19 @@ const DeleteModal = ({ count, onCancel, onConfirm }: Props) => {
                     <IoTrashOutline />
                 </span>
                 <h2 id="delete-title" className="confirm-title">
-                    Empty every shelf?
+                    {t("deleteModal.title")}
                 </h2>
                 <p id="delete-desc" className="confirm-desc">
                     {count > 0
-                        ? `All ${count} ${count === 1 ? "figure" : "figures"} will be removed from this browser. This can't be undone. Export your collection first if you want a backup.`
-                        : "Your collection is already empty. Deleting will also clear any saved data in this browser."}
+                        ? t("deleteModal.desc", { count })
+                        : t("deleteModal.descEmpty")}
                 </p>
                 <div className="confirm-actions">
                     <button ref={cancelRef} type="button" className="btn" onClick={onCancel}>
-                        Keep my collection
+                        {t("deleteModal.cancel")}
                     </button>
                     <button type="button" className="btn btn-danger" onClick={onConfirm}>
-                        Delete collection
+                        {t("deleteModal.confirm")}
                     </button>
                 </div>
             </div>

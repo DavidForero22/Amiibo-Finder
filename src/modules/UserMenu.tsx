@@ -5,14 +5,15 @@ import {
 	IoCloudUploadOutline,
 	IoTrashOutline,
 } from "react-icons/io5";
+import { useTranslation } from "react-i18next";
 import { useAmiibo } from "../context/AmiiboContext";
 import { useToast } from "../context/ToastContext";
 import DeleteCollectionModal from "./DeleteModal";
 
 const IMPORT_MESSAGES = {
-	ok: { text: "Collection imported. Your shelves are restocked.", tone: "success" },
-	invalid: { text: "That file isn't an Amiibo Finder export. Choose a .json file saved from this site.", tone: "error" },
-	read: { text: "The file couldn't be read. Try choosing it again.", tone: "error" },
+	ok: { key: "userMenu.toast.imported", tone: "success" },
+	invalid: { key: "userMenu.toast.importInvalid", tone: "error" },
+	read: { key: "userMenu.toast.importRead", tone: "error" },
 } as const;
 
 /**
@@ -20,6 +21,7 @@ const IMPORT_MESSAGES = {
  * Implements the ARIA menu button pattern (arrow keys, Home/End, Escape).
  */
 const UserMenu = () => {
+	const { t } = useTranslation();
 	const { userAmiibos, exportCollection, importFromFile, clearStorage } = useAmiibo();
 	const { showToast } = useToast();
 
@@ -85,9 +87,9 @@ const UserMenu = () => {
 
 	const onExportClick = () => {
 		if (userAmiibos.length === 0) {
-			showToast("Nothing to export yet. Unlock a figure first.", "error");
+			showToast(t("userMenu.toast.nothingToExport"), "error");
 		} else if (exportCollection()) {
-			showToast("Collection exported as a .json file.", "success");
+			showToast(t("userMenu.toast.exported"), "success");
 		}
 		closeMenu();
 	};
@@ -99,13 +101,13 @@ const UserMenu = () => {
 
 		const result = await importFromFile(file);
 		const message = IMPORT_MESSAGES[result];
-		showToast(message.text, message.tone);
+		showToast(t(message.key), message.tone);
 	};
 
 	const onConfirmDelete = () => {
 		clearStorage();
 		setShowDeleteConfirm(false);
-		showToast("Collection deleted. Your shelves are empty.");
+		showToast(t("userMenu.toast.deleted"));
 		menuButtonRef.current?.focus();
 	};
 
@@ -122,8 +124,8 @@ const UserMenu = () => {
 						setIsMenuOpen(true);
 					}
 				}}
-				aria-label="Collection data"
-				title="Collection data"
+				aria-label={t("userMenu.label")}
+				title={t("userMenu.label")}
 				aria-haspopup="menu"
 				aria-expanded={isMenuOpen}
 				aria-controls={isMenuOpen ? "user-dropdown" : undefined}
@@ -137,12 +139,12 @@ const UserMenu = () => {
 					id="user-dropdown"
 					className="dropdown-menu"
 					role="menu"
-					aria-label="Collection data"
+					aria-label={t("userMenu.label")}
 					onKeyDown={onMenuKeyDown}
 				>
 					<button type="button" className="dropdown-item" role="menuitem" tabIndex={-1} onClick={onExportClick}>
 						<IoDownloadOutline aria-hidden="true" />
-						Export collection
+						{t("userMenu.export")}
 					</button>
 
 					<button
@@ -156,7 +158,7 @@ const UserMenu = () => {
 						}}
 					>
 						<IoCloudUploadOutline aria-hidden="true" />
-						Import collection
+						{t("userMenu.import")}
 					</button>
 
 					<div className="dropdown-divider" role="separator" />
@@ -172,7 +174,7 @@ const UserMenu = () => {
 						}}
 					>
 						<IoTrashOutline aria-hidden="true" />
-						Delete collection
+						{t("userMenu.delete")}
 					</button>
 				</div>
 			)}

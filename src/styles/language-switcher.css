@@ -1,27 +1,49 @@
-/* Language picker. Neutral by design: inherits the header's type and colours
-   so the UI redesign can restyle it without fighting these rules. */
+/* Language picker: a visible face with the language code, and a transparent
+   native <select> stretched over it that receives the clicks and focus. */
 .lang-switcher {
-	display: inline-flex;
-	align-items: center;
+    position: relative;
+    display: inline-flex;
+    height: 44px;
+}
+
+.lang-face {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    height: 100%;
+    padding: 0 10px 0 12px;
+    border: 1.5px solid var(--line-strong);
+    border-radius: var(--radius-m);
+    background: var(--surface-raised);
+    color: var(--ink);
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    transition: background-color var(--dur-fast) var(--ease-out);
+}
+
+.lang-chevron {
+    width: 14px;
+    height: 14px;
 }
 
 .lang-select {
-	font: inherit;
-	font-size: 0.875rem;
-	color: inherit;
-	background: transparent;
-	border: 1px solid currentColor;
-	border-radius: 999px;
-	padding: 0.3rem 0.75rem;
-	cursor: pointer;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    /* The open list uses the page font where the platform allows it */
+    font: inherit;
 }
 
-.lang-select:focus-visible {
-	outline: 2px solid currentColor;
-	outline-offset: 2px;
+.lang-switcher:hover .lang-face {
+    background: var(--surface);
 }
 
-.lang-select option {
-	color: initial;
-	background: initial;
+/* The select is invisible, so its focus ring is drawn on the face */
+.lang-switcher:has(.lang-select:focus-visible) .lang-face {
+    outline: 3px solid var(--cobalt);
+    outline-offset: 3px;
 }

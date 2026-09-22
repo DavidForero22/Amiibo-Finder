@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Confetti from "react-confetti";
+import { useTranslation } from "react-i18next";
 import Header from "../modules/Header";
 import Footer from "../modules/Footer";
 import { useAmiibo } from "../context/AmiiboContext";
@@ -25,6 +26,7 @@ const useReducedMotion = () => {
  * Page chrome (skip link, header, main, footer) and the unlock confetti.
  */
 const BaseLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    const { t } = useTranslation();
     const { isConfettiActive, stopConfetti } = useAmiibo();
     const reducedMotion = useReducedMotion();
     const [windowSize, setWindowSize] = useState({
@@ -47,7 +49,7 @@ const BaseLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return (
         <div className="app-container">
             <a href="#main" className="skip-link">
-                Skip to content
+                {t("common.skipToContent")}
             </a>
 
             {isConfettiActive && !reducedMotion && (

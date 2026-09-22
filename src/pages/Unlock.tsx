@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { flushSync } from "react-dom";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { IoNotificationsOutline, IoRefresh, IoArrowForward } from "react-icons/io5";
 import Room from "../modules/Room";
 import { amiiboKey } from "../modules/roomGeometry";
@@ -13,20 +14,6 @@ import { useNotifications } from "../modules/useNotifications";
 import { useToast } from "../context/ToastContext";
 import "../styles/unlock.css";
 
-const ERROR_COPY = {
-    network: {
-        title: "The delivery couldn't reach you.",
-        body: "Check your internet connection, then try again. Your two-hour wait hasn't started.",
-    },
-    server: {
-        title: "The figure catalogue isn't answering.",
-        body: "The Amiibo database is unavailable right now. Try again in a moment; your wait hasn't started.",
-    },
-    unknown: {
-        title: "Something went wrong while unwrapping.",
-        body: "Nothing was lost. Try opening the gift again.",
-    },
-} as const;
 
 const prefersReducedMotion = () =>
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -48,6 +35,7 @@ const Unlock = () => {
         closeModal,
         formatTime,
     } = useUnlockLogic();
+    const { t } = useTranslation();
     const { userAmiibos } = useAmiibo();
     const { status: notifyStatus, request: requestNotifications } = useNotifications();
     const { showToast } = useToast();
@@ -94,28 +82,28 @@ const Unlock = () => {
 
     const onNotifyClick = async () => {
         const result = await requestNotifications();
-        if (result === "granted") showToast("We'll let you know when the next gift arrives.", "success");
-        else if (result === "denied") showToast("Notifications are blocked in your browser settings.", "error");
+        if (result === "granted") showToast(t("unlock.toast.notifyOn"), "success");
+        else if (result === "denied") showToast(t("unlock.toast.notifyBlocked"), "error");
     };
 
     // ---------- Panel copy per state ----------
     let title: string;
     let body: string;
     if (isCollectionComplete) {
-        title = "Every figure has a home.";
-        body = `You've collected all ${catalogTotal ?? userAmiibos.length} figures. Nothing left to unwrap.`;
+        title = t("unlock.complete.title");
+        body = t("unlock.complete.body", { count: catalogTotal ?? userAmiibos.length });
     } else if (error) {
-        title = ERROR_COPY[error].title;
-        body = ERROR_COPY[error].body;
+        title = t(`unlock.error.${error}.title`);
+        body = t(`unlock.error.${error}.body`);
     } else if (isOpeningAnim) {
-        title = "Unwrapping…";
-        body = "Careful with the ribbon.";
+        title = t("unlock.opening.title");
+        body = t("unlock.opening.body");
     } else if (isLocked) {
-        title = "The next gift is on its way.";
-        body = "A new delivery arrives every two hours. The clock on the wall keeps time.";
+        title = t("unlock.waiting.title");
+        body = t("unlock.waiting.body");
     } else {
-        title = "Your delivery is here.";
-        body = "A new figure is waiting inside the box. Open it to see who's moving in.";
+        title = t("unlock.ready.title");
+        body = t("unlock.ready.body");
     }
 
     return (
@@ -126,7 +114,7 @@ const Unlock = () => {
                     remainingTime={remainingTime}
                     hiddenKey={unlockedAmiibo ? amiiboKey(unlockedAmiibo) : null}
                     arrivingKey={arrivingKey}
-                    shelfLabel="Figures on your shelves, newest first"
+                    shelfLabel={t("unlock.shelfLabel")}
                     floorSlot={<GiftBox state={giftState} onOpen={handleUnlock} />}
                 />
             </div>
@@ -140,12 +128,12 @@ const Unlock = () => {
 
                 {giftState === "waiting" && !error && (
                     <div className="countdown">
-                        <span className="countdown-label">Next delivery in</span>
+                        <span className="countdown-label">{t("unlock.countdownLabel")}</span>
                         <span className="countdown-digits" aria-hidden="true">
                             {formatTime(remainingTime)}
                         </span>
                         <span className="visually-hidden">
-                            about {Math.ceil(remainingTime / 60000)} minutes
+                            {t("unlock.countdownSr", { count: Math.ceil(remainingTime / 60000) })}
                         </span>
                     </div>
                 )}
@@ -154,32 +142,32 @@ const Unlock = () => {
                     {error && (
                         <button type="button" className="btn btn-primary btn-lg" onClick={retry}>
                             <IoRefresh aria-hidden="true" />
-                            Try again
+                            {t("unlock.actions.retry")}
                         </button>
                     )}
 
                     {!error && giftState === "ready" && (
                         <button type="button" className="btn btn-primary btn-lg" onClick={handleUnlock}>
-                            Open the gift
+                            {t("unlock.actions.open")}
                         </button>
                     )}
 
                     {!error && giftState === "opening" && (
                         <button type="button" className="btn btn-primary btn-lg" disabled aria-busy="true">
-                            Opening…
+                            {t("unlock.actions.opening")}
                         </button>
                     )}
 
                     {giftState === "waiting" && notifyStatus === "default" && (
                         <button type="button" className="btn btn-lg" onClick={onNotifyClick}>
                             <IoNotificationsOutline aria-hidden="true" />
-                            Notify me when it arrives
+                            {t("unlock.actions.notify")}
                         </button>
                     )}
 
                     {(giftState === "waiting" || giftState === "hidden") && userAmiibos.length > 0 && (
                         <Link to="/" className="btn btn-quiet btn-lg">
-                            See your collection
+                            {t("unlock.actions.seeCollection")}
                             <IoArrowForward aria-hidden="true" />
                         </Link>
                     )}
@@ -187,11 +175,12 @@ const Unlock = () => {
 
                 <p className="stage-tally">
                     <span className="plaque">
-                        {userAmiibos.length}
-                        {catalogTotal !== null && <> / {catalogTotal}</>} figures
+                        {catalogTotal !== null
+                            ? t("tally.figuresOf", { count: userAmiibos.length, total: catalogTotal })
+                            : t("tally.figures", { count: userAmiibos.length })}
                     </span>
                     <span className="plaque">
-                        {seriesCount} series
+                        {t("tally.series", { count: seriesCount })}
                     </span>
                 </p>
             </section>

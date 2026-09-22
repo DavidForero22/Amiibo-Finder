@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { IoClose } from "react-icons/io5";
 import type { Amiibo } from "../context/AmiiboContext";
 import FigureImage from "./FigureImage";
@@ -17,6 +18,7 @@ interface Props {
  * with its name at poster scale. Every way of closing puts the figure on the shelf.
  */
 const ModalUnlocked: React.FC<Props> = ({ amiibo, onPlace }) => {
+    const { t } = useTranslation();
     const dialogRef = useRef<HTMLDialogElement>(null);
     const placeBtnRef = useRef<HTMLButtonElement>(null);
 
@@ -45,7 +47,7 @@ const ModalUnlocked: React.FC<Props> = ({ amiibo, onPlace }) => {
                 if (e.target === e.currentTarget) onPlace();
             }}
         >
-            <button type="button" className="icon-btn dialog-close reveal-close" onClick={onPlace} aria-label="Close and put the figure on the shelf">
+            <button type="button" className="icon-btn dialog-close reveal-close" onClick={onPlace} aria-label={t("reveal.close")}>
                 <IoClose aria-hidden="true" />
             </button>
 
@@ -66,10 +68,10 @@ const ModalUnlocked: React.FC<Props> = ({ amiibo, onPlace }) => {
                     {amiibo.name}
                 </h2>
                 <p id="reveal-desc" className="reveal-desc">
-                    {`From ${amiibo.gameSeries}, part of the ${amiibo.amiiboSeries} series. It's moving into your room.`}
+                    {t("reveal.desc", { gameSeries: amiibo.gameSeries, amiiboSeries: amiibo.amiiboSeries })}
                 </p>
                 <button ref={placeBtnRef} type="button" className="btn btn-primary btn-lg" onClick={onPlace}>
-                    Put it on the shelf
+                    {t("reveal.place")}
                 </button>
             </div>
         </dialog>

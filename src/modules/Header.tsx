@@ -1,4 +1,5 @@
 import { NavLink, Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
     IoMoonOutline,
     IoSunnyOutline,
@@ -9,6 +10,7 @@ import { useTheme } from "../context/ThemeContext";
 import { useToast } from "../context/ToastContext";
 import { useNotifications } from "./useNotifications";
 import UserMenu from "./UserMenu";
+import LanguageSwitcher from "./LanguageSwitcher";
 import "../styles/header.css";
 
 /** Brand mark: a small isometric gift box. */
@@ -26,44 +28,47 @@ const BrandMark = () => (
 
 /**
  * Site header: brand, the two rooms of the app, and global actions
- * (notifications, day/night, collection data menu).
+ * (notifications, language, day/night, collection data menu).
  */
 const Header = () => {
+    const { t } = useTranslation();
     const { theme, toggleTheme } = useTheme();
     const { showToast } = useToast();
     const { status, request } = useNotifications();
 
     const toggleNotifications = async () => {
         if (status === "unsupported") {
-            showToast("This browser doesn't support notifications.", "error");
+            showToast(t("header.notifications.unsupported"), "error");
         } else if (status === "granted") {
             // Browsers don't allow revoking permission from script
-            showToast("To turn notifications off, reset this site's permissions in your browser.");
+            showToast(t("header.notifications.howToDisable"));
         } else if (status === "denied") {
-            showToast("Notifications are blocked in your browser settings.", "error");
+            showToast(t("header.notifications.blocked"), "error");
         } else {
             const result = await request();
-            if (result === "granted") showToast("Notifications on. We'll tell you when a gift arrives.", "success");
+            if (result === "granted") showToast(t("header.notifications.enabled"), "success");
         }
     };
 
     const notifyOn = status === "granted";
     const nightTime = theme === "dark";
+    const notifyLabel = notifyOn ? t("header.notifications.on") : t("header.notifications.turnOn");
+    const themeLabel = nightTime ? t("header.theme.toLight") : t("header.theme.toDark");
 
     return (
         <header className="site-header">
             <div className="site-header-inner">
-                <Link to="/" className="brand" aria-label="Amiibo Finder, go to your collection">
+                <Link to="/" className="brand" aria-label={t("header.homeLink")}>
                     <BrandMark />
-                    <span className="brand-name">Amiibo Finder</span>
+                    <span className="brand-name">{t("common.appName")}</span>
                 </Link>
 
-                <nav className="site-nav" aria-label="Main">
+                <nav className="site-nav" aria-label={t("header.navLabel")}>
                     <NavLink to="/" end className="site-nav-link">
-                        Collection
+                        {t("header.nav.collection")}
                     </NavLink>
                     <NavLink to="/unlock" className="site-nav-link">
-                        Unlock
+                        {t("header.nav.unlock")}
                     </NavLink>
                 </nav>
 
@@ -72,8 +77,8 @@ const Header = () => {
                         type="button"
                         onClick={toggleNotifications}
                         className={`icon-btn ${notifyOn ? "is-on" : ""}`}
-                        aria-label={notifyOn ? "Notifications are on" : "Turn on gift notifications"}
-                        title={notifyOn ? "Notifications are on" : "Turn on gift notifications"}
+                        aria-label={notifyLabel}
+                        title={notifyLabel}
                     >
                         {notifyOn ? (
                             <IoNotificationsOutline aria-hidden="true" />
@@ -82,12 +87,14 @@ const Header = () => {
                         )}
                     </button>
 
+                    <LanguageSwitcher />
+
                     <button
                         type="button"
                         onClick={toggleTheme}
                         className="icon-btn"
-                        aria-label={nightTime ? "Switch to light mode" : "Switch to dark mode"}
-                        title={nightTime ? "Switch to light mode" : "Switch to dark mode"}
+                        aria-label={themeLabel}
+                        title={themeLabel}
                     >
                         {nightTime ? <IoSunnyOutline aria-hidden="true" /> : <IoMoonOutline aria-hidden="true" />}
                     </button>

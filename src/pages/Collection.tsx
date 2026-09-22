@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
+import { Trans, useTranslation } from "react-i18next";
 import { IoArrowForward } from "react-icons/io5";
 import { useAmiibo } from "../context/AmiiboContext";
 import { useFilter } from "../context/FilterContext";
@@ -17,6 +18,7 @@ import "../styles/collection.css";
  * ledger of everything you own with search, filters and sorting.
  */
 const Collection = () => {
+    const { t } = useTranslation();
     const { userAmiibos } = useAmiibo();
     const { filters, setFilters, resetFilters, isFilterPanelOpen, toggleFilterPanel } = useFilter();
     const { filteredAmiibos, uniqueSeries } = useFilteredCollection(userAmiibos, filters);
@@ -44,35 +46,36 @@ const Collection = () => {
                     <Room
                         figures={displayFigures}
                         remainingTime={remainingTime}
-                        shelfLabel="On display: favorites first, then newest"
+                        shelfLabel={t("collection.shelfLabel")}
                     />
                 </div>
 
                 <section className="collection-intro" aria-labelledby="collection-title">
                     <h1 id="collection-title" className="collection-title">
-                        My Collection
+                        {t("collection.title")}
                     </h1>
 
                     <p className="collection-lede">
                         {isEmpty
-                            ? "Your shelves are empty. Your first figure is waiting in the gift box."
-                            : "Favorites get the best spots on the shelves. Everything you own is listed in the ledger below."}
+                            ? t("collection.lede.empty")
+                            : t("collection.lede.filled")}
                     </p>
 
                     {!isEmpty && (
                         <p className="collection-tally">
                             <span className="plaque">
-                                {owned}
-                                {catalogTotal !== null && <> / {catalogTotal}</>} figures
+                                {catalogTotal !== null
+                                    ? t("tally.figuresOf", { count: owned, total: catalogTotal })
+                                    : t("tally.figures", { count: owned })}
                             </span>
-                            <span className="plaque">{seriesCount} series</span>
-                            <span className="plaque">{favoritesCount} favorites</span>
+                            <span className="plaque">{t("tally.series", { count: seriesCount })}</span>
+                            <span className="plaque">{t("tally.favorites", { count: favoritesCount })}</span>
                         </p>
                     )}
 
                     {owned > SHELF_CAPACITY && (
                         <p className="collection-note">
-                            {`${SHELF_CAPACITY} of your ${owned} figures fit on the shelves. Mark favorites to choose who's on display.`}
+                            {t("collection.shelfNote", { capacity: SHELF_CAPACITY, owned })}
                         </p>
                     )}
 
@@ -81,19 +84,22 @@ const Collection = () => {
                             {isLocked ? (
                                 <>
                                     <p className="delivery-tag-text">
-                                        Next delivery in{" "}
-                                        <span className="delivery-tag-time">{formatTime(remainingTime)}</span>
+                                        <Trans
+                                            i18nKey="collection.delivery.nextIn"
+                                            values={{ time: formatTime(remainingTime) }}
+                                            components={{ time: <span className="delivery-tag-time" /> }}
+                                        />
                                     </p>
                                     <Link to="/unlock" className="btn btn-quiet">
-                                        Go to Unlock
+                                        {t("collection.delivery.goToUnlock")}
                                         <IoArrowForward aria-hidden="true" />
                                     </Link>
                                 </>
                             ) : (
                                 <>
-                                    <p className="delivery-tag-text">A gift is waiting for you.</p>
+                                    <p className="delivery-tag-text">{t("collection.delivery.waiting")}</p>
                                     <Link to="/unlock" className="btn btn-primary">
-                                        {isEmpty ? "Open your first gift" : "Open it"}
+                                        {isEmpty ? t("collection.delivery.openFirst") : t("collection.delivery.openIt")}
                                         <IoArrowForward aria-hidden="true" />
                                     </Link>
                                 </>
@@ -107,12 +113,12 @@ const Collection = () => {
                 <section className="ledger" aria-labelledby="ledger-title">
                     <div className="ledger-head">
                         <h2 id="ledger-title" className="ledger-title">
-                            Every figure you own
+                            {t("collection.ledger.title")}
                         </h2>
                         <p className="ledger-count" role="status">
                             {filteredAmiibos.length === owned
-                                ? `${owned} ${owned === 1 ? "figure" : "figures"}`
-                                : `Showing ${filteredAmiibos.length} of ${owned}`}
+                                ? t("collection.ledger.countAll", { count: owned })
+                                : t("collection.ledger.countFiltered", { shown: filteredAmiibos.length, total: owned })}
                         </p>
                     </div>
 
@@ -129,10 +135,10 @@ const Collection = () => {
                         <AmiiboList amiibos={filteredAmiibos} labelledBy="ledger-title" />
                     ) : (
                         <div className="ledger-empty">
-                            <p className="ledger-empty-title">No figures match these filters.</p>
-                            <p>Try another name or series, or turn off Favorites only.</p>
+                            <p className="ledger-empty-title">{t("collection.ledger.noMatchTitle")}</p>
+                            <p>{t("collection.ledger.noMatchBody")}</p>
                             <button type="button" className="btn" onClick={resetFilters}>
-                                Reset filters
+                                {t("collection.ledger.resetFilters")}
                             </button>
                         </div>
                     )}
