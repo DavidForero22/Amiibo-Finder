@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { useAmiibo, type Amiibo } from "../context/AmiiboContext";
 import {
+	amiiboId,
 	ApiError,
 	type ApiErrorCode,
 	getFullAmiiboList,
@@ -11,8 +12,6 @@ import {
 } from "./utils";
 
 const COOLDOWN_TIME = 2 * 60 * 60 * 1000; // 2 Hours in milliseconds
-
-const amiiboId = (a: Amiibo) => a.head + a.tail;
 
 /**
  * Custom hook that manages the logic for the "Mystery Gift" unlock mechanism.
@@ -122,7 +121,7 @@ export const useUnlockLogic = () => {
 
 			const amiiboToSave: Amiibo = {
 				...random,
-				unlockedAt: new Date().toLocaleDateString(),
+				unlockedAt: new Date().toISOString(),
 			};
 			delete amiiboToSave.type;
 

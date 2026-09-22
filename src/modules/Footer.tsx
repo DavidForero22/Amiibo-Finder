@@ -1,28 +1,30 @@
 import React from "react";
+import { Trans, useTranslation } from "react-i18next";
 import "../styles/footer.css";
 
 /**
- * Footer component rendered at the bottom of the application.
- * Displays attribution to the external data source (Amiibo API) with accessible external links.
+ * Site footer: license, data attribution and the fan-project disclaimer.
  */
 const Footer: React.FC = () => {
+    const { t } = useTranslation();
+
     return (
         <footer className="site-footer">
-            <p>
-                © 2025 Davitroon — MIT License
-            </p>
-            <p>
-                Data obtained from{" "}
-                <a
-                    href="https://amiiboapi.com/"
-                    title="See Amiibo API documentation"
-                    aria-label="See Amiibo API documentation"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Amiibo API
-                </a>
-            </p>
+            <div className="site-footer-inner">
+                <p>{t("footer.license")}</p>
+                <p>
+                    <Trans
+                        i18nKey="footer.dataFrom"
+                        components={{
+                            api: (
+                                <a href="https://amiiboapi.org/" target="_blank" rel="noopener noreferrer" />
+                            ),
+                            hint: <span className="visually-hidden" />,
+                        }}
+                    />
+                </p>
+                <p className="site-footer-note">{t("footer.disclaimer")}</p>
+            </div>
         </footer>
     );
 };

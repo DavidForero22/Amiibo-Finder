@@ -1,127 +1,180 @@
 /* =========================================
-   UNLOCK MODAL LAYOUT
+   REVEAL DIALOG
+   The whole dialog is a wall of the room: bottle-green paint over a walnut
+   floor strip, the figure under a brass spotlight, the name at poster scale.
    ========================================= */
 
-/* * Modal Container Modifier
- * Sets a specific width for the unlock card to ensure 
- * the Amiibo image fits perfectly without too much whitespace.
- */
-.modal-box.unlock-content {
-    width: 350px;
-    padding-top: 10px; /* Fine-tuning top spacing */
+.dialog.reveal {
+    --reveal-ink: #f6f1e4;
+    --reveal-ink-soft: #cfe0d6;
+
+    max-width: min(1040px, calc(100vw - 32px));
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    overflow: hidden;
+    background:
+        linear-gradient(180deg, transparent 80%, #6b4028 80%, #4a2a19 100%),
+        linear-gradient(90deg, #17473a 0%, #1f5a48 40%, #1f5a48 100%);
+    color: var(--reveal-ink);
+    box-shadow: 0 0 0 3px #d4a03a, var(--shadow-2);
 }
 
-
-/* =========================================
-   CONTROLS (Close Button)
-   ========================================= */
-
-/* * Close Button (X)
- * Styled to look prominent with a red hue.
- */
-.unlock-close-btn {
-    float: right;
-    font-size: 32px;
-    font-weight: bold;
-    line-height: 20px;
-    
-    cursor: pointer;
-    color: #ff4d4d;
-    
-    /* Prepare for hover animation */
-    transition: transform 0.2s;
+.dialog.reveal:not([open]) {
+    display: none;
 }
 
-/* * Hover Effect
- * Scales up and rotates slightly for a playful feel.
- */
-.unlock-close-btn:hover {
-    transform: scale(1.2) rotate(90deg);
+.reveal-close {
+    z-index: 2;
+    color: var(--reveal-ink);
 }
 
-
-/* =========================================
-   VISUAL ASSETS (Images & Animation)
-   ========================================= */
-
-/* * Amiibo Image Styling
- * Constrains the image size and prepares the "Pop" animation.
- */
-.modal-box.unlock-content img {
-    max-width: 294px;
-    max-height: 216px;
-    margin-top: 10px;
-    
-    /* Initial state: Scaled down (0.9) to allow for the pop-in effect */
-    transform: scale(0.9);
-    transition: transform 0.3s ease;
-    
-    /* Prevent user selection/dragging for a cleaner app-like feel */
-    user-select: none;
-    -webkit-user-drag: none;
+.reveal-close:hover {
+    background: rgb(255 255 255 / 0.12);
+    border-color: rgb(255 255 255 / 0.3);
 }
 
-/* * Active Animation State
- * When the modal has the class '.show', the image scales to full size (1).
- * The delay adds a sense of timing after the modal opens.
- */
-.modal-overlay.show .modal-box.unlock-content img {
-    transform: scale(1);
-    transition-delay: 0.2s;
+.reveal-close:focus-visible,
+.dialog.reveal .btn:focus-visible {
+    outline-color: #f0c768;
 }
 
+/* ---------- Stage ---------- */
 
-/* =========================================
-   TYPOGRAPHY
-   ========================================= */
+.reveal-stage {
+    position: relative;
+    display: grid;
+    place-items: end center;
+    min-height: 460px;
+    padding: 40px 24px calc(20% * 0.5);
+}
 
-/* * Subtitle ("You unlocked...")
- * Uses opacity for a subtle look instead of a hard gray color.
- */
-.unlock-subtitle {
-    margin-bottom: 5px;
+.reveal-spot {
+    position: absolute;
+    inset: -25% -30% 15%;
+    background: radial-gradient(closest-side, rgb(255 214 130 / 0.5), rgb(255 214 130 / 0.12) 55%, transparent);
+    animation: spot-on 900ms var(--ease-out) both;
+}
+
+.reveal-stage picture {
+    position: relative;
+    z-index: 1;
+    width: min(300px, 80%);
+    margin-bottom: 7%;
+}
+
+.reveal-figure {
+    width: 100%;
+    max-height: 340px;
+    object-fit: contain;
+    object-position: bottom;
+    filter: drop-shadow(0 12px 14px rgb(0 0 0 / 0.5));
+    animation: figure-rise 900ms var(--ease-settle) 120ms both;
+}
+
+.reveal-plinth {
+    position: absolute;
+    left: 50%;
+    bottom: 17%;
+    width: 60%;
+    height: 20px;
+    transform: translate(-50%, 50%);
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgb(0 0 0 / 0.5), transparent);
+}
+
+/* ---------- Copy ---------- */
+
+.reveal-copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 56px clamp(28px, 4vw, 56px) calc(20% * 0.55 + 12px) 8px;
+}
+
+.reveal-name {
+    font-size: clamp(3rem, 7.5vw, 6rem);
+    font-weight: 850;
+    font-stretch: 120%;
+    letter-spacing: -0.04em;
+    line-height: 0.92;
+    overflow-wrap: anywhere;
+    color: var(--reveal-ink);
+    text-shadow: 0 3px 18px rgb(0 0 0 / 0.3);
+    animation: name-wipe 800ms var(--ease-out) 260ms both;
+}
+
+.reveal-desc {
+    max-width: 38ch;
+    padding: 10px 14px;
+    border: 1.5px solid #d4a03a;
+    border-radius: var(--radius-s);
+    background: #321d11;
+    color: #f0c768;
     font-size: 1rem;
-    color: var(--text-color);
-    opacity: 0.7;
-    text-transform: uppercase;
-    letter-spacing: 1px;
 }
 
-/* * Main Character Name (e.g., "Mario")
- * Large, bold text using the signature Nintendo Red.
- */
-.unlock-name {
-    margin: 15px 0 5px;
-    color: #E60012; 
-    font-size: 1.8rem; 
-    font-weight: 800;
-    line-height: 1.1;
+.dialog.reveal .btn-primary {
+    --btn-bg: #f0c768;
+    --btn-ink: #1d1406;
+    --btn-line: #f0c768;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 0.25), 0 10px 24px rgb(0 0 0 / 0.3);
 }
 
-/* Dark Mode override for the name: Brighter red + Neon Glow */
-body.dark-mode .unlock-name {
-    color: #ff4d4d; 
-    text-shadow: 0 0 10px rgba(255, 77, 77, 0.4); 
+.dialog.reveal .btn-primary:hover {
+    --btn-bg: #ffd887;
+    --btn-line: #ffd887;
 }
 
-/* * Game Series (e.g., "Super Mario Series")
- */
-.unlock-series {
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: var(--text-color);
-    opacity: 0.9;
+@keyframes spot-on {
+    from { opacity: 0; transform: scale(0.7); }
 }
 
+@keyframes figure-rise {
+    from { opacity: 0; transform: translateY(18%) scale(0.9); }
+}
 
-/* =========================================
-   RESPONSIVE DESIGN
-   ========================================= */
+@keyframes name-wipe {
+    from { clip-path: inset(0 100% 0 0); }
+    to { clip-path: inset(0 0 0 0); }
+}
 
-/* Adjust image size for smaller screens/phones */
-@media (max-width: 780px) {
-    .modal-box.unlock-content img {
-        max-width: 194px;
-        max-height: 116px;
+/* ---------- Stacked (narrow) ---------- */
+
+@media (max-width: 760px) {
+    .dialog.reveal {
+        grid-template-columns: 1fr;
+        max-height: calc(100dvh - 32px);
+        overflow-y: auto;
+        background:
+            linear-gradient(90deg, #17473a 0%, #1f5a48 100%);
     }
+
+    .reveal-stage {
+        min-height: 280px;
+        padding: 36px 24px 0;
+        background: linear-gradient(180deg, transparent 82%, #6b4028 82%, #4a2a19 100%);
+    }
+
+    .reveal-stage picture {
+        width: min(200px, 60%);
+        margin-bottom: 9%;
+    }
+
+    .reveal-plinth {
+        bottom: 13%;
+    }
+
+    .reveal-copy {
+        padding: 24px 24px 28px;
+    }
+
+    .reveal-copy .btn {
+        align-self: stretch;
+    }
+}
+
+body:has(dialog[open]) {
+    overflow: hidden;
 }

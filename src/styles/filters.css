@@ -1,188 +1,217 @@
 /* =========================================
-   1. MAIN CONTAINER (Accordion Animation)
+   LEDGER TOOLBAR
    ========================================= */
 
-/* * The main container acts as an accordion.
- * It animates height, opacity, and transform to slide down when opened.
- */
-.filter-panel-container {
-    background-color: var(--card-bg);
-    border: 1px solid transparent; 
-    border-top: none;
-    overflow: hidden;
-    
-    /* Initial State: Closed (Hidden) */
-    max-height: 0;
-    opacity: 0;
-    transform: translateY(-10px); 
-
-    /* Smooth transitions for all changing properties */
-    transition: 
-        max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-        opacity 0.3s ease,
-        border-color 0.3s ease,
-        background-color 0.3s ease,
-        transform 0.3s ease,
-        box-shadow 0.3s ease;
-    
-    /* Formatting */
-    margin-inline: 10rem;
-    border-radius: 0 0 12px 12px;
-}
-
-/* * Active State: Open
- * Applied when the user toggles the filter button.
- */
-.filter-panel-container.open {
-    max-height: 150px;
-    opacity: 1;
-    transform: translateY(0);
-    border-color: var(--border-color);
-    
-    /* Soft shadow to lift the panel */
-    box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.15), 
-                0 0 5px rgba(0,0,0,0.05);
-    margin-bottom: 20px;
-}
-
-/* Dark Mode Adjustments for the Container */
-body.dark-mode .filter-panel-container.open {
-    border-color: #555; 
-    box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.4);
-}
-
-
-/* =========================================
-   2. LAYOUT & GROUPING
-   ========================================= */
-
-.filter-content-wrapper {
-    padding: 20px;
-}
-
-/* * Main Layout Row
- * Uses Flexbox to push the Filter Inputs to the left
- * and the Action Buttons (Reset) to the right.
- */
-
-.filter-row {
+.filters {
     display: flex;
-    justify-content: space-between; /* Pushes groups to edges */
-    align-items: flex-end; /* Aligns items to the bottom (matching input baselines) */
+    flex-direction: column;
+    gap: 12px;
+}
+
+.filters-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* ---------- Search ---------- */
+
+.search-field {
+    position: relative;
+    flex: 1 1 280px;
+}
+
+.search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    width: 20px;
+    height: 20px;
+    transform: translateY(-50%);
+    color: var(--ink-soft);
+    pointer-events: none;
+}
+
+.search-field input,
+.field select {
     width: 100%;
-    flex-wrap: wrap; 
-    gap: 20px; /* Minimum spacing */
+    min-height: 44px;
+    border: 1.5px solid var(--line-strong);
+    border-radius: var(--radius-m);
+    background: var(--surface-raised);
+    color: var(--ink);
+    transition: border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
 }
 
-/* Left Group: Contains the Inputs/Selects */
-.filter-left-group {
+.search-field input {
+    padding: 0 44px 0 44px;
+    caret-color: var(--cobalt);
+}
+
+.search-field input::placeholder {
+    color: var(--ink-soft);
+    opacity: 1;
+}
+
+.search-field input::-webkit-search-cancel-button {
+    display: none;
+}
+
+.search-field input:hover,
+.field select:hover {
+    border-color: var(--ink-soft);
+}
+
+.search-field input:focus-visible,
+.field select:focus-visible {
+    outline: none;
+    border-color: var(--cobalt);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--cobalt) 30%, transparent);
+}
+
+.search-clear {
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    transform: translateY(-50%);
+    border: 0;
+    border-radius: var(--radius-s);
+    background: none;
+    color: var(--ink-soft);
+}
+
+.search-clear svg {
+    width: 20px;
+    height: 20px;
+}
+
+.search-clear:hover {
+    color: var(--ink);
+}
+
+/* ---------- Toggle ---------- */
+
+.filters-toggle[aria-expanded="true"] {
+    --btn-bg: var(--cobalt-soft);
+    --btn-line: var(--cobalt);
+}
+
+.filters-badge {
+    display: inline-grid;
+    place-items: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: var(--brass);
+    color: #2a1d06;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+}
+
+/* ---------- Panel ---------- */
+
+.filters-panel {
     display: flex;
-    gap: 20px;
-    flex-wrap: wrap; /* Allows inputs to wrap if screen is narrow */
+    flex-wrap: wrap;
     align-items: flex-end;
+    gap: 16px 20px;
+    padding: 16px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-m);
+    background: var(--surface);
+    animation: panel-in var(--dur-mid) var(--ease-out);
 }
 
-/* =========================================
-   3. FORM ELEMENTS (Inputs & Selects)
-   ========================================= */
+.filters-panel[hidden] {
+    display: none;
+}
 
-/* Individual Filter Item Wrapper (Label + Input) */
-.filter-group {
+@keyframes panel-in {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+}
+
+.field {
     display: flex;
     flex-direction: column;
     gap: 6px;
+    flex: 1 1 200px;
 }
 
-/* Shared styling for Inputs and Selects */
-.filter-group input,
-.filter-group select {
-    padding: 10px 12px;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    font-size: 0.9rem;
-    
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    transition: all 0.3s ease;
-    
-    width: 100%; 
-    min-width: 150px; /* Ensures readability */
-    box-sizing: border-box; 
+.field label {
+    font-size: 0.875rem;
+    font-weight: 700;
 }
 
-/* Focus State: Nintendo Red Highlight */
-.filter-group input:focus,
-.filter-group select:focus {
-    border-color: #E60012;
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(230, 0, 18, 0.1); 
+.field select {
+    padding: 0 40px 0 12px;
+    appearance: none;
+    background-image:
+        linear-gradient(45deg, transparent 50%, var(--ink-soft) 50%),
+        linear-gradient(135deg, var(--ink-soft) 50%, transparent 50%);
+    background-position: calc(100% - 20px) 50%, calc(100% - 14px) 50%;
+    background-size: 6px 6px;
+    background-repeat: no-repeat;
 }
 
+/* ---------- Switch ---------- */
 
-/* =========================================
-   4. ACTION BUTTONS
-   ========================================= */
-
-/* "Clean Filters" Button */
-.clean-filters-btn {
-    padding: 10px 20px;
-    height: 40px; /* Fixed height to match inputs */
-    background-color: transparent;
-    border: 1px solid var(--border-color);
-    color: var(--text-color);
-    border-radius: 6px;
-    font-weight: 600;
+.switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    font-weight: 700;
     cursor: pointer;
-    transition: all 0.2s ease;
-    white-space: nowrap;
-
-    /* Ensures correct sizing on mobile */
-    box-sizing: border-box; 
+    user-select: none;
 }
 
-.clean-filters-btn:hover {
-    background-color: #E60012;
-    color: white;
-    border-color: #E60012;
+.switch input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
 }
 
+.switch-track {
+    position: relative;
+    flex: none;
+    width: 44px;
+    height: 26px;
+    border-radius: 999px;
+    background: var(--line-strong);
+    transition: background-color var(--dur-fast) var(--ease-out);
+}
 
-/* =========================================
-   5. RESPONSIVE DESIGN (Tablets & Mobile)
-   ========================================= */
+.switch-track::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: var(--shadow-1);
+    transition: transform var(--dur-mid) var(--ease-settle);
+}
 
-@media (max-width: 1000px) {
-    /* Reduce side margins */
-    .filter-panel-container {
-        margin-inline: 1rem;
-    }
+.switch input:checked + .switch-track {
+    background: var(--cobalt);
+}
 
-    /* Increase max-height to accommodate stacked elements */
-    .filter-panel-container.open {
-        max-height: 500px; 
-    }
+.switch input:checked + .switch-track::after {
+    transform: translateX(18px);
+}
 
-    /* Switch to Column Layout */
-    .filter-row {
-        flex-direction: column; 
-        align-items: stretch; /* Stretch items to full width */
-        gap: 15px;
-    }
-
-    /* Stack inputs vertically */
-    .filter-left-group {
-        flex-direction: column;
-        align-items: stretch;
-        width: 100%;
-    }
-
-    .filter-right-group {
-        width: 100%;
-        margin-top: 5px;
-    }
-    
-    /* Full width button on mobile */
-    .clean-filters-btn {
-        width: 100%;
-    }
+.switch input:focus-visible + .switch-track {
+    outline: 3px solid var(--cobalt);
+    outline-offset: 3px;
 }

@@ -1,72 +1,61 @@
 /* =========================================
-   TOAST NOTIFICATION COMPONENT
+   TOAST: a paper tag on a string
    ========================================= */
 
-/* * Main Container
- * Fixed position notification that appears at the bottom right.
- */
+.toast-region {
+    position: fixed;
+    left: 50%;
+    bottom: max(20px, env(safe-area-inset-bottom));
+    z-index: 2000;
+    transform: translateX(-50%);
+    width: max-content;
+    max-width: calc(100vw - 32px);
+    pointer-events: none;
+}
+
 .toast {
-  /* 1. Positioning & Z-Index */
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  /* High Z-Index ensures it appears above modals (usually 999 or 1000) */
-  z-index: 9999; 
-
-  /* 2. Layout & Alignment */
-  display: flex;
-  align-items: center;
-  gap: 10px; /* Space between icon and text */
-
-  /* 3. Visual Styling */
-  background: #222; /* Dark background for high readability */
-  color: #fff;
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  font-weight: 500;
-  
-  /* 4. Depth (Shadow) */
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  
-  /* 5. Animation Lifecycle */
-  /* 'forwards' keeps the final state (opacity 0) if the element isn't removed by JS */
-  animation: fadeInOut 3s forwards;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 18px 12px 30px;
+    border-radius: 4px 10px 10px 4px;
+    background: var(--surface-raised);
+    color: var(--ink);
+    font-weight: 700;
+    box-shadow: var(--shadow-2);
+    animation: toast-in 420ms var(--ease-settle) both, toast-out 300ms var(--ease-out) 3.7s forwards;
+    pointer-events: auto;
 }
 
-/* * Theme Adjustment:
- * If the body is NOT in dark mode, use a slightly lighter gray 
- * to differentiate from a pure black layout, or maintain contrast.
- */
-body:not(.dark-mode) .toast {
-  background: #333;
+/* Punched hole of the tag */
+.toast::before {
+    content: "";
+    position: absolute;
+    left: 11px;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    margin-top: -4px;
+    border-radius: 50%;
+    background: var(--ground);
+    box-shadow: inset 0 0 0 2px var(--brass);
 }
 
+.toast-icon {
+    flex: none;
+    width: 22px;
+    height: 22px;
+}
 
-/* =========================================
-   ANIMATIONS
-   ========================================= */
+.toast--info .toast-icon { color: var(--cobalt); }
+.toast--success .toast-icon { color: var(--success); }
+.toast--error .toast-icon { color: var(--danger); }
 
-/* * Fade In / Fade Out Lifecycle
- * 0% - 10%   : Enters from below and fades in.
- * 10% - 90%  : Stays visible (Reading time).
- * 90% - 100% : Exits downwards and fades out.
- */
-@keyframes fadeInOut {
-  0% { 
-    opacity: 0; 
-    transform: translateY(20px); 
-  }
-  10% { 
-    opacity: 1; 
-    transform: translateY(0); 
-  }
-  90% { 
-    opacity: 1; 
-    transform: translateY(0); 
-  }
-  100% { 
-    opacity: 0; 
-    transform: translateY(20px); 
-  }
+@keyframes toast-in {
+    from { opacity: 0; transform: translateY(16px) rotate(-2deg); }
+}
+
+@keyframes toast-out {
+    to { opacity: 0; transform: translateY(8px); }
 }

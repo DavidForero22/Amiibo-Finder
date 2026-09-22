@@ -1,135 +1,70 @@
 import { useEffect, useRef } from "react";
-import { createPortal } from "react-dom";
-import "../styles/modal.css";
+import { useTranslation } from "react-i18next";
+import { IoTrashOutline } from "react-icons/io5";
 import "../styles/modal-delete.css";
 
-/**
- * Props interface for the DeleteModal component.
- */
 interface Props {
-    /** Function to control the visibility of the modal. */
-    setShowDeleteConfirm: (status: boolean) => void;
-    /** Callback function to execute when the user confirms the deletion. */
-    handleConfirmDelete: () => void;
+    /** How many figures would be lost; named in the warning. */
+    count: number;
+    onCancel: () => void;
+    onConfirm: () => void;
 }
 
 /**
- * A modal component designed for confirming destructive actions.
- * * Accessibility Features:
- * - Uses `createPortal` to render at the document body level (avoiding z-index clipping).
- * - Implements a "Focus Trap" to keep keyboard navigation inside the modal.
- * - Locks body scroll when open.
- * - Closes on 'Escape' key press.
- * - Uses appropriate ARIA roles (`alertdialog`).
+ * Confirmation for deleting the whole collection. Native modal <dialog> with the
+ * alertdialog role; focus starts on the safe choice (Cancel).
  */
-const DeleteModal = ({
-    setShowDeleteConfirm,
-    handleConfirmDelete,
-}: Props) => {
-    // Refs for focus management
-    const modalRef = useRef<HTMLDivElement>(null);
-    const cancelBtnRef = useRef<HTMLButtonElement>(null);
+const DeleteModal = ({ count, onCancel, onConfirm }: Props) => {
+    const { t } = useTranslation();
+    const dialogRef = useRef<HTMLDialogElement>(null);
+    const cancelRef = useRef<HTMLButtonElement>(null);
 
-    // Effect: Handle Body Scroll Lock & Keyboard Events
     useEffect(() => {
-        // 1. Lock body scroll to prevent background scrolling
-        document.body.style.overflow = "hidden";
+        const dialog = dialogRef.current;
+        if (dialog && !dialog.open) {
+            dialog.showModal();
+            cancelRef.current?.focus();
+        }
+    }, []);
 
-        // 2. Set initial focus to the "Cancel" button for safety
-        cancelBtnRef.current?.focus();
-
-        const handleKeyDown = (e: KeyboardEvent) => {
-            // Close on Escape key
-            if (e.key === "Escape") {
-                setShowDeleteConfirm(false);
-            }
-            
-            // --- FOCUS TRAP LOGIC ---
-            // If Tab is pressed, ensure focus remains strictly within the modal
-            if (e.key === "Tab" && modalRef.current) {
-                const focusableElements = modalRef.current.querySelectorAll(
-                    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-                );
-                
-                if (focusableElements.length === 0) return;
-
-                const firstElement = focusableElements[0] as HTMLElement;
-                const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
-
-                // Shift + Tab (Moving backwards)
-                if (e.shiftKey) { 
-                    if (document.activeElement === firstElement) {
-                        e.preventDefault();
-                        lastElement.focus();
-                    }
-                } 
-                // Tab (Moving forwards)
-                else { 
-                    if (document.activeElement === lastElement) {
-                        e.preventDefault();
-                        firstElement.focus();
-                    }
-                }
-            }
-        };
-
-        document.addEventListener("keydown", handleKeyDown);
-
-        // Cleanup: Restore scroll and remove listeners
-        return () => {
-            document.body.style.overflow = "auto"; 
-            document.removeEventListener("keydown", handleKeyDown);
-        };
-    }, [setShowDeleteConfirm]);
-
-    // Modal UI Content
-    const modalContent = (
-        <div 
-            className="modal-overlay show"
-            onClick={() => setShowDeleteConfirm(false)}
-            // High Z-Index to ensure it sits on top of everything
-            style={{ zIndex: 9999 }} 
+    return (
+        <dialog
+            ref={dialogRef}
+            className="dialog confirm"
+            role="alertdialog"
+            aria-labelledby="delete-title"
+            aria-describedby="delete-desc"
+            onCancel={(e) => {
+                e.preventDefault();
+                onCancel();
+            }}
+            onClick={(e) => {
+                if (e.target === e.currentTarget) onCancel();
+            }}
         >
-            <div 
-                ref={modalRef} // Ref needed for the Focus Trap
-                className="modal-box delete-content"
-                role="alertdialog" 
-                aria-modal="true" 
-                aria-labelledby="delete-title" 
-                aria-describedby="delete-desc"
-                onClick={(e) => e.stopPropagation()} 
-            >
-                <h3 id="delete-title" className="delete-title">Are you sure?</h3>
-                
-                <p id="delete-desc">
-                    You're about to delete your entire Amiibo collection. This action
-                    can't be undone.
+            <div className="confirm-body">
+                <span className="confirm-icon" aria-hidden="true">
+                    <IoTrashOutline />
+                </span>
+                <h2 id="delete-title" className="confirm-title">
+                    {t("deleteModal.title")}
+                </h2>
+                <p id="delete-desc" className="confirm-desc">
+                    {count > 0
+                        ? t("deleteModal.desc", { count })
+                        : t("deleteModal.descEmpty")}
                 </p>
-
-                <div className="delete-actions">
-                    <button
-                        ref={cancelBtnRef}
-                        onClick={() => setShowDeleteConfirm(false)}
-                        className="modal-btn cancel"
-                        type="button"
-                    >
-                        Cancel
+                <div className="confirm-actions">
+                    <button ref={cancelRef} type="button" className="btn" onClick={onCancel}>
+                        {t("deleteModal.cancel")}
                     </button>
-
-                    <button 
-                        onClick={handleConfirmDelete} 
-                        className="modal-btn delete"
-                        type="button"
-                    >
-                        Delete
+                    <button type="button" className="btn btn-danger" onClick={onConfirm}>
+                        {t("deleteModal.confirm")}
                     </button>
                 </div>
             </div>
-        </div>
+        </dialog>
     );
-
-    // Render using a Portal attached to document.body
-    return createPortal(modalContent, document.body);
 };
 
 export default DeleteModal;

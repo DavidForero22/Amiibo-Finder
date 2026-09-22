@@ -2,43 +2,34 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Open a mystery gift every two hours and fill your room with Amiibo figures." />
+    <meta name="theme-color" content="#e3e7ec" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f1519" media="(prefers-color-scheme: dark)" />
     <title>Amiibo Finder</title>
 
-    <style>
-      /* Definimos variables básicas para que estén disponibles instantáneamente */
-      :root {
-        --bg-color: #ffffff;     /* Tu color claro hexadecimal */
-        --text-color: #333333;   /* Tu color texto claro */
-      }
-      
-      /* Colores modo oscuro */
-      body.dark-mode {
-        --bg-color: #1a1a1a;     /* PON AQUÍ TU COLOR OSCURO EXACTO DE MAIN.CSS */
-        --text-color: #f0f0f0;   /* PON AQUÍ TU COLOR TEXTO OSCURO EXACTO */
-        background-color: var(--bg-color) !important; /* Forzamos el color */
-        color: var(--text-color) !important;
-      }
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,100..900&family=Atkinson+Hyperlegible+Mono:wght@400;700&family=Atkinson+Hyperlegible+Next:wght@400;700&display=swap"
+    />
 
-      /* Clase para matar animaciones durante la carga */
-      .preload * {
-        -webkit-transition: none !important;
-        -moz-transition: none !important;
-        -ms-transition: none !important;
-        -o-transition: none !important;
-        transition: none !important;
-      }
+    <style>
+      /* Critical paint: ground colors available before the app CSS loads */
+      body { margin: 0; background: #e3e7ec; color: #14191f; }
+      body.dark-mode { background: #0f1519; color: #eef2f4; color-scheme: dark; }
+
+      /* Suppress transitions until the first paint has settled */
+      .preload * { transition: none !important; }
     </style>
   </head>
-  
+
   <body class="preload">
-    
     <script>
-      (function() {
-        const savedTheme = localStorage.getItem("amiiboFinderSiteTheme");
-        // Si hay tema oscuro guardado, añadimos la clase inmediatamente
-        if (savedTheme === "dark") {
+      (function () {
+        if (localStorage.getItem("amiiboFinderSiteTheme") === "dark") {
           document.body.classList.add("dark-mode");
         }
       })();
@@ -46,14 +37,13 @@
 
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    
+
     <script>
-        window.addEventListener('load', () => {
-            // Un pequeño timeout asegura que el pintado inicial ya ocurrió
-            setTimeout(() => {
-                document.body.classList.remove('preload');
-            }, 100);
-        });
+      window.addEventListener("load", function () {
+        setTimeout(function () {
+          document.body.classList.remove("preload");
+        }, 100);
+      });
     </script>
   </body>
 </html>
