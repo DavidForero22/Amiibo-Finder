@@ -32,37 +32,42 @@
 /* Engraved nameplate: walnut plate, brass edge, two brass screws */
 .collection-title {
     position: relative;
-    padding: 0.22em 0.62em 0.26em;
+    max-width: 100%;
+    padding: 0.22em 44px 0.26em;
     border: 3px solid var(--brass);
     border-radius: 8px;
     background: var(--walnut-deep);
     color: var(--brass-light);
-    font-size: clamp(2.25rem, 4.6vw, 3.75rem);
+    font-size: clamp(1.75rem, 3.2vw, 2.6rem);
     font-weight: 850;
-    font-stretch: 115%;
+    font-stretch: 112%;
     letter-spacing: -0.03em;
+    text-wrap: nowrap;
     box-shadow: var(--shadow-1);
 }
 
+/* Slotted brass screws, one at each end of the plate */
 .collection-title::before,
 .collection-title::after {
     content: "";
     position: absolute;
     top: 50%;
-    width: 9px;
-    height: 9px;
-    margin-top: -4.5px;
+    width: 14px;
+    height: 14px;
+    margin-top: -7px;
     border-radius: 50%;
-    background: var(--brass);
+    background:
+        linear-gradient(135deg, transparent 44%, var(--brass-deep) 44%, var(--brass-deep) 56%, transparent 56%),
+        var(--brass);
     box-shadow: inset 0 0 0 1.5px var(--brass-deep);
 }
 
 .collection-title::before {
-    left: 0.22em;
+    left: 10px;
 }
 
 .collection-title::after {
-    right: 0.22em;
+    right: 10px;
 }
 
 .collection-lede {
