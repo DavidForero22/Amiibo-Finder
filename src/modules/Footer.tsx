@@ -2,27 +2,24 @@ import React from "react";
 import "../styles/footer.css";
 
 /**
- * Footer component rendered at the bottom of the application.
- * Displays attribution to the external data source (Amiibo API) with accessible external links.
+ * Site footer: license, data attribution and the fan-project disclaimer.
  */
 const Footer: React.FC = () => {
     return (
         <footer className="site-footer">
-            <p>
-                © 2025 Davitroon — MIT License
-            </p>
-            <p>
-                Data obtained from{" "}
-                <a
-                    href="https://amiiboapi.com/"
-                    title="See Amiibo API documentation"
-                    aria-label="See Amiibo API documentation"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Amiibo API
-                </a>
-            </p>
+            <div className="site-footer-inner">
+                <p>© 2025 Davitroon · MIT License</p>
+                <p>
+                    Figure data from the{" "}
+                    <a href="https://amiiboapi.org/" target="_blank" rel="noopener noreferrer">
+                        AmiiboAPI community project
+                        <span className="visually-hidden"> (opens in a new tab)</span>
+                    </a>
+                </p>
+                <p className="site-footer-note">
+                    Fan-made project, not affiliated with or endorsed by Nintendo.
+                </p>
+            </div>
         </footer>
     );
 };

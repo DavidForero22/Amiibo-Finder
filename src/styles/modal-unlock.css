@@ -1,127 +1,145 @@
 /* =========================================
-   UNLOCK MODAL LAYOUT
+   REVEAL DIALOG
    ========================================= */
 
-/* * Modal Container Modifier
- * Sets a specific width for the unlock card to ensure 
- * the Amiibo image fits perfectly without too much whitespace.
- */
-.modal-box.unlock-content {
-    width: 350px;
-    padding-top: 10px; /* Fine-tuning top spacing */
+.dialog.reveal {
+    max-width: min(880px, calc(100vw - 32px));
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    overflow: hidden;
+    background: var(--surface-raised);
 }
 
-
-/* =========================================
-   CONTROLS (Close Button)
-   ========================================= */
-
-/* * Close Button (X)
- * Styled to look prominent with a red hue.
- */
-.unlock-close-btn {
-    float: right;
-    font-size: 32px;
-    font-weight: bold;
-    line-height: 20px;
-    
-    cursor: pointer;
-    color: #ff4d4d;
-    
-    /* Prepare for hover animation */
-    transition: transform 0.2s;
+.dialog.reveal:not([open]) {
+    display: none;
 }
 
-/* * Hover Effect
- * Scales up and rotates slightly for a playful feel.
- */
-.unlock-close-btn:hover {
-    transform: scale(1.2) rotate(90deg);
+.reveal-close {
+    z-index: 2;
 }
 
-
-/* =========================================
-   VISUAL ASSETS (Images & Animation)
-   ========================================= */
-
-/* * Amiibo Image Styling
- * Constrains the image size and prepares the "Pop" animation.
- */
-.modal-box.unlock-content img {
-    max-width: 294px;
-    max-height: 216px;
-    margin-top: 10px;
-    
-    /* Initial state: Scaled down (0.9) to allow for the pop-in effect */
-    transform: scale(0.9);
-    transition: transform 0.3s ease;
-    
-    /* Prevent user selection/dragging for a cleaner app-like feel */
-    user-select: none;
-    -webkit-user-drag: none;
-}
-
-/* * Active Animation State
- * When the modal has the class '.show', the image scales to full size (1).
- * The delay adds a sense of timing after the modal opens.
- */
-.modal-overlay.show .modal-box.unlock-content img {
-    transform: scale(1);
-    transition-delay: 0.2s;
-}
-
-
-/* =========================================
-   TYPOGRAPHY
-   ========================================= */
-
-/* * Subtitle ("You unlocked...")
- * Uses opacity for a subtle look instead of a hard gray color.
- */
-.unlock-subtitle {
-    margin-bottom: 5px;
-    font-size: 1rem;
-    color: var(--text-color);
-    opacity: 0.7;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-/* * Main Character Name (e.g., "Mario")
- * Large, bold text using the signature Nintendo Red.
- */
-.unlock-name {
-    margin: 15px 0 5px;
-    color: #E60012; 
-    font-size: 1.8rem; 
-    font-weight: 800;
-    line-height: 1.1;
-}
-
-/* Dark Mode override for the name: Brighter red + Neon Glow */
-body.dark-mode .unlock-name {
-    color: #ff4d4d; 
-    text-shadow: 0 0 10px rgba(255, 77, 77, 0.4); 
-}
-
-/* * Game Series (e.g., "Super Mario Series")
- */
-.unlock-series {
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: var(--text-color);
-    opacity: 0.9;
-}
-
-
-/* =========================================
-   RESPONSIVE DESIGN
-   ========================================= */
-
-/* Adjust image size for smaller screens/phones */
-@media (max-width: 780px) {
-    .modal-box.unlock-content img {
-        max-width: 194px;
-        max-height: 116px;
+/* Stacked layout: the close button sits over the green stage */
+@media (max-width: 720px) {
+    .reveal-close {
+        color: #f4efe3;
     }
+
+    .reveal-close:hover {
+        background: rgb(255 255 255 / 0.12);
+        border-color: rgb(255 255 255 / 0.3);
+    }
+}
+
+/* ---------- Stage: bottle-green wall, brass spotlight ---------- */
+
+.reveal-stage {
+    position: relative;
+    display: grid;
+    place-items: end center;
+    min-height: 380px;
+    padding: 40px 32px 34px;
+    background: linear-gradient(180deg, #1f5a48 0%, #17473a 78%, #6b4028 78%, #4a2a19 100%);
+    overflow: hidden;
+}
+
+.reveal-spot {
+    position: absolute;
+    inset: -20% -10% 20%;
+    background: radial-gradient(closest-side, rgb(255 214 130 / 0.55), rgb(255 214 130 / 0.14) 55%, transparent);
+    animation: spot-on 900ms var(--ease-out) both;
+}
+
+.reveal-stage picture {
+    position: relative;
+    z-index: 1;
+    width: min(260px, 70%);
+}
+
+.reveal-figure {
+    width: 100%;
+    max-height: 300px;
+    object-fit: contain;
+    object-position: bottom;
+    filter: drop-shadow(0 10px 14px rgb(0 0 0 / 0.45));
+    animation: figure-rise 900ms var(--ease-settle) 120ms both;
+}
+
+.reveal-plinth {
+    position: absolute;
+    left: 50%;
+    bottom: 22%;
+    width: 58%;
+    height: 18px;
+    transform: translate(-50%, 50%);
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgb(0 0 0 / 0.45), transparent);
+}
+
+/* ---------- Copy ---------- */
+
+.reveal-copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 18px;
+    padding: clamp(28px, 4vw, 48px);
+}
+
+.reveal-name {
+    font-size: clamp(2.5rem, 6vw, 4.75rem);
+    font-weight: 850;
+    font-stretch: 118%;
+    letter-spacing: -0.035em;
+    line-height: 0.95;
+    overflow-wrap: anywhere;
+    animation: name-wipe 800ms var(--ease-out) 260ms both;
+}
+
+.reveal-desc {
+    color: var(--ink-soft);
+    font-size: 1.0625rem;
+    max-width: 36ch;
+}
+
+.reveal-desc strong {
+    color: var(--ink);
+}
+
+@keyframes spot-on {
+    from { opacity: 0; transform: scale(0.7); }
+}
+
+@keyframes figure-rise {
+    from { opacity: 0; transform: translateY(18%) scale(0.9); }
+}
+
+@keyframes name-wipe {
+    from { clip-path: inset(0 100% 0 0); }
+    to { clip-path: inset(0 0 0 0); }
+}
+
+@media (max-width: 720px) {
+    .dialog.reveal {
+        grid-template-columns: 1fr;
+        max-height: calc(100dvh - 32px);
+        overflow-y: auto;
+    }
+
+    .reveal-stage {
+        min-height: 260px;
+        padding-top: 28px;
+    }
+
+    .reveal-stage picture {
+        width: min(180px, 55%);
+    }
+
+    .reveal-copy .btn {
+        align-self: stretch;
+    }
+}
+
+body:has(dialog[open]) {
+    overflow: hidden;
 }

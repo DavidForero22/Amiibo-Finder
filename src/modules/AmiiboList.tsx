@@ -1,29 +1,19 @@
+import type { Amiibo } from "../context/AmiiboContext";
 import AmiiboCard from "./AmiiboCard";
 
-/**
- * Props definition for the AmiiboList component.
- */
 interface Props {
-    /** The array of Amiibo objects to be rendered in the grid. */
-    amiibos: any[];
+    amiibos: Amiibo[];
+    /** id of the heading that names this list */
+    labelledBy: string;
 }
 
-/**
- * Component that renders a responsive grid of Amiibo cards.
- * It iterates over the provided data array and renders an AmiiboCard for each item.
- */
-const AmiiboList = ({ amiibos }: Props) => {
-    return (
-        <div className="amiibo-grid">
-            {amiibos.map((amiibo) => (
-                <AmiiboCard
-                    // Using a unique key combination of head + tail IDs provided by the API
-                    key={amiibo.head + amiibo.tail}
-                    amiibo={amiibo}
-                />
-            ))}
-        </div>
-    );
-};
+/** The ledger grid of owned figures. */
+const AmiiboList = ({ amiibos, labelledBy }: Props) => (
+    <ul className="ledger-grid" aria-labelledby={labelledBy}>
+        {amiibos.map((amiibo) => (
+            <AmiiboCard key={amiibo.head + amiibo.tail} amiibo={amiibo} />
+        ))}
+    </ul>
+);
 
 export default AmiiboList;

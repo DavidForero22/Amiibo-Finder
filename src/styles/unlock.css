@@ -1,185 +1,223 @@
 /* =========================================
-   1. LAYOUT & CONTAINER
+   UNLOCK: the room with a delivery, and its status panel
    ========================================= */
 
-/* * Main Stage
- * Centers the gift box within the available space.
- */
-.gift-stage {
-    display: flex;
-    justify-content: center;
+.stage {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
     align-items: center;
-    margin-top: 50px;
-    height: 350px;
+    gap: clamp(24px, 4vw, 64px);
 }
 
+.stage-room {
+    max-width: 720px;
+    width: 100%;
+    justify-self: center;
+}
 
-/* =========================================
-   2. INTERACTIVE COMPONENT (The Button)
-   ========================================= */
-
-/* * Main Interactive Element
- * Resets default button styles to act as a container.
- */
-.gift-box {
-    cursor: pointer;
-    position: relative;
-    
-    /* Layout: Stacks Timer, Gift, and Text vertically */
+.stage-panel {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    
+    align-items: flex-start;
+    gap: 20px;
+    max-width: 30rem;
+}
+
+.stage-title {
+    font-size: clamp(2.25rem, 4.6vw, 4rem);
+    font-weight: 800;
+    font-stretch: 112%;
+    letter-spacing: -0.03em;
+}
+
+.stage-body {
+    font-size: 1.125rem;
+    color: var(--ink-soft);
+    max-width: 34ch;
+}
+
+.stage-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.stage-tally {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+/* ---------- Countdown ---------- */
+
+.countdown {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 14px 18px 12px;
+    border-radius: var(--radius-m);
+    background: var(--walnut-deep);
+    color: var(--brass-light);
+    box-shadow: inset 0 0 0 2px var(--brass-deep), var(--shadow-1);
+}
+
+.countdown-label {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: #e8d3a6;
+}
+
+.countdown-digits {
+    font-family: var(--font-mono);
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
+}
+
+
+/* ---------- Gift box on the rug ---------- */
+
+.gift,
+.gift-spot {
+    position: absolute;
+    display: block;
+    padding: 0;
+    border: 0;
     background: none;
-    border: none;
-    transition: transform 0.2s ease;
+    aspect-ratio: 220 / 275;
 }
 
-/* * Accessibility: Focus State
- * High contrast outline for keyboard navigation.
- */
-.gift-box:focus-visible {
-    outline: 3px solid #007bff;
-    outline-offset: 4px;
+.gift svg,
+.gift-spot svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
 }
 
-/* * Disabled State
- * Used when the API is loading or interaction is blocked.
- */
-.gift-box:disabled {
-    cursor: not-allowed;
-    opacity: 0.7; 
-}
-
-/* * Locked State (Cooldown)
- * specific styling when the user must wait.
- */
-.gift-box.locked {
-    cursor: default;
-    transform: none;
-    opacity: 0.8;
-}
-
-/* * Loading/Opening State
- * Prevents clicking while the opening animation plays.
- */
-.gift-box.opening {
-    pointer-events: none;
-    cursor: default;
-}
-
-/* * Hover Effect
- * Only applies if the box is NOT locked and NOT currently opening.
- */
-.gift-box:not(.locked):not(.opening):hover {
-    transform: scale(1.05);
-}
-
-
-/* =========================================
-   3. VISUAL ELEMENTS
-   ========================================= */
-
-/* * Gift Image
- * Handles sizing, shadows, and prevents dragging the image.
- */
 .gift {
-    width: 450px;
-    height: auto;
-    filter: drop-shadow(0 10px 10px rgba(0, 0, 0, 0.2));
-    transition: all 0.3s ease;
-
-    /* Prevent user selection and dragging (UI Polish) */
-    user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    -webkit-user-drag: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
 }
 
-/* * Status Text
- * The text below the gift ("Ready", "Wait", etc.)
- */
-.gift-text {
-    margin-top: 15px;
-    font-weight: bold;
-    color: var(--text-color);
-    opacity: 0.8;
-
-    /* Smooth color transition for theme switching */
-    transition: color 0.3s ease;
+.gift:disabled {
+    cursor: progress;
 }
 
+.gift-shadow { fill: rgb(0 0 0 / 0.28); }
+.gift-face-left { fill: #2d4ce0; }
+.gift-face-right { fill: #1c34a8; }
+.gift-face-top { fill: #4a68f5; }
+.gift-inside { fill: #0f1c5c; }
+.gift-ribbon { fill: var(--brass); }
+.gift-ribbon--shade { fill: var(--brass-deep); }
+.gift-ribbon--top { fill: var(--brass-light); }
+.gift-bow path { fill: var(--brass-light); stroke: var(--brass-deep); stroke-width: 1.5; }
+.gift-bow .gift-bow-tail { fill: var(--brass); }
+.gift-knot { fill: var(--brass); stroke: var(--brass-deep); stroke-width: 1.5; }
+.gift-rays polygon { fill: #fff1c4; }
 
-/* =========================================
-   4. TIMER DISPLAY
-   ========================================= */
+.gift-spot-outline {
+    fill: rgb(255 255 255 / 0.06);
+    stroke: var(--brass-light);
+    stroke-width: 2.5;
+    stroke-dasharray: 8 8;
+    stroke-linecap: round;
+    animation: spot-march 1.6s linear infinite;
+}
 
-/* * Countdown Timer
- * Appears above the gift when locked.
- */
-.timer-display {
-    background-color: #333;
-    color: #fff;
+@keyframes spot-march {
+    to { stroke-dashoffset: -32; }
+}
 
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-family: monospace;
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-bottom: 20px;
+/* Ready: an occasional hop so the box reads as alive */
+.gift svg > * {
+    transform-box: view-box;
+}
 
-    /* Hidden State: Displaced slightly down and invisible */
+.gift.is-ready svg {
+    transform-origin: 50% 78%;
+    animation: gift-hop 3.4s var(--ease-out) infinite;
+}
+
+.gift.is-ready:hover svg,
+.gift.is-ready:focus-visible svg {
+    animation-play-state: paused;
+    transform: translateY(-3%);
+    transition: transform var(--dur-mid) var(--ease-out);
+}
+
+.gift.is-ready .gift-bow {
+    animation: bow-wiggle 3.4s var(--ease-out) infinite;
+}
+
+@keyframes gift-hop {
+    0%, 72%, 100% { transform: none; }
+    78% { transform: translateY(1.5%) scaleY(0.96); }
+    84% { transform: translateY(-6%) scaleY(1.03); }
+    91% { transform: translateY(0.5%) scaleY(0.98); }
+}
+
+@keyframes bow-wiggle {
+    0%, 76%, 100% { rotate: 0deg; }
+    84% { rotate: -6deg; }
+    92% { rotate: 4deg; }
+}
+
+.gift-bow {
+    transform-box: fill-box;
+    transform-origin: 50% 80%;
+}
+
+/* Opening: the lid pops off and light escapes */
+.gift-rays {
     opacity: 0;
-    transform: translateY(10px);
-
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform-origin: 50% 40%;
 }
 
-/* * Active Timer State
- * Fades in and moves to correct position.
- */
-.timer-display.visible {
-    opacity: 1;
-    transform: translateY(0);
+.gift-lid {
+    transform-box: view-box;
+    transform-origin: 50% 20%;
 }
 
-
-/* =========================================
-   5. ANIMATIONS
-   ========================================= */
-
-/* * IDLE ANIMATION: "Wobble"
- * A gentle rocking motion to indicate the gift is ready to be opened.
- * Rotates slightly left and right from the bottom center.
- */
-
-@keyframes wobble {
-    0%   { transform: rotate(0deg); }
-    15%  { transform: rotate(-3deg); }
-    30%  { transform: rotate(2deg); }
-    45%  { transform: rotate(-3deg); }
-    60%  { transform: rotate(2deg); }
-    75%  { transform: rotate(-1deg); }
-    100% { transform: rotate(0deg); }
+.gift.is-opening .gift-lid {
+    animation: lid-pop 700ms var(--ease-out) forwards;
 }
 
-.wobble-anim {
-    animation: wobble 2.5s infinite ease-in-out;
-    transform-origin: bottom center; /* Pivot point at the bottom */
+.gift.is-opening .gift-rays {
+    animation: rays-in 700ms var(--ease-out) 120ms forwards;
+}
+
+@keyframes lid-pop {
+    0% { transform: none; }
+    30% { transform: translateY(2%); }
+    100% { transform: translate(-6%, -34%) rotate(-14deg); opacity: 0.95; }
+}
+
+@keyframes rays-in {
+    from { opacity: 0; transform: scaleY(0.6); }
+    to { opacity: 0.85; transform: none; }
 }
 
 
-/* * INTERACTION ANIMATION: "Pop Open"
- * A quick expansion and jump effect when clicked.
- */
-@keyframes popOpen {
-    0%   { transform: scale(1); }
-    50%  { transform: scale(1.2) translateY(-10px); }
-    100% { transform: scale(1); }
-}
+/* ---------- Responsive ---------- */
 
-.pop-anim {
-    /* cubic-bezier adds a "bouncy" feel to the pop */
-    animation: popOpen 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+@media (max-width: 880px) {
+    .stage {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .stage-panel {
+        max-width: none;
+        align-items: stretch;
+    }
+
+    .stage-actions .btn {
+        flex: 1 1 auto;
+    }
 }

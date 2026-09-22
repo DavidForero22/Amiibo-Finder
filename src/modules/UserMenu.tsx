@@ -1,194 +1,200 @@
 import { useState, useEffect, useRef } from "react";
-import { useAmiibo } from "../context/AmiiboContext";
 import {
-	IoPerson,
-	IoCloudUpload,
-	IoCloudDownload,
-	IoTrash,
+	IoEllipsisHorizontalCircleOutline,
+	IoDownloadOutline,
+	IoCloudUploadOutline,
+	IoTrashOutline,
 } from "react-icons/io5";
-import DeleteCollectionModal from "./DeleteModal";
+import { useAmiibo } from "../context/AmiiboContext";
 import { useToast } from "../context/ToastContext";
+import DeleteCollectionModal from "./DeleteModal";
+
+const IMPORT_MESSAGES = {
+	ok: { text: "Collection imported. Your shelves are restocked.", tone: "success" },
+	invalid: { text: "That file isn't an Amiibo Finder export. Choose a .json file saved from this site.", tone: "error" },
+	read: { text: "The file couldn't be read. Try choosing it again.", tone: "error" },
+} as const;
 
 /**
- * UserMenu Component.
- * Handles the User Interface (Menus, Clicks, Toasts).
- * Delegates heavy data logic to AmiiboContext.
+ * Collection data menu: export, import and delete.
+ * Implements the ARIA menu button pattern (arrow keys, Home/End, Escape).
  */
 const UserMenu = () => {
-	// Access data logic methods from Context
-	const { userAmiibos, exportCollection, importFromFile, clearStorage } =
-		useAmiibo();
+	const { userAmiibos, exportCollection, importFromFile, clearStorage } = useAmiibo();
 	const { showToast } = useToast();
 
-	// Local UI State
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
-	// Refs for Focus Management
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const menuButtonRef = useRef<HTMLButtonElement>(null);
+	const menuRef = useRef<HTMLDivElement>(null);
 
-	/**
-	 * Effect: Closes menu on 'Escape' or Click Outside.
-	 */
+	const items = () =>
+		Array.from(menuRef.current?.querySelectorAll<HTMLButtonElement>('[role="menuitem"]') ?? []);
+
+	const closeMenu = (restoreFocus = true) => {
+		setIsMenuOpen(false);
+		if (restoreFocus) menuButtonRef.current?.focus();
+	};
+
+	// Focus the first item when the menu opens
 	useEffect(() => {
-		const handleKeyDown = (event: KeyboardEvent) => {
-			if (event.key === "Escape" && isMenuOpen) {
-				setIsMenuOpen(false);
-				menuButtonRef.current?.focus(); // Restore focus to trigger
-			}
-		};
-
-		const handleClickOutside = (event: MouseEvent) => {
-			const target = event.target as HTMLElement;
-			if (!target.closest(".user-menu-container")) {
-				setIsMenuOpen(false);
-			}
-		};
-
-		document.addEventListener("mousedown", handleClickOutside);
-		document.addEventListener("keydown", handleKeyDown);
-		return () => {
-			document.removeEventListener("mousedown", handleClickOutside);
-			document.removeEventListener("keydown", handleKeyDown);
-		};
+		if (isMenuOpen) items()[0]?.focus();
 	}, [isMenuOpen]);
 
-	/**
-	 * Handles the Export button click.
-	 * Calls logic -> Shows feedback.
-	 */
+	// Close on outside click
+	useEffect(() => {
+		if (!isMenuOpen) return;
+		const onPointerDown = (event: PointerEvent) => {
+			if (!(event.target as HTMLElement).closest(".user-menu")) setIsMenuOpen(false);
+		};
+		document.addEventListener("pointerdown", onPointerDown);
+		return () => document.removeEventListener("pointerdown", onPointerDown);
+	}, [isMenuOpen]);
+
+	const onMenuKeyDown = (e: React.KeyboardEvent) => {
+		const list = items();
+		const index = list.indexOf(document.activeElement as HTMLButtonElement);
+		switch (e.key) {
+			case "ArrowDown":
+				e.preventDefault();
+				list[(index + 1) % list.length]?.focus();
+				break;
+			case "ArrowUp":
+				e.preventDefault();
+				list[(index - 1 + list.length) % list.length]?.focus();
+				break;
+			case "Home":
+				e.preventDefault();
+				list[0]?.focus();
+				break;
+			case "End":
+				e.preventDefault();
+				list[list.length - 1]?.focus();
+				break;
+			case "Escape":
+				e.preventDefault();
+				closeMenu();
+				break;
+			case "Tab":
+				setIsMenuOpen(false);
+				break;
+		}
+	};
+
 	const onExportClick = () => {
 		if (userAmiibos.length === 0) {
-			showToast("⚠️ No data to export!");
-			return;
+			showToast("Nothing to export yet. Unlock a figure first.", "error");
+		} else if (exportCollection()) {
+			showToast("Collection exported as a .json file.", "success");
 		}
-
-		const success = exportCollection();
-		if (success) {
-			showToast("✅ Collection exported successfully!");
-			setIsMenuOpen(false);
-		}
+		closeMenu();
 	};
 
-	/**
-	 * Triggers the hidden file input.
-	 */
-	const onImportClick = () => {
-		fileInputRef.current?.click();
-	};
-
-	/**
-	 * Handles file selection.
-	 * Calls async logic -> Waits for result -> Shows feedback.
-	 */
 	const onFileSelected = async (e: React.ChangeEvent<HTMLInputElement>) => {
 		const file = e.target.files?.[0];
+		e.target.value = "";
 		if (!file) return;
 
 		const result = await importFromFile(file);
-
-		if (result === "ok") {
-			showToast("✅ Collection imported successfully!");
-		} else {
-			showToast("❌ Error importing file. Check format.");
-		}
-
-		setIsMenuOpen(false);
-		e.target.value = ""; // Reset input
+		const message = IMPORT_MESSAGES[result];
+		showToast(message.text, message.tone);
 	};
 
-	/**
-	 * Finalizes the deletion process after Modal confirmation.
-	 */
 	const onConfirmDelete = () => {
 		clearStorage();
 		setShowDeleteConfirm(false);
-		setIsMenuOpen(false);
-		showToast("🗑️ Collection deleted.");
-
-		// Return focus to the main menu button
+		showToast("Collection deleted. Your shelves are empty.");
 		menuButtonRef.current?.focus();
 	};
 
-	// Ensure focus is returned if the delete modal is cancelled
-	useEffect(() => {
-		if (!showDeleteConfirm && !isMenuOpen) {
-			menuButtonRef.current?.focus();
-		}
-	}, [showDeleteConfirm, isMenuOpen]);
-
 	return (
-		<div className="user-menu-container">
+		<div className="user-menu">
 			<button
 				ref={menuButtonRef}
-				className={`icon-btn ${isMenuOpen ? "active" : ""}`}
-				onClick={() => setIsMenuOpen(!isMenuOpen)}
-				aria-label="User data options menu"
-				title="User data options"
-				aria-haspopup="true"
+				type="button"
+				className="icon-btn"
+				onClick={() => setIsMenuOpen((open) => !open)}
+				onKeyDown={(e) => {
+					if (e.key === "ArrowDown" && !isMenuOpen) {
+						e.preventDefault();
+						setIsMenuOpen(true);
+					}
+				}}
+				aria-label="Collection data"
+				title="Collection data"
+				aria-haspopup="menu"
 				aria-expanded={isMenuOpen}
-				aria-controls="user-dropdown"
+				aria-controls={isMenuOpen ? "user-dropdown" : undefined}
 			>
-				<IoPerson aria-hidden="true" />
+				<IoEllipsisHorizontalCircleOutline aria-hidden="true" />
 			</button>
 
 			{isMenuOpen && (
 				<div
+					ref={menuRef}
 					id="user-dropdown"
 					className="dropdown-menu"
 					role="menu"
-					aria-label="User options"
+					aria-label="Collection data"
+					onKeyDown={onMenuKeyDown}
 				>
-					<button
-						className="dropdown-item"
-						onClick={onExportClick}
-						role="menuitem"
-					>
-						<IoCloudDownload aria-hidden="true" />
-						<span>Export data</span>
+					<button type="button" className="dropdown-item" role="menuitem" tabIndex={-1} onClick={onExportClick}>
+						<IoDownloadOutline aria-hidden="true" />
+						Export collection
 					</button>
 
 					<button
+						type="button"
 						className="dropdown-item"
-						onClick={onImportClick}
 						role="menuitem"
-					>
-						<IoCloudUpload aria-hidden="true" />
-						<span>Import data</span>
-					</button>
-
-					{/* Hidden Input for Import */}
-					<input
-						type="file"
-						ref={fileInputRef}
-						style={{ display: "none" }}
-						accept=".json"
-						onChange={onFileSelected}
-						aria-hidden="true"
 						tabIndex={-1}
-					/>
+						onClick={() => {
+							closeMenu();
+							fileInputRef.current?.click();
+						}}
+					>
+						<IoCloudUploadOutline aria-hidden="true" />
+						Import collection
+					</button>
 
-					<div className="dropdown-divider" role="separator"></div>
+					<div className="dropdown-divider" role="separator" />
 
 					<button
+						type="button"
 						className="dropdown-item danger"
-						onClick={() => {
-							setShowDeleteConfirm(true);
-							setIsMenuOpen(false); // Close menu immediately
-						}}
 						role="menuitem"
+						tabIndex={-1}
+						onClick={() => {
+							setIsMenuOpen(false);
+							setShowDeleteConfirm(true);
+						}}
 					>
-						<IoTrash aria-hidden="true" />
-						<span>Delete Data</span>
+						<IoTrashOutline aria-hidden="true" />
+						Delete collection
 					</button>
 				</div>
 			)}
 
+			{/* Kept outside the menu so it survives the menu closing */}
+			<input
+				type="file"
+				ref={fileInputRef}
+				hidden
+				accept=".json,application/json"
+				onChange={onFileSelected}
+				tabIndex={-1}
+			/>
+
 			{showDeleteConfirm && (
 				<DeleteCollectionModal
-					setShowDeleteConfirm={setShowDeleteConfirm}
-					handleConfirmDelete={onConfirmDelete}
+					count={userAmiibos.length}
+					onCancel={() => {
+						setShowDeleteConfirm(false);
+						menuButtonRef.current?.focus();
+					}}
+					onConfirm={onConfirmDelete}
 				/>
 			)}
 		</div>
