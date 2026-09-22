@@ -1,13 +1,22 @@
 /* =========================================
    REVEAL DIALOG
+   The whole dialog is a wall of the room: bottle-green paint over a walnut
+   floor strip, the figure under a brass spotlight, the name at poster scale.
    ========================================= */
 
 .dialog.reveal {
-    max-width: min(880px, calc(100vw - 32px));
+    --reveal-ink: #f6f1e4;
+    --reveal-ink-soft: #cfe0d6;
+
+    max-width: min(1040px, calc(100vw - 32px));
     display: grid;
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
     overflow: hidden;
-    background: var(--surface-raised);
+    background:
+        linear-gradient(180deg, transparent 80%, #6b4028 80%, #4a2a19 100%),
+        linear-gradient(90deg, #17473a 0%, #1f5a48 40%, #1f5a48 100%);
+    color: var(--reveal-ink);
+    box-shadow: 0 0 0 3px #d4a03a, var(--shadow-2);
 }
 
 .dialog.reveal:not([open]) {
@@ -16,63 +25,61 @@
 
 .reveal-close {
     z-index: 2;
+    color: var(--reveal-ink);
 }
 
-/* Stacked layout: the close button sits over the green stage */
-@media (max-width: 720px) {
-    .reveal-close {
-        color: #f4efe3;
-    }
-
-    .reveal-close:hover {
-        background: rgb(255 255 255 / 0.12);
-        border-color: rgb(255 255 255 / 0.3);
-    }
+.reveal-close:hover {
+    background: rgb(255 255 255 / 0.12);
+    border-color: rgb(255 255 255 / 0.3);
 }
 
-/* ---------- Stage: bottle-green wall, brass spotlight ---------- */
+.reveal-close:focus-visible,
+.dialog.reveal .btn:focus-visible {
+    outline-color: #f0c768;
+}
+
+/* ---------- Stage ---------- */
 
 .reveal-stage {
     position: relative;
     display: grid;
     place-items: end center;
-    min-height: 380px;
-    padding: 40px 32px 34px;
-    background: linear-gradient(180deg, #1f5a48 0%, #17473a 78%, #6b4028 78%, #4a2a19 100%);
-    overflow: hidden;
+    min-height: 460px;
+    padding: 40px 24px calc(20% * 0.5);
 }
 
 .reveal-spot {
     position: absolute;
-    inset: -20% -10% 20%;
-    background: radial-gradient(closest-side, rgb(255 214 130 / 0.55), rgb(255 214 130 / 0.14) 55%, transparent);
+    inset: -25% -30% 15%;
+    background: radial-gradient(closest-side, rgb(255 214 130 / 0.5), rgb(255 214 130 / 0.12) 55%, transparent);
     animation: spot-on 900ms var(--ease-out) both;
 }
 
 .reveal-stage picture {
     position: relative;
     z-index: 1;
-    width: min(260px, 70%);
+    width: min(300px, 80%);
+    margin-bottom: 7%;
 }
 
 .reveal-figure {
     width: 100%;
-    max-height: 300px;
+    max-height: 340px;
     object-fit: contain;
     object-position: bottom;
-    filter: drop-shadow(0 10px 14px rgb(0 0 0 / 0.45));
+    filter: drop-shadow(0 12px 14px rgb(0 0 0 / 0.5));
     animation: figure-rise 900ms var(--ease-settle) 120ms both;
 }
 
 .reveal-plinth {
     position: absolute;
     left: 50%;
-    bottom: 22%;
-    width: 58%;
-    height: 18px;
+    bottom: 17%;
+    width: 60%;
+    height: 20px;
     transform: translate(-50%, 50%);
     border-radius: 50%;
-    background: radial-gradient(closest-side, rgb(0 0 0 / 0.45), transparent);
+    background: radial-gradient(closest-side, rgb(0 0 0 / 0.5), transparent);
 }
 
 /* ---------- Copy ---------- */
@@ -82,28 +89,42 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    gap: 18px;
-    padding: clamp(28px, 4vw, 48px);
+    gap: 20px;
+    padding: 56px clamp(28px, 4vw, 56px) calc(20% * 0.55 + 12px) 8px;
 }
 
 .reveal-name {
-    font-size: clamp(2.5rem, 6vw, 4.75rem);
+    font-size: clamp(3rem, 7.5vw, 6rem);
     font-weight: 850;
-    font-stretch: 118%;
-    letter-spacing: -0.035em;
-    line-height: 0.95;
+    font-stretch: 120%;
+    letter-spacing: -0.04em;
+    line-height: 0.92;
     overflow-wrap: anywhere;
+    color: var(--reveal-ink);
+    text-shadow: 0 3px 18px rgb(0 0 0 / 0.3);
     animation: name-wipe 800ms var(--ease-out) 260ms both;
 }
 
 .reveal-desc {
-    color: var(--ink-soft);
-    font-size: 1.0625rem;
-    max-width: 36ch;
+    max-width: 38ch;
+    padding: 10px 14px;
+    border: 1.5px solid #d4a03a;
+    border-radius: var(--radius-s);
+    background: #321d11;
+    color: #f0c768;
+    font-size: 1rem;
 }
 
-.reveal-desc strong {
-    color: var(--ink);
+.dialog.reveal .btn-primary {
+    --btn-bg: #f0c768;
+    --btn-ink: #1d1406;
+    --btn-line: #f0c768;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 0.25), 0 10px 24px rgb(0 0 0 / 0.3);
+}
+
+.dialog.reveal .btn-primary:hover {
+    --btn-bg: #ffd887;
+    --btn-line: #ffd887;
 }
 
 @keyframes spot-on {
@@ -119,20 +140,34 @@
     to { clip-path: inset(0 0 0 0); }
 }
 
-@media (max-width: 720px) {
+/* ---------- Stacked (narrow) ---------- */
+
+@media (max-width: 760px) {
     .dialog.reveal {
         grid-template-columns: 1fr;
         max-height: calc(100dvh - 32px);
         overflow-y: auto;
+        background:
+            linear-gradient(90deg, #17473a 0%, #1f5a48 100%);
     }
 
     .reveal-stage {
-        min-height: 260px;
-        padding-top: 28px;
+        min-height: 280px;
+        padding: 36px 24px 0;
+        background: linear-gradient(180deg, transparent 82%, #6b4028 82%, #4a2a19 100%);
     }
 
     .reveal-stage picture {
-        width: min(180px, 55%);
+        width: min(200px, 60%);
+        margin-bottom: 9%;
+    }
+
+    .reveal-plinth {
+        bottom: 13%;
+    }
+
+    .reveal-copy {
+        padding: 24px 24px 28px;
     }
 
     .reveal-copy .btn {

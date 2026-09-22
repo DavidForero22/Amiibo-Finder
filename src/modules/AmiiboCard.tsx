@@ -9,7 +9,10 @@ interface Props {
 	amiibo: Amiibo;
 }
 
-const REGIONS: { key: keyof Amiibo["release"]; label: string }[] = [
+/** Dates follow the UI language (English until the i18n workstream lands). */
+const UI_LOCALE = "en";
+
+const REGIONS:{ key: keyof Amiibo["release"]; label: string }[] = [
 	{ key: "na", label: "North America" },
 	{ key: "eu", label: "Europe" },
 	{ key: "jp", label: "Japan" },
@@ -54,7 +57,7 @@ const AmiiboCard: React.FC<Props> = ({ amiibo }) => {
 					{amiibo.unlockedAt && (
 						<div>
 							<dt>Unlocked</dt>
-							<dd>{formatUnlockedAt(amiibo.unlockedAt)}</dd>
+							<dd>{formatUnlockedAt(amiibo.unlockedAt, UI_LOCALE)}</dd>
 						</div>
 					)}
 					<div>
@@ -65,7 +68,7 @@ const AmiiboCard: React.FC<Props> = ({ amiibo }) => {
 						<div key={key}>
 							<dt>{label}</dt>
 							<dd className={amiibo.release?.[key] ? "" : "is-muted"}>
-								{formatReleaseDate(amiibo.release?.[key]) ?? "Not released"}
+								{formatReleaseDate(amiibo.release?.[key], UI_LOCALE) ?? "Not released"}
 							</dd>
 						</div>
 					))}
