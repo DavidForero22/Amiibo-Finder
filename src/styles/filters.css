@@ -5,7 +5,6 @@
 .filters {
     display: flex;
     flex-direction: column;
-    gap: 12px;
 }
 
 .filters-bar {
@@ -115,26 +114,65 @@
 
 /* ---------- Panel ---------- */
 
+/* The wrapper folds its height (0fr <-> 1fr) so the ledger below glides
+   instead of jumping; the panel itself fades and drops in. */
+.filters-panel-wrap {
+    display: grid;
+    grid-template-rows: 1fr;
+    animation: panel-open 260ms var(--ease-out);
+}
+
+.filters-panel-wrap[hidden] {
+    display: none;
+}
+
+.filters-panel-wrap[data-state="closing"] {
+    grid-template-rows: 0fr;
+    animation: panel-close 220ms var(--ease-out);
+    pointer-events: none;
+}
+
+.filters-panel-clip {
+    min-height: 0;
+    overflow: hidden;
+}
+
 .filters-panel {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-end;
     gap: 16px 20px;
+    margin-top: 12px;
     padding: 16px;
     border: 1px solid var(--line);
     border-radius: var(--radius-m);
     background: var(--surface);
-    animation: panel-in var(--dur-mid) var(--ease-out);
+    animation: panel-in 260ms var(--ease-out);
 }
 
-.filters-panel[hidden] {
-    display: none;
+.filters-panel-wrap[data-state="closing"] .filters-panel {
+    animation: panel-out 220ms var(--ease-out) forwards;
+}
+
+@keyframes panel-open {
+    from { grid-template-rows: 0fr; }
+}
+
+@keyframes panel-close {
+    from { grid-template-rows: 1fr; }
 }
 
 @keyframes panel-in {
     from {
         opacity: 0;
-        transform: translateY(-6px);
+        transform: translateY(-8px);
+    }
+}
+
+@keyframes panel-out {
+    to {
+        opacity: 0;
+        transform: translateY(-8px);
     }
 }
 

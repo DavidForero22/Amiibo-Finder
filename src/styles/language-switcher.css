@@ -1,5 +1,5 @@
-/* Language picker: a visible face with the language code, and a transparent
-   native <select> stretched over it that receives the clicks and focus. */
+/* Language picker: a compact face with the language code that opens a
+   radio menu (the menu itself reuses .dropdown-menu from header.css). */
 .lang-switcher {
     position: relative;
     display: inline-flex;
@@ -19,31 +19,43 @@
     font-size: 0.875rem;
     font-weight: 700;
     letter-spacing: 0.04em;
+    cursor: pointer;
     transition: background-color var(--dur-fast) var(--ease-out);
+}
+
+.lang-face:hover,
+.lang-face[aria-expanded="true"] {
+    background: var(--surface);
 }
 
 .lang-chevron {
     width: 14px;
     height: 14px;
+    transition: transform var(--dur-mid) var(--ease-out);
 }
 
-.lang-select {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    cursor: pointer;
-    /* The open list uses the page font where the platform allows it */
-    font: inherit;
+.lang-face[aria-expanded="true"] .lang-chevron {
+    transform: rotate(180deg);
 }
 
-.lang-switcher:hover .lang-face {
-    background: var(--surface);
+.lang-menu {
+    min-width: 190px;
 }
 
-/* The select is invisible, so its focus ring is drawn on the face */
-.lang-switcher:has(.lang-select:focus-visible) .lang-face {
-    outline: 3px solid var(--cobalt);
-    outline-offset: 3px;
+/* The check only shows on the current language; the space stays so names align */
+.dropdown-item .lang-check {
+    visibility: hidden;
+    color: var(--cobalt);
+}
+
+.dropdown-item[aria-checked="true"] .lang-check {
+    visibility: visible;
+}
+
+.lang-code {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+    letter-spacing: 0.04em;
 }

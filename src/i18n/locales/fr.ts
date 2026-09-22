@@ -176,7 +176,7 @@ const fr: Catalog = {
 		favorite: "Marquer {{name}} comme favorite",
 		addFavorite: "Ajouter aux favoris",
 		removeFavorite: "Retirer des favoris",
-		details: "Détails",
+		detailsFor: "Détails de {{name}}",
 		unlocked: "Débloquée le",
 		amiiboSeries: "Série amiibo",
 		region: {

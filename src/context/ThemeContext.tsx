@@ -1,4 +1,7 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useRef } from "react";
+
+/** How long `theme-switching` stays on <body>; covers the room's lamp and window animations. */
+const THEME_SWITCH_MS = 1000;
 
 /**
  * Represents the available theme modes.
@@ -30,6 +33,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
         const savedTheme = localStorage.getItem("amiiboFinderSiteTheme");
         return (savedTheme as Theme) || "light";
     });
+    const switchTimer = useRef<number | undefined>(undefined);
 
     useEffect(() => {
         // 2. Synchronization
@@ -37,11 +41,21 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
 
         // Update the DOM body class based on the current theme state.
         // This ensures the visual styles match the React state.
-        if (theme === "dark") {
-            document.body.classList.add("dark-mode");
-        } else {
-            document.body.classList.remove("dark-mode");
+        const body = document.body;
+        const isDark = theme === "dark";
+
+        // A real switch (not the first sync after the preload script) gets a
+        // short-lived class, so the room animates only on user toggles.
+        if (body.classList.contains("dark-mode") !== isDark) {
+            body.classList.add("theme-switching");
+            window.clearTimeout(switchTimer.current);
+            switchTimer.current = window.setTimeout(
+                () => body.classList.remove("theme-switching"),
+                THEME_SWITCH_MS
+            );
         }
+
+        body.classList.toggle("dark-mode", isDark);
     }, [theme]);
 
     /**

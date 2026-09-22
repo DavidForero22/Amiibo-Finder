@@ -58,16 +58,16 @@ const Header = () => {
     return (
         <header className="site-header">
             <div className="site-header-inner">
-                <Link to="/" className="brand" aria-label={t("header.homeLink")}>
+                <Link to="/" viewTransition className="brand" aria-label={t("header.homeLink")}>
                     <BrandMark />
                     <span className="brand-name">{t("common.appName")}</span>
                 </Link>
 
                 <nav className="site-nav" aria-label={t("header.navLabel")}>
-                    <NavLink to="/" end className="site-nav-link">
+                    <NavLink to="/" end viewTransition className="site-nav-link">
                         {t("header.nav.collection")}
                     </NavLink>
-                    <NavLink to="/unlock" className="site-nav-link">
+                    <NavLink to="/unlock" viewTransition className="site-nav-link">
                         {t("header.nav.unlock")}
                     </NavLink>
                 </nav>

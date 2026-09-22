@@ -49,9 +49,15 @@
 .r-moon { fill: #f4e7c2; }
 .r-star { fill: #f4e7c2; }
 
-.r-night { display: none; }
-body.dark-mode .r-day { display: none; }
-body.dark-mode .r-night { display: inline; }
+.r-day,
+.r-night {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+}
+
+.r-night { opacity: 0; }
+body.dark-mode .r-day { opacity: 0; }
+body.dark-mode .r-night { opacity: 1; }
 
 .r-clock-rim { fill: var(--brass); }
 .r-clock-face { fill: #f7f3ea; }
@@ -82,7 +88,6 @@ body.dark-mode .r-lamp-shade { fill: #f6d59a; }
 .r-lamp-light {
     opacity: var(--lamp-glow);
     mix-blend-mode: screen;
-    transition: opacity 600ms var(--ease-out);
     pointer-events: none;
 }
 
@@ -92,6 +97,101 @@ body.dark-mode .r-lamp-shade { fill: #f6d59a; }
 .r-leaf--light { fill: #3f9a62; }
 body.dark-mode .r-leaf { fill: #245f3c; }
 body.dark-mode .r-leaf--light { fill: #2f774c; }
+
+
+/* ---------- Day / night switch ----------
+   Only while <body> carries `theme-switching` (set by ThemeContext on a
+   user toggle), so a page load in either theme starts still. */
+
+/* Window: the outgoing body sinks out of the pane, the incoming one rises in */
+body.theme-switching.dark-mode .r-day,
+body.theme-switching:not(.dark-mode) .r-night {
+    animation: sky-out 240ms var(--ease-out);
+}
+
+body.theme-switching.dark-mode .r-night,
+body.theme-switching:not(.dark-mode) .r-day {
+    animation: sky-in 360ms var(--ease-settle) 140ms backwards;
+}
+
+body.theme-switching .r-sky-top,
+body.theme-switching .r-sky-bottom {
+    transition: stop-color 480ms var(--ease-out);
+}
+
+@keyframes sky-out {
+    from { opacity: 1; transform: none; }
+    to { opacity: 0; transform: translateY(46px); }
+}
+
+@keyframes sky-in {
+    from { opacity: 0; transform: translateY(46px); }
+    to { opacity: 1; transform: none; }
+}
+
+/* Lamp: flickers on like a filament catching, fades off with one last dip */
+body.theme-switching.dark-mode .r-lamp-light {
+    animation: lamp-on 900ms linear;
+}
+
+body.theme-switching.dark-mode .r-lamp-bulb {
+    animation: bulb-on 900ms linear;
+}
+
+body.theme-switching.dark-mode .r-lamp-shade {
+    animation: shade-on 900ms linear;
+}
+
+body.theme-switching:not(.dark-mode) .r-lamp-light {
+    animation: lamp-off 420ms var(--ease-out);
+}
+
+body.theme-switching:not(.dark-mode) .r-lamp-bulb {
+    animation: bulb-off 420ms var(--ease-out);
+}
+
+body.theme-switching .r-lamp-shade {
+    transition: fill 320ms var(--ease-out);
+}
+
+@keyframes lamp-on {
+    0% { opacity: 0; }
+    8% { opacity: 0.75; }
+    14% { opacity: 0.05; }
+    26% { opacity: 0.9; }
+    34% { opacity: 0.25; }
+    48%, 100% { opacity: 1; }
+}
+
+@keyframes bulb-on {
+    0% { opacity: 0.15; }
+    8% { opacity: 0.85; }
+    14% { opacity: 0.2; }
+    26% { opacity: 0.95; }
+    34% { opacity: 0.35; }
+    48%, 100% { opacity: 1; }
+}
+
+@keyframes shade-on {
+    0%, 14% { filter: brightness(0.6); }
+    8%, 26% { filter: brightness(1); }
+    34% { filter: brightness(0.7); }
+    48%, 100% { filter: none; }
+}
+
+@keyframes lamp-off {
+    0% { opacity: 1; }
+    25% { opacity: 0.3; }
+    40% { opacity: 0.55; }
+    100% { opacity: 0; }
+}
+
+@keyframes bulb-off {
+    0% { opacity: 1; }
+    25% { opacity: 0.35; }
+    40% { opacity: 0.6; }
+    100% { opacity: 0.15; }
+}
 
 
 /* ---------- Figures on the shelves ---------- */
@@ -109,7 +209,6 @@ body.dark-mode .r-leaf--light { fill: #2f774c; }
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    pointer-events: none;
 }
 
 .room-figure::after {
@@ -152,13 +251,80 @@ body.dark-mode .r-leaf--light { fill: #2f774c; }
     100% { transform: none; }
 }
 
+/* A hand brushing past the shelf: the figure hops once, its shadow shrinks */
+@media (hover: hover) {
+    .room-figure picture {
+        transform-origin: 50% 100%;
+    }
+
+    .room-figure:hover picture {
+        animation: figure-hop 480ms var(--ease-out);
+    }
+
+    .room-figure:hover::after {
+        animation: shadow-hop 480ms var(--ease-out);
+    }
+}
+
+@keyframes figure-hop {
+    0% { transform: none; }
+    14% { transform: scale(1.04, 0.95); }
+    40% { transform: translateY(-13%) scale(0.98, 1.03); }
+    68% { transform: scale(1.03, 0.97); }
+    84% { transform: translateY(-2%); }
+    100% { transform: none; }
+}
+
+@keyframes shadow-hop {
+    40% { transform: scaleX(0.7); opacity: 0.5; }
+}
+
+/* ---------- Moving between pages ----------
+   Header and page links navigate inside a view transition: the room glides
+   to its new spot, and the delivery (gift or empty spot) fades in or out. */
+.room {
+    view-transition-name: room;
+}
+
+::view-transition-group(room) {
+    animation-duration: 420ms;
+    animation-timing-function: var(--ease-settle);
+}
+
+::view-transition-group(delivery),
+::view-transition-old(delivery),
+::view-transition-new(delivery) {
+    animation-duration: 380ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    ::view-transition-group(*),
+    ::view-transition-old(*),
+    ::view-transition-new(*) {
+        animation: none !important;
+    }
+}
+
 /* View transition: the figure flies from the reveal dialog to its shelf slot */
 ::view-transition-group(arriving-figure) {
     animation-duration: 720ms;
     animation-timing-function: cubic-bezier(0.5, 0, 0.2, 1);
 }
 
-::view-transition-old(root),
+/* The rest of the page hands over in sequence (out, then in) so two panels
+   of text never sit on top of each other */
+::view-transition-old(root) {
+    animation: vt-fade-out 180ms var(--ease-out) both;
+}
+
 ::view-transition-new(root) {
-    animation-duration: 360ms;
+    animation: vt-fade-in 240ms var(--ease-out) 120ms both;
+}
+
+@keyframes vt-fade-out {
+    to { opacity: 0; }
+}
+
+@keyframes vt-fade-in {
+    from { opacity: 0; }
 }

@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import { AmiiboProvider } from "./context/AmiiboContext";
 import { ThemeProvider } from "./context/ThemeContext";
 import { FilterProvider } from "./context/FilterContext";
@@ -8,12 +8,31 @@ import Unlock from "./pages/Unlock";
 import { ToastProvider } from "./context/ToastContext";
 
 /**
+ * Routing configuration. A data router, so links marked `viewTransition`
+ * animate between pages (the room glides, the gift fades in and out).
+ */
+const router = createBrowserRouter([
+    {
+        element: (
+            <BaseLayout>
+                <Outlet />
+            </BaseLayout>
+        ),
+        children: [
+            /* Main Collection Page */
+            { path: "/", element: <Home /> },
+
+            /* Unlock/Gacha Page */
+            { path: "/unlock", element: <Unlock /> },
+        ],
+    },
+]);
+
+/**
  * Root component of the application.
  * * * Responsibilities:
  * 1. Composes all Global Context Providers (Theme, Data, Filters, Toasts).
- * 2. Initializes the React Router.
- * 3. Applies the BaseLayout structure.
- * 4. Defines the main application Routes.
+ * 2. Provides the router, whose layout route applies the BaseLayout structure.
  */
 function App() {
     return (
@@ -22,18 +41,7 @@ function App() {
             <AmiiboProvider>
                 <FilterProvider>
                     <ToastProvider>
-                        {/* Routing Configuration */}
-                        <BrowserRouter>
-                            <BaseLayout>
-                                <Routes>
-                                    {/* Main Collection Page */}
-                                    <Route path="/" element={<Home />} />
-                                    
-                                    {/* Unlock/Gacha Page */}
-                                    <Route path="/unlock" element={<Unlock />} />
-                                </Routes>
-                            </BaseLayout>
-                        </BrowserRouter>
+                        <RouterProvider router={router} />
                     </ToastProvider>
                 </FilterProvider>
             </AmiiboProvider>

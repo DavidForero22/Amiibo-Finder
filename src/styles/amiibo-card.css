@@ -1,5 +1,5 @@
 /* =========================================
-   LEDGER TILE: a small display box per figure
+   LEDGER TILE: a display box that flips over to its record card
    ========================================= */
 
 .ledger-grid {
@@ -12,38 +12,70 @@
     align-items: start;
 }
 
-/* Each tile spans three rows of the grid so box, name and details line up
-   across a row even when a name wraps. */
+/* Each tile spans two rows of the grid so card and name line up across a
+   row even when a name wraps or a record card runs taller. */
 .tile {
     display: grid;
-    grid-row: span 3;
+    grid-row: span 2;
     grid-template-rows: subgrid;
     row-gap: 10px;
     align-content: start;
     margin-bottom: 12px;
 }
 
-.tile-details {
-    align-self: start;
+/* ---------- The flipping card ---------- */
+
+.tile-card {
+    position: relative;
+    perspective: 1000px;
 }
 
-/* The box: green back wall, walnut floor strip, brass edge */
-.tile-box {
+/* Both faces share one grid cell, so the card is as tall as the taller face
+   (the record card on narrow columns) and never shifts when it turns. */
+.tile-inner {
+    display: grid;
+    aspect-ratio: 3 / 4;
+    transform-style: preserve-3d;
+    transition: transform 640ms var(--ease-settle);
+}
+
+.tile.is-flipped .tile-inner {
+    transform: rotateY(180deg);
+}
+
+/* A slight turn on hover says "this card flips" */
+@media (hover: hover) {
+    .tile-card:hover .tile-inner {
+        transform: rotateY(-10deg);
+    }
+
+    .tile.is-flipped .tile-card:hover .tile-inner {
+        transform: rotateY(170deg);
+    }
+}
+
+.tile-face {
+    grid-area: 1 / 1;
+    min-width: 0;
+    border-radius: var(--radius-m);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+/* Front: green back wall, walnut floor strip, brass edge */
+.tile-front {
     position: relative;
     display: grid;
     place-items: end center;
-    aspect-ratio: 1 / 1.05;
     padding: 18px 18px 14%;
-    border-radius: var(--radius-m);
     background:
         linear-gradient(180deg, transparent 84%, var(--walnut) 84%, var(--walnut-deep) 100%),
         radial-gradient(120% 80% at 50% 10%, color-mix(in srgb, var(--wall) 78%, #ffffff) 0%, var(--wall) 60%, var(--wall-shade) 100%);
     box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--brass) 55%, transparent), var(--shadow-1);
     overflow: hidden;
-    transition: box-shadow var(--dur-mid) var(--ease-out), transform var(--dur-mid) var(--ease-out);
 }
 
-.tile.is-favorite .tile-box {
+.tile.is-favorite .tile-front {
     box-shadow: inset 0 0 0 2.5px var(--brass-light), var(--shadow-1);
 }
 
@@ -64,8 +96,89 @@
     transition: transform var(--dur-mid) var(--ease-settle);
 }
 
-.tile:hover .tile-figure {
+.tile-card:hover .tile-figure {
     transform: translateY(-4px) scale(1.03);
+}
+
+/* Small "turn me over" mark on the walnut strip */
+.tile-hint {
+    position: absolute;
+    left: 9px;
+    bottom: 8px;
+    width: 20px;
+    height: 20px;
+    color: var(--brass-light);
+    opacity: 0.75;
+    transition: opacity var(--dur-fast) var(--ease-out);
+}
+
+.tile-card:hover .tile-hint {
+    opacity: 1;
+}
+
+/* Back: the record card, on the same paper stock as the tags */
+.tile-back {
+    --ink: #1d1a14;
+    --ink-soft: #4d4538;
+
+    position: relative;
+    padding: 30px 14px 14px;
+    background: var(--paper);
+    color: var(--ink);
+    box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--brass) 55%, transparent), var(--shadow-1);
+    transform: rotateY(180deg);
+}
+
+/* Punched hole at the top */
+.tile-back::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    margin-left: -5px;
+    border-radius: 50%;
+    background: var(--ground);
+    box-shadow: inset 0 0 0 2px var(--brass);
+}
+
+.tile-back dl {
+    display: grid;
+    gap: 7px;
+    margin: 0;
+    font-size: 0.8125rem;
+    line-height: 1.25;
+}
+
+.tile-back dt {
+    color: var(--ink-soft);
+    font-size: 0.75rem;
+}
+
+.tile-back dd {
+    margin: 0;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+    font-variant-numeric: tabular-nums;
+}
+
+.tile-back dd.is-muted {
+    font-weight: 400;
+    color: var(--ink-soft);
+}
+
+/* The whole card is the flip control; it sits over both faces */
+.tile-flip {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-m);
+    background: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* ---------- Favorite ---------- */
@@ -74,6 +187,7 @@
     position: absolute;
     top: 8px;
     right: 8px;
+    z-index: 2;
     display: grid;
     place-items: center;
     width: 40px;
@@ -82,7 +196,19 @@
     border-radius: 50%;
     background: rgb(10 20 16 / 0.45);
     color: #f4efe3;
-    transition: background-color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+    transition:
+        background-color var(--dur-fast) var(--ease-out),
+        opacity 200ms var(--ease-out),
+        visibility 0s linear 0s;
+}
+
+/* The heart belongs to the front face: it leaves as the card turns */
+.tile.is-flipped .tile-fav {
+    opacity: 0;
+    visibility: hidden;
+    transition:
+        opacity 160ms var(--ease-out),
+        visibility 0s linear 160ms;
 }
 
 .tile-fav svg {
@@ -132,84 +258,4 @@
 .tile-series {
     color: var(--ink-soft);
     font-size: 0.875rem;
-}
-
-/* ---------- Details disclosure ---------- */
-
-.tile-details {
-    border-top: 1px solid var(--line);
-}
-
-.tile-details summary {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    min-height: 40px;
-    padding: 0 2px;
-    font-size: 0.875rem;
-    font-weight: 700;
-    color: var(--ink-soft);
-    cursor: pointer;
-    list-style: none;
-}
-
-.tile-details summary::-webkit-details-marker {
-    display: none;
-}
-
-.tile-details summary svg {
-    width: 16px;
-    height: 16px;
-    transition: transform var(--dur-mid) var(--ease-out);
-}
-
-.tile-details[open] summary {
-    color: var(--ink);
-}
-
-.tile-details[open] summary svg {
-    transform: rotate(180deg);
-}
-
-/* Details: a paper tag with a punched hole at the top */
-.tile-details dl {
-    position: relative;
-    display: grid;
-    gap: 8px;
-    margin: 4px 0 8px;
-    padding: 22px 12px 12px;
-    border-radius: var(--radius-m) var(--radius-m) var(--radius-s) var(--radius-s);
-    background: var(--surface-raised);
-    box-shadow: var(--shadow-1);
-    font-size: 0.8125rem;
-    line-height: 1.3;
-}
-
-.tile-details dl::before {
-    content: "";
-    position: absolute;
-    top: 8px;
-    left: 50%;
-    width: 8px;
-    height: 8px;
-    margin-left: -4px;
-    border-radius: 50%;
-    background: var(--ground);
-    box-shadow: inset 0 0 0 2px var(--brass);
-}
-
-.tile-details dt {
-    color: var(--ink-soft);
-}
-
-.tile-details dd {
-    margin: 0;
-    font-weight: 700;
-    overflow-wrap: anywhere;
-    font-variant-numeric: tabular-nums;
-}
-
-.tile-details dd.is-muted {
-    font-weight: 400;
-    color: var(--ink-soft);
 }

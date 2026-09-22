@@ -173,7 +173,7 @@ const es: Catalog = {
 		favorite: "Marcar {{name}} como favorita",
 		addFavorite: "Añadir a favoritas",
 		removeFavorite: "Quitar de favoritas",
-		details: "Detalles",
+		detailsFor: "Detalles de {{name}}",
 		unlocked: "Desbloqueada",
 		amiiboSeries: "Serie amiibo",
 		region: {

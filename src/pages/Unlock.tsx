@@ -166,7 +166,7 @@ const Unlock = () => {
                     )}
 
                     {(giftState === "waiting" || giftState === "hidden") && userAmiibos.length > 0 && (
-                        <Link to="/" className="btn btn-quiet btn-lg">
+                        <Link to="/" viewTransition className="btn btn-quiet btn-lg">
                             {t("unlock.actions.seeCollection")}
                             <IoArrowForward aria-hidden="true" />
                         </Link>
