@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
+import { isAmiiboList } from "../logic/utils";
 
 /**
  * Represents the structure of an Amiibo object.
@@ -9,13 +10,21 @@ export interface Amiibo {
 	gameSeries: string;
 	head: string;
 	image: string;
+	imgwebp?: string;
 	name: string;
-	release: { au?: string; eu?: string; jp?: string; na?: string };
+	release: {
+		au?: string | null;
+		eu?: string | null;
+		jp?: string | null;
+		na?: string | null;
+	};
 	tail: string;
 	type?: string;
 	unlockedAt?: string;
 	isFavorite?: boolean;
 }
+
+export type ImportResult = "ok" | "invalid" | "read";
 
 /**
  * Defines the shape of the Context.
@@ -29,7 +38,7 @@ interface AmiiboContextType {
 
 	// Data Management Methods (Import/Export)
 	exportCollection: () => boolean;
-	importFromFile: (file: File) => Promise<boolean>;
+	importFromFile: (file: File) => Promise<ImportResult>;
 
 	// Confetti State
 	isConfettiActive: boolean;
@@ -120,34 +129,32 @@ export const AmiiboProvider: React.FC<{ children: React.ReactNode }> = ({
 	};
 
 	/**
-	 * Logic to import data from a JSON file.
-	 * Handles FileReader, JSON parsing, and validation.
-	 * @param file - The file object selected by the user.
-	 * @returns {Promise<boolean>} Resolves true if success, false if error.
+	 * Replaces the collection with the contents of a JSON export.
+	 * @returns "ok" on success, "invalid" if the file is not a valid export, "read" if it could not be read.
 	 */
-	const importFromFile = (file: File): Promise<boolean> => {
+	const importFromFile = (file: File): Promise<ImportResult> => {
 		return new Promise((resolve) => {
 			const reader = new FileReader();
 
 			reader.onload = (event) => {
 				try {
-					const json = JSON.parse(event.target?.result as string);
-					if (Array.isArray(json)) {
+					const json: unknown = JSON.parse(event.target?.result as string);
+					if (isAmiiboList(json)) {
 						saveToStorage(json);
-						resolve(true); // Success
+						resolve("ok");
 					} else {
-						console.error("Invalid format: Not an array");
-						resolve(false); // Invalid format
+						console.error("Invalid format: not an Amiibo list");
+						resolve("invalid");
 					}
 				} catch (error) {
 					console.error("Error parsing JSON", error);
-					resolve(false); // Parse error
+					resolve("invalid");
 				}
 			};
 
 			reader.onerror = () => {
 				console.error("Error reading file");
-				resolve(false); // Read error
+				resolve("read");
 			};
 
 			reader.readAsText(file);

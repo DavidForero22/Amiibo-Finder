@@ -122,13 +122,14 @@ Business logic is extracted into reusable hooks:
 ---
 
 ## 🔗 API
-This project relies on the external AmiiboAPI to fetch figure data.
+This project relies on the community-maintained fork of AmiiboAPI to fetch figure data (the original amiiboapi.com service has been shut down).
 
-- Documentation: https://amiiboapi.com/
+- Documentation: https://amiiboapi.org/
+- Source: https://github.com/8bitDream/AmiiboAPI
 
-- Endpoint Used: `GET /api/amiibo/?type=figure`
+- Endpoint Used: `GET https://amiiboapi.org/api/amiibo/?type=figure`
 
-The app implements a caching strategy (in `utils.ts`) to download the full Amiibo database only once and store it locally, minimizing network requests and respecting the API's bandwidth.
+The app implements a caching strategy (in `utils.ts`) that stores the full Amiibo catalog locally for 24 hours, minimizing network requests and respecting the API's bandwidth while still picking up newly released figures.
 
 ---
 

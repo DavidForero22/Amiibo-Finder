@@ -86,9 +86,9 @@ const UserMenu = () => {
 		const file = e.target.files?.[0];
 		if (!file) return;
 
-		const success = await importFromFile(file);
+		const result = await importFromFile(file);
 
-		if (success) {
+		if (result === "ok") {
 			showToast("✅ Collection imported successfully!");
 		} else {
 			showToast("❌ Error importing file. Check format.");

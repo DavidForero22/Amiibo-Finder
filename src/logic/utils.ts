@@ -1,56 +1,122 @@
-const API_URL = "https://amiiboapi.com/api/amiibo/?page=1&type=figure";
+import type { Amiibo } from "../context/AmiiboContext";
+
+const API_URL = "https://amiiboapi.org/api/amiibo/?type=figure";
+const CACHE_KEY = "amiiboFinderCatalog.v2";
+const LEGACY_CACHE_KEY = "amiiboFinderFullList";
+const CACHE_TTL = 24 * 60 * 60 * 1000;
+
+export type ApiErrorCode = "network" | "server" | "unknown";
+
+export class ApiError extends Error {
+    code: ApiErrorCode;
+
+    constructor(code: ApiErrorCode, message: string) {
+        super(message);
+        this.name = "ApiError";
+        this.code = code;
+    }
+}
+
+interface CatalogCache {
+    savedAt: number;
+    list: Amiibo[];
+}
+
+const isAmiibo = (value: unknown): value is Amiibo => {
+    if (typeof value !== "object" || value === null) return false;
+    const a = value as Record<string, unknown>;
+    return (
+        typeof a.head === "string" &&
+        typeof a.tail === "string" &&
+        typeof a.name === "string" &&
+        typeof a.image === "string" &&
+        typeof a.gameSeries === "string"
+    );
+};
+
+export const isAmiiboList = (value: unknown): value is Amiibo[] =>
+    Array.isArray(value) && value.every(isAmiibo);
 
 /**
- * Fetches the complete list of Amiibos from the API.
- * Implements a caching strategy using LocalStorage to minimize network requests.
- * @returns A promise that resolves to the array of Amiibos.
+ * Returns the cached catalog if present and fresh, without touching the network.
  */
-export const getFullAmiiboList = async () => {
-    // Try reading from cache first
-    const storedList = localStorage.getItem("amiiboFinderFullList");
-    if (storedList) return JSON.parse(storedList);
-
-    // If not found in cache, download from API
+export const readCachedAmiiboList = (): Amiibo[] | null => {
+    localStorage.removeItem(LEGACY_CACHE_KEY);
     try {
-        const res = await fetch(API_URL);
-        const json = await res.json();
-        const list = json.amiibo;
-        
-        // Save to cache for future use
-        localStorage.setItem("amiiboFinderFullList", JSON.stringify(list));
-        return list;
-    } catch (error) {
-        console.error("Error fetching amiibos", error);
-        throw error; // Rethrow so the hook can handle the UI state
+        const raw = localStorage.getItem(CACHE_KEY);
+        if (!raw) return null;
+        const cache = JSON.parse(raw) as CatalogCache;
+        if (Date.now() - cache.savedAt > CACHE_TTL || !isAmiiboList(cache.list)) {
+            return null;
+        }
+        return cache.list;
+    } catch {
+        return null;
     }
 };
 
 /**
- * Preloads an image into the browser cache to ensure smooth rendering
- * before displaying it in the UI.
- * @param src - The URL of the image to preload.
- * @returns A promise that resolves when the image is loaded (or fails).
+ * Fetches the full figure catalog, using a 24h LocalStorage cache.
+ * @throws {ApiError} with code "network" (offline / fetch failed) or "server" (bad status / unexpected payload).
+ */
+export const getFullAmiiboList = async (): Promise<Amiibo[]> => {
+    const cached = readCachedAmiiboList();
+    if (cached) return cached;
+
+    let res: Response;
+    try {
+        res = await fetch(API_URL);
+    } catch (error) {
+        throw new ApiError("network", String(error));
+    }
+
+    if (!res.ok) {
+        throw new ApiError("server", `HTTP ${res.status}`);
+    }
+
+    let json: unknown;
+    try {
+        json = await res.json();
+    } catch (error) {
+        throw new ApiError("server", `Invalid JSON: ${String(error)}`);
+    }
+
+    const list = (json as { amiibo?: unknown })?.amiibo;
+    if (!isAmiiboList(list)) {
+        throw new ApiError("server", "Unexpected response shape");
+    }
+
+    try {
+        const cache: CatalogCache = { savedAt: Date.now(), list };
+        localStorage.setItem(CACHE_KEY, JSON.stringify(cache));
+    } catch {
+        // Cache is best-effort; quota errors must not break the unlock.
+    }
+    return list;
+};
+
+/**
+ * Preloads an image into the browser cache so the modal renders without flicker.
+ * Always resolves, even if the image fails to load.
  */
 export const preloadImage = (src: string) => {
     return new Promise((resolve) => {
         const img = new Image();
         img.src = src;
         img.onload = resolve;
-        img.onerror = resolve; // Resolve anyway to prevent blocking the UI
+        img.onerror = resolve;
     });
 };
 
 /**
- * Formats a duration in milliseconds into a standard time string.
- * @param ms - The time in milliseconds.
- * @returns A string in the format "HH:MM:SS".
+ * Formats a duration in milliseconds as "HH:MM:SS".
  */
 export const formatTime = (ms: number) => {
     const totalSeconds = Math.floor(ms / 1000);
     const hours = Math.floor(totalSeconds / 3600);
     const minutes = Math.floor((totalSeconds % 3600) / 60);
     const seconds = totalSeconds % 60;
-    
+
     return `${hours.toString().padStart(2, "0")}:${minutes
         .toString()
         .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
@@ -58,13 +124,12 @@ export const formatTime = (ms: number) => {
 
 /**
  * Triggers a native browser notification if the user has granted permission.
- * Used to alert the user when the cooldown timer has finished.
  */
 export const triggerBrowserNotification = () => {
     if ("Notification" in window && Notification.permission === "granted") {
         new Notification("Amiibo Finder", {
             body: "🎁 Your gift is ready! Click to unlock a new Amiibo.",
-            icon: "/favicon.ico", 
+            icon: "/favicon.ico",
         });
     }
 };
