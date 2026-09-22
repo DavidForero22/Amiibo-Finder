@@ -1,0 +1,820 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-22T19:45:24.428Z",
+  "title": "Design System: Amiibo Finder",
+  "extensions": {
+    "colorMeta": {
+      "ground": {
+        "role": "neutral",
+        "displayName": "Concrete Ground",
+        "canonical": "#e3e7ec",
+        "tonalRamp": [
+          "oklch(15.0% 0.008 253.9)",
+          "oklch(26.4% 0.008 253.9)",
+          "oklch(37.9% 0.008 253.9)",
+          "oklch(49.3% 0.008 253.9)",
+          "oklch(60.7% 0.008 253.9)",
+          "oklch(72.1% 0.008 253.9)",
+          "oklch(83.6% 0.008 253.9)",
+          "oklch(95.0% 0.008 253.9)"
+        ],
+        "darkMode": "#0f1519"
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Surface",
+        "canonical": "#f5f7f9",
+        "tonalRamp": [
+          "oklch(15.0% 0.003 247.9)",
+          "oklch(26.4% 0.003 247.9)",
+          "oklch(37.9% 0.003 247.9)",
+          "oklch(49.3% 0.003 247.9)",
+          "oklch(60.7% 0.003 247.9)",
+          "oklch(72.1% 0.003 247.9)",
+          "oklch(83.6% 0.003 247.9)",
+          "oklch(95.0% 0.003 247.9)"
+        ],
+        "darkMode": "#172026"
+      },
+      "surface-raised": {
+        "role": "neutral",
+        "displayName": "Raised Surface",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "oklch(15.0% 0.000 89.9)",
+          "oklch(26.4% 0.000 89.9)",
+          "oklch(37.9% 0.000 89.9)",
+          "oklch(49.3% 0.000 89.9)",
+          "oklch(60.7% 0.000 89.9)",
+          "oklch(72.1% 0.000 89.9)",
+          "oklch(83.6% 0.000 89.9)",
+          "oklch(95.0% 0.000 89.9)"
+        ],
+        "darkMode": "#1e2931"
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#14191f",
+        "tonalRamp": [
+          "oklch(15.0% 0.014 253.1)",
+          "oklch(26.4% 0.014 253.1)",
+          "oklch(37.9% 0.014 253.1)",
+          "oklch(49.3% 0.014 253.1)",
+          "oklch(60.7% 0.014 253.1)",
+          "oklch(72.1% 0.014 253.1)",
+          "oklch(83.6% 0.014 253.1)",
+          "oklch(95.0% 0.014 253.1)"
+        ],
+        "darkMode": "#eef2f4"
+      },
+      "ink-soft": {
+        "role": "neutral",
+        "displayName": "Soft Ink",
+        "canonical": "#3b4652",
+        "tonalRamp": [
+          "oklch(15.0% 0.025 250.7)",
+          "oklch(26.4% 0.025 250.7)",
+          "oklch(37.9% 0.025 250.7)",
+          "oklch(49.3% 0.025 250.7)",
+          "oklch(60.7% 0.025 250.7)",
+          "oklch(72.1% 0.025 250.7)",
+          "oklch(83.6% 0.025 250.7)",
+          "oklch(95.0% 0.025 250.7)"
+        ],
+        "darkMode": "#a9b6bf"
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Line",
+        "canonical": "#bcc4cd",
+        "tonalRamp": [
+          "oklch(15.0% 0.015 251.2)",
+          "oklch(26.4% 0.015 251.2)",
+          "oklch(37.9% 0.015 251.2)",
+          "oklch(49.3% 0.015 251.2)",
+          "oklch(60.7% 0.015 251.2)",
+          "oklch(72.1% 0.015 251.2)",
+          "oklch(83.6% 0.015 251.2)",
+          "oklch(95.0% 0.015 251.2)"
+        ],
+        "darkMode": "#2f3d47"
+      },
+      "line-strong": {
+        "role": "neutral",
+        "displayName": "Strong Line",
+        "canonical": "#8d98a4",
+        "tonalRamp": [
+          "oklch(15.0% 0.022 250.5)",
+          "oklch(26.4% 0.022 250.5)",
+          "oklch(37.9% 0.022 250.5)",
+          "oklch(49.3% 0.022 250.5)",
+          "oklch(60.7% 0.022 250.5)",
+          "oklch(72.1% 0.022 250.5)",
+          "oklch(83.6% 0.022 250.5)",
+          "oklch(95.0% 0.022 250.5)"
+        ],
+        "darkMode": "#4b5c68"
+      },
+      "wall": {
+        "role": "tertiary",
+        "displayName": "Bottle Green",
+        "canonical": "#1f5a48",
+        "tonalRamp": [
+          "oklch(15.0% 0.068 169.6)",
+          "oklch(26.4% 0.068 169.6)",
+          "oklch(37.9% 0.068 169.6)",
+          "oklch(49.3% 0.068 169.6)",
+          "oklch(60.7% 0.068 169.6)",
+          "oklch(72.1% 0.068 169.6)",
+          "oklch(83.6% 0.068 169.6)",
+          "oklch(95.0% 0.038 169.6)"
+        ],
+        "darkMode": "#143a2f"
+      },
+      "wall-shade": {
+        "role": "tertiary",
+        "displayName": "Bottle Green Shade",
+        "canonical": "#17473a",
+        "tonalRamp": [
+          "oklch(15.0% 0.057 172.1)",
+          "oklch(26.4% 0.057 172.1)",
+          "oklch(37.9% 0.057 172.1)",
+          "oklch(49.3% 0.057 172.1)",
+          "oklch(60.7% 0.057 172.1)",
+          "oklch(72.1% 0.057 172.1)",
+          "oklch(83.6% 0.057 172.1)",
+          "oklch(95.0% 0.038 172.1)"
+        ],
+        "darkMode": "#0e2b23"
+      },
+      "wall-trim": {
+        "role": "tertiary",
+        "displayName": "Cream Trim",
+        "canonical": "#d9bd8e",
+        "tonalRamp": [
+          "oklch(15.0% 0.070 80.4)",
+          "oklch(26.4% 0.070 80.4)",
+          "oklch(37.9% 0.070 80.4)",
+          "oklch(49.3% 0.070 80.4)",
+          "oklch(60.7% 0.070 80.4)",
+          "oklch(72.1% 0.070 80.4)",
+          "oklch(83.6% 0.070 80.4)",
+          "oklch(95.0% 0.038 80.4)"
+        ],
+        "darkMode": "#8f7651"
+      },
+      "wall-cap": {
+        "role": "tertiary",
+        "displayName": "Cream Cap",
+        "canonical": "#e8d6b3",
+        "tonalRamp": [
+          "oklch(15.0% 0.050 83.9)",
+          "oklch(26.4% 0.050 83.9)",
+          "oklch(37.9% 0.050 83.9)",
+          "oklch(49.3% 0.050 83.9)",
+          "oklch(60.7% 0.050 83.9)",
+          "oklch(72.1% 0.050 83.9)",
+          "oklch(83.6% 0.050 83.9)",
+          "oklch(95.0% 0.038 83.9)"
+        ],
+        "darkMode": "#a8906a"
+      },
+      "floor": {
+        "role": "tertiary",
+        "displayName": "Oak Parquet",
+        "canonical": "#c78a50",
+        "tonalRamp": [
+          "oklch(15.0% 0.092 63.0)",
+          "oklch(26.4% 0.105 63.0)",
+          "oklch(37.9% 0.105 63.0)",
+          "oklch(49.3% 0.105 63.0)",
+          "oklch(60.7% 0.105 63.0)",
+          "oklch(72.1% 0.105 63.0)",
+          "oklch(83.6% 0.099 63.0)",
+          "oklch(95.0% 0.038 63.0)"
+        ],
+        "darkMode": "#7b5133"
+      },
+      "floor-grain": {
+        "role": "tertiary",
+        "displayName": "Oak Grain",
+        "canonical": "#ad733f",
+        "tonalRamp": [
+          "oklch(15.0% 0.092 61.0)",
+          "oklch(26.4% 0.100 61.0)",
+          "oklch(37.9% 0.100 61.0)",
+          "oklch(49.3% 0.100 61.0)",
+          "oklch(60.7% 0.100 61.0)",
+          "oklch(72.1% 0.100 61.0)",
+          "oklch(83.6% 0.099 61.0)",
+          "oklch(95.0% 0.038 61.0)"
+        ],
+        "darkMode": "#684429"
+      },
+      "floor-edge": {
+        "role": "tertiary",
+        "displayName": "Oak Edge",
+        "canonical": "#7e5129",
+        "tonalRamp": [
+          "oklch(15.0% 0.082 60.4)",
+          "oklch(26.4% 0.082 60.4)",
+          "oklch(37.9% 0.082 60.4)",
+          "oklch(49.3% 0.082 60.4)",
+          "oklch(60.7% 0.082 60.4)",
+          "oklch(72.1% 0.082 60.4)",
+          "oklch(83.6% 0.082 60.4)",
+          "oklch(95.0% 0.038 60.4)"
+        ],
+        "darkMode": "#4a2f1b"
+      },
+      "walnut": {
+        "role": "tertiary",
+        "displayName": "Walnut",
+        "canonical": "#6b4028",
+        "tonalRamp": [
+          "oklch(15.0% 0.070 49.2)",
+          "oklch(26.4% 0.070 49.2)",
+          "oklch(37.9% 0.070 49.2)",
+          "oklch(49.3% 0.070 49.2)",
+          "oklch(60.7% 0.070 49.2)",
+          "oklch(72.1% 0.070 49.2)",
+          "oklch(83.6% 0.070 49.2)",
+          "oklch(95.0% 0.038 49.2)"
+        ],
+        "darkMode": "#4d2e1d"
+      },
+      "walnut-deep": {
+        "role": "tertiary",
+        "displayName": "Deep Walnut",
+        "canonical": "#4a2a19",
+        "tonalRamp": [
+          "oklch(15.0% 0.055 48.0)",
+          "oklch(26.4% 0.055 48.0)",
+          "oklch(37.9% 0.055 48.0)",
+          "oklch(49.3% 0.055 48.0)",
+          "oklch(60.7% 0.055 48.0)",
+          "oklch(72.1% 0.055 48.0)",
+          "oklch(83.6% 0.055 48.0)",
+          "oklch(95.0% 0.038 48.0)"
+        ],
+        "darkMode": "#321d11"
+      },
+      "brass": {
+        "role": "secondary",
+        "displayName": "Ribbon Brass",
+        "canonical": "#d4a03a",
+        "tonalRamp": [
+          "oklch(15.0% 0.092 80.6)",
+          "oklch(26.4% 0.131 80.6)",
+          "oklch(37.9% 0.131 80.6)",
+          "oklch(49.3% 0.131 80.6)",
+          "oklch(60.7% 0.131 80.6)",
+          "oklch(72.1% 0.131 80.6)",
+          "oklch(83.6% 0.099 80.6)",
+          "oklch(95.0% 0.038 80.6)"
+        ],
+        "darkMode": "#d9a845"
+      },
+      "brass-light": {
+        "role": "secondary",
+        "displayName": "Polished Brass",
+        "canonical": "#f0c768",
+        "tonalRamp": [
+          "oklch(15.0% 0.092 86.3)",
+          "oklch(26.4% 0.123 86.3)",
+          "oklch(37.9% 0.123 86.3)",
+          "oklch(49.3% 0.123 86.3)",
+          "oklch(60.7% 0.123 86.3)",
+          "oklch(72.1% 0.123 86.3)",
+          "oklch(83.6% 0.099 86.3)",
+          "oklch(95.0% 0.038 86.3)"
+        ],
+        "darkMode": "#f3cf7e"
+      },
+      "brass-deep": {
+        "role": "secondary",
+        "displayName": "Aged Brass",
+        "canonical": "#9c7121",
+        "tonalRamp": [
+          "oklch(15.0% 0.092 78.5)",
+          "oklch(26.4% 0.107 78.5)",
+          "oklch(37.9% 0.107 78.5)",
+          "oklch(49.3% 0.107 78.5)",
+          "oklch(60.7% 0.107 78.5)",
+          "oklch(72.1% 0.107 78.5)",
+          "oklch(83.6% 0.099 78.5)",
+          "oklch(95.0% 0.038 78.5)"
+        ],
+        "darkMode": "#9c7426"
+      },
+      "paper": {
+        "role": "tertiary",
+        "displayName": "Paper Stock",
+        "canonical": "#faf7ef",
+        "tonalRamp": [
+          "oklch(15.0% 0.011 89.7)",
+          "oklch(26.4% 0.011 89.7)",
+          "oklch(37.9% 0.011 89.7)",
+          "oklch(49.3% 0.011 89.7)",
+          "oklch(60.7% 0.011 89.7)",
+          "oklch(72.1% 0.011 89.7)",
+          "oklch(83.6% 0.011 89.7)",
+          "oklch(95.0% 0.011 89.7)"
+        ],
+        "darkMode": "#e8dfcb"
+      },
+      "sky-top": {
+        "role": "tertiary",
+        "displayName": "Sky Top",
+        "canonical": "#7fb5e6",
+        "tonalRamp": [
+          "oklch(15.0% 0.091 246.7)",
+          "oklch(26.4% 0.091 246.7)",
+          "oklch(37.9% 0.091 246.7)",
+          "oklch(49.3% 0.091 246.7)",
+          "oklch(60.7% 0.091 246.7)",
+          "oklch(72.1% 0.091 246.7)",
+          "oklch(83.6% 0.091 246.7)",
+          "oklch(95.0% 0.038 246.7)"
+        ],
+        "darkMode": "#0c1430"
+      },
+      "sky-bottom": {
+        "role": "tertiary",
+        "displayName": "Sky Horizon",
+        "canonical": "#cfe4f5",
+        "tonalRamp": [
+          "oklch(15.0% 0.032 242.4)",
+          "oklch(26.4% 0.032 242.4)",
+          "oklch(37.9% 0.032 242.4)",
+          "oklch(49.3% 0.032 242.4)",
+          "oklch(60.7% 0.032 242.4)",
+          "oklch(72.1% 0.032 242.4)",
+          "oklch(83.6% 0.032 242.4)",
+          "oklch(95.0% 0.032 242.4)"
+        ],
+        "darkMode": "#1f2d57"
+      },
+      "cobalt": {
+        "role": "primary",
+        "displayName": "Gift Cobalt",
+        "canonical": "#2344d6",
+        "tonalRamp": [
+          "oklch(15.0% 0.092 266.6)",
+          "oklch(26.4% 0.143 266.6)",
+          "oklch(37.9% 0.177 266.6)",
+          "oklch(49.3% 0.190 266.6)",
+          "oklch(60.7% 0.180 266.6)",
+          "oklch(72.1% 0.148 266.6)",
+          "oklch(83.6% 0.099 266.6)",
+          "oklch(95.0% 0.038 266.6)"
+        ],
+        "darkMode": "#8397ff"
+      },
+      "cobalt-hover": {
+        "role": "primary",
+        "displayName": "Cobalt Pressed",
+        "canonical": "#1b36b0",
+        "tonalRamp": [
+          "oklch(15.0% 0.092 266.6)",
+          "oklch(26.4% 0.143 266.6)",
+          "oklch(37.9% 0.177 266.6)",
+          "oklch(49.3% 0.190 266.6)",
+          "oklch(60.7% 0.180 266.6)",
+          "oklch(72.1% 0.148 266.6)",
+          "oklch(83.6% 0.099 266.6)",
+          "oklch(95.0% 0.038 266.6)"
+        ],
+        "darkMode": "#a3b2ff"
+      },
+      "cobalt-soft": {
+        "role": "primary",
+        "displayName": "Cobalt Wash",
+        "canonical": "#dfe5ff",
+        "tonalRamp": [
+          "oklch(15.0% 0.036 275.4)",
+          "oklch(26.4% 0.036 275.4)",
+          "oklch(37.9% 0.036 275.4)",
+          "oklch(49.3% 0.036 275.4)",
+          "oklch(60.7% 0.036 275.4)",
+          "oklch(72.1% 0.036 275.4)",
+          "oklch(83.6% 0.036 275.4)",
+          "oklch(95.0% 0.036 275.4)"
+        ],
+        "darkMode": "#1d2650"
+      },
+      "on-cobalt": {
+        "role": "primary",
+        "displayName": "On Cobalt",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "oklch(15.0% 0.000 89.9)",
+          "oklch(26.4% 0.000 89.9)",
+          "oklch(37.9% 0.000 89.9)",
+          "oklch(49.3% 0.000 89.9)",
+          "oklch(60.7% 0.000 89.9)",
+          "oklch(72.1% 0.000 89.9)",
+          "oklch(83.6% 0.000 89.9)",
+          "oklch(95.0% 0.000 89.9)"
+        ],
+        "darkMode": "#0b1030"
+      },
+      "gift-wrap": {
+        "role": "primary",
+        "displayName": "Wrap Cobalt",
+        "canonical": "#2d4ce0",
+        "tonalRamp": [
+          "oklch(15.0% 0.092 267.5)",
+          "oklch(26.4% 0.143 267.5)",
+          "oklch(37.9% 0.177 267.5)",
+          "oklch(49.3% 0.190 267.5)",
+          "oklch(60.7% 0.180 267.5)",
+          "oklch(72.1% 0.148 267.5)",
+          "oklch(83.6% 0.099 267.5)",
+          "oklch(95.0% 0.038 267.5)"
+        ],
+        "notes": "Gift box faces: #2d4ce0 left, #1c34a8 right, #4a68f5 lid top, #0f1c5c inside. Same in both themes."
+      },
+      "danger": {
+        "role": "status",
+        "displayName": "Danger",
+        "canonical": "#b3261e",
+        "tonalRamp": [
+          "oklch(15.0% 0.092 28.7)",
+          "oklch(26.4% 0.143 28.7)",
+          "oklch(37.9% 0.177 28.7)",
+          "oklch(49.3% 0.178 28.7)",
+          "oklch(60.7% 0.178 28.7)",
+          "oklch(72.1% 0.148 28.7)",
+          "oklch(83.6% 0.099 28.7)",
+          "oklch(95.0% 0.038 28.7)"
+        ],
+        "darkMode": "#ff8a80"
+      },
+      "danger-soft": {
+        "role": "status",
+        "displayName": "Danger Wash",
+        "canonical": "#fbe3e1",
+        "tonalRamp": [
+          "oklch(15.0% 0.027 23.4)",
+          "oklch(26.4% 0.027 23.4)",
+          "oklch(37.9% 0.027 23.4)",
+          "oklch(49.3% 0.027 23.4)",
+          "oklch(60.7% 0.027 23.4)",
+          "oklch(72.1% 0.027 23.4)",
+          "oklch(83.6% 0.027 23.4)",
+          "oklch(95.0% 0.027 23.4)"
+        ],
+        "darkMode": "#3a1714"
+      },
+      "success": {
+        "role": "status",
+        "displayName": "Success",
+        "canonical": "#1f6b4f",
+        "tonalRamp": [
+          "oklch(15.0% 0.087 164.5)",
+          "oklch(26.4% 0.087 164.5)",
+          "oklch(37.9% 0.087 164.5)",
+          "oklch(49.3% 0.087 164.5)",
+          "oklch(60.7% 0.087 164.5)",
+          "oklch(72.1% 0.087 164.5)",
+          "oklch(83.6% 0.087 164.5)",
+          "oklch(95.0% 0.038 164.5)"
+        ],
+        "darkMode": "#7fd6ae"
+      },
+      "paper-ink": {
+        "role": "tertiary",
+        "displayName": "Paper Ink",
+        "canonical": "#1d1a14",
+        "tonalRamp": [
+          "oklch(15.0% 0.012 84.5)",
+          "oklch(26.4% 0.012 84.5)",
+          "oklch(37.9% 0.012 84.5)",
+          "oklch(49.3% 0.012 84.5)",
+          "oklch(60.7% 0.012 84.5)",
+          "oklch(72.1% 0.012 84.5)",
+          "oklch(83.6% 0.012 84.5)",
+          "oklch(95.0% 0.012 84.5)"
+        ],
+        "notes": "Scoped inside paper tags in both themes (with #4d4538 soft ink, #ebe3d1 surface, #cdc2ab line)."
+      },
+      "reveal-ink": {
+        "role": "tertiary",
+        "displayName": "Reveal Cream",
+        "canonical": "#f6f1e4",
+        "tonalRamp": [
+          "oklch(15.0% 0.018 89.4)",
+          "oklch(26.4% 0.018 89.4)",
+          "oklch(37.9% 0.018 89.4)",
+          "oklch(49.3% 0.018 89.4)",
+          "oklch(60.7% 0.018 89.4)",
+          "oklch(72.1% 0.018 89.4)",
+          "oklch(83.6% 0.018 89.4)",
+          "oklch(95.0% 0.018 89.4)"
+        ],
+        "notes": "Reveal dialog text; the dialog keeps its day materials in both themes."
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Reveal Name",
+        "purpose": "The figure's name in the reveal dialog; one per screen. font-stretch 120%."
+      },
+      "headline": {
+        "displayName": "Stage Headline",
+        "purpose": "Unlock status headline that changes with state. font-stretch 112%."
+      },
+      "headline-section": {
+        "displayName": "Section Headline",
+        "purpose": "Ledger title; the Collection nameplate uses it at 850 weight, clamp(1.75rem, 3.2vw, 2.6rem)."
+      },
+      "title": {
+        "displayName": "Tile Title",
+        "purpose": "Figure names on ledger tiles. font-stretch 105%."
+      },
+      "lede": {
+        "displayName": "Lede",
+        "purpose": "Panel and intro copy in soft ink, 34-38ch."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Default text."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Buttons (at 1rem), nav, field labels, disclosure summaries, toasts."
+      },
+      "numeral": {
+        "displayName": "Numeral",
+        "purpose": "Plaques, ledger count, delivery time, badge. Tabular figures."
+      },
+      "numeral-clock": {
+        "displayName": "Clock Numeral",
+        "purpose": "Countdown digits on the walnut clock plate."
+      }
+    },
+    "shadows": [
+      {
+        "name": "shadow-1",
+        "value": "0 1px 2px rgb(20 25 31 / 0.10), 0 2px 6px rgb(20 25 31 / 0.08)",
+        "darkMode": "0 1px 2px rgb(0 0 0 / 0.4), 0 2px 6px rgb(0 0 0 / 0.3)",
+        "purpose": "Rest: tiles, plates on the page, switch thumb, detail cards."
+      },
+      {
+        "name": "shadow-2",
+        "value": "0 6px 14px rgb(20 25 31 / 0.12), 0 18px 40px rgb(20 25 31 / 0.14)",
+        "darkMode": "0 6px 14px rgb(0 0 0 / 0.35), 0 18px 40px rgb(0 0 0 / 0.45)",
+        "purpose": "Float: dialogs, dropdown menu, toasts."
+      },
+      {
+        "name": "cobalt-lift",
+        "value": "0 2px 4px rgb(20 25 31 / 0.18), 0 8px 20px rgb(35 68 214 / 0.28)",
+        "purpose": "Primary buttons only."
+      },
+      {
+        "name": "tag-hang",
+        "value": "drop-shadow(0 1px 1px rgb(0 0 0 / 0.16)) drop-shadow(0 6px 10px rgb(0 0 0 / 0.14))",
+        "purpose": "Paper tags, as a filter so the chamfered silhouette casts it."
+      },
+      {
+        "name": "brass-inset",
+        "value": "inset 0 0 0 1.5px color-mix(in srgb, var(--brass) 55%, transparent)",
+        "purpose": "Ledger tile edge; 2.5px brass-light for favorites."
+      },
+      {
+        "name": "reveal-ring",
+        "value": "0 0 0 3px #d4a03a",
+        "purpose": "Brass ring around the reveal dialog, stacked on shadow-2."
+      },
+      {
+        "name": "focus-ring",
+        "value": "outline: 3px solid var(--cobalt); outline-offset: 3px",
+        "purpose": "Global :focus-visible; brass-light on green or walnut surfaces; inputs use a cobalt border plus a 3px cobalt halo at 30%."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Default for state changes and entrances."
+      },
+      {
+        "name": "ease-settle",
+        "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Things that land: figures, switch thumb, toasts, favorite pop. Overshoot lives in keyframes."
+      },
+      {
+        "name": "dur-fast",
+        "value": "160ms",
+        "purpose": "Hover, border and color changes."
+      },
+      {
+        "name": "dur-mid",
+        "value": "320ms",
+        "purpose": "Dialog, panel and theme transitions."
+      },
+      {
+        "name": "reveal-sequence",
+        "value": "spot-on 900ms; figure-rise 900ms settle +120ms; name-wipe 800ms +260ms",
+        "purpose": "The reveal dialog entrance."
+      },
+      {
+        "name": "fly-to-shelf",
+        "value": "::view-transition-group(arriving-figure) 720ms cubic-bezier(0.5, 0, 0.2, 1); root cross-fade 360ms; figure-settle 700ms",
+        "purpose": "Put it on the shelf: the figure flies from the dialog to its slot. Reduced motion or no View Transitions: direct close."
+      },
+      {
+        "name": "gift-hop",
+        "value": "3.4s ease-out infinite",
+        "purpose": "Ready gift idle hop with bow wiggle; paused on hover and focus."
+      },
+      {
+        "name": "lid-pop",
+        "value": "700ms ease-out",
+        "purpose": "Gift opening, with rays at +120ms."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "animation and transition durations 1ms !important",
+        "purpose": "Global prefers-reduced-motion override; confetti skipped."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "two-columns",
+        "value": "880px"
+      },
+      {
+        "name": "reveal-stack",
+        "value": "760px"
+      },
+      {
+        "name": "footer",
+        "value": "720px"
+      },
+      {
+        "name": "header-wrap",
+        "value": "640px"
+      },
+      {
+        "name": "ledger-two-up",
+        "value": "480px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Cobalt action with lift shadow; the one action color.",
+      "html": "<button class=\"ds-btn ds-btn-primary\">Open the gift</button>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;min-height:44px;padding:.6em 1.15em;border:1.5px solid var(--line-strong,#8d98a4);border-radius:var(--radius-m,10px);background:var(--surface-raised,#fff);color:var(--ink,#14191f);font-family:'Atkinson Hyperlegible Next',system-ui,sans-serif;font-weight:700;line-height:1.1;cursor:pointer;transition:background-color 160ms cubic-bezier(.16,1,.3,1),border-color 160ms cubic-bezier(.16,1,.3,1),transform 160ms cubic-bezier(.16,1,.3,1)}.ds-btn:active{transform:translateY(1px)}.ds-btn:focus-visible{outline:3px solid var(--cobalt,#2344d6);outline-offset:3px}.ds-btn-primary{background:var(--cobalt,#2344d6);border-color:var(--cobalt,#2344d6);color:var(--on-cobalt,#fff);box-shadow:0 2px 4px rgb(20 25 31/.18),0 8px 20px rgb(35 68 214/.28)}.ds-btn-primary:hover{background:var(--cobalt-hover,#1b36b0);border-color:var(--cobalt-hover,#1b36b0)}"
+    },
+    {
+      "name": "Default and Quiet Buttons",
+      "kind": "button",
+      "refersTo": "button",
+      "description": "Raised surface with strong border; quiet is transparent until hover.",
+      "html": "<div style=\"display:flex;gap:12px\"><button class=\"ds-btn2\">Notify me</button><button class=\"ds-btn2 ds-btn2-quiet\">Back to collection</button></div>",
+      "css": ".ds-btn2{min-height:44px;padding:.6em 1.15em;border:1.5px solid var(--line-strong,#8d98a4);border-radius:10px;background:var(--surface-raised,#fff);color:var(--ink,#14191f);font-family:'Atkinson Hyperlegible Next',system-ui,sans-serif;font-weight:700;cursor:pointer;transition:border-color 160ms,background-color 160ms}.ds-btn2:hover{border-color:var(--ink,#14191f)}.ds-btn2:focus-visible{outline:3px solid var(--cobalt,#2344d6);outline-offset:3px}.ds-btn2-quiet{background:transparent;border-color:transparent}.ds-btn2-quiet:hover{background:var(--surface,#f5f7f9);border-color:var(--line,#bcc4cd)}"
+    },
+    {
+      "name": "Plaque",
+      "kind": "chip",
+      "refersTo": "plaque",
+      "description": "Walnut plate edged in brass for tallies.",
+      "html": "<span class=\"ds-plaque\">8 / 258 figures</span> <span class=\"ds-plaque\">4 series</span>",
+      "css": ".ds-plaque{display:inline-flex;padding:.35em .75em;border:1.5px solid var(--brass,#d4a03a);border-radius:6px;background:var(--walnut-deep,#4a2a19);color:var(--brass-light,#f0c768);font-family:'Atkinson Hyperlegible Mono',ui-monospace,monospace;font-size:.8125rem;font-weight:700;font-variant-numeric:tabular-nums}"
+    },
+    {
+      "name": "Nameplate",
+      "kind": "custom",
+      "refersTo": "nameplate",
+      "description": "Engraved walnut title plate with two slotted brass screws.",
+      "html": "<h1 class=\"ds-nameplate\">My Collection</h1>",
+      "css": ".ds-nameplate{position:relative;display:inline-block;margin:0;padding:.22em 44px .26em;border:3px solid var(--brass,#d4a03a);border-radius:8px;background:var(--walnut-deep,#4a2a19);color:var(--brass-light,#f0c768);font-family:Anybody,sans-serif;font-size:2.4rem;font-weight:850;font-stretch:112%;letter-spacing:-.03em;line-height:1.05;white-space:nowrap;box-shadow:0 1px 2px rgb(20 25 31/.1),0 2px 6px rgb(20 25 31/.08)}.ds-nameplate::before,.ds-nameplate::after{content:'';position:absolute;top:50%;width:14px;height:14px;margin-top:-7px;border-radius:50%;background:linear-gradient(135deg,transparent 44%,#9c7121 44%,#9c7121 56%,transparent 56%),#d4a03a;box-shadow:inset 0 0 0 1.5px #9c7121}.ds-nameplate::before{left:10px}.ds-nameplate::after{right:10px}"
+    },
+    {
+      "name": "Paper Tag",
+      "kind": "card",
+      "refersTo": "paper-tag",
+      "description": "Luggage-tag notice in paper stock with a brass-ringed punched hole; paper in both themes.",
+      "html": "<div class=\"ds-tag\"><strong>Next delivery in <span class=\"ds-tag-time\">01:22:42</span></strong><a href=\"#\" class=\"ds-tag-link\">Go to Unlock</a></div>",
+      "css": ".ds-tag{position:relative;isolation:isolate;display:flex;justify-content:space-between;gap:16px;align-items:center;max-width:460px;padding:14px 16px 14px 48px;color:#1d1a14;font-family:'Atkinson Hyperlegible Next',system-ui,sans-serif;transform:rotate(-.6deg);filter:drop-shadow(0 1px 1px rgb(0 0 0/.16)) drop-shadow(0 6px 10px rgb(0 0 0/.14))}.ds-tag::after{content:'';position:absolute;inset:0;z-index:-1;border-radius:0 10px 10px 0;background:var(--paper,#faf7ef);clip-path:polygon(22px 0,100% 0,100% 100%,22px 100%,0 calc(100% - 22px),0 22px)}.ds-tag::before{content:'';position:absolute;left:13px;top:50%;width:13px;height:13px;margin-top:-6.5px;border-radius:50%;background:var(--ground,#e3e7ec);box-shadow:inset 0 0 0 2.5px var(--brass,#d4a03a)}.ds-tag-time{font-family:'Atkinson Hyperlegible Mono',monospace;font-variant-numeric:tabular-nums}.ds-tag-link{color:#1d1a14;font-weight:700;text-decoration:none}.ds-tag-link:hover{text-decoration:underline}.ds-tag-link:focus-visible{outline:3px solid #2344d6;outline-offset:3px}"
+    },
+    {
+      "name": "Ledger Tile",
+      "kind": "card",
+      "refersTo": "ledger-tile-box",
+      "description": "Display box per figure: green wall, walnut floor strip, brass inset edge, favorite toggle.",
+      "html": "<div class=\"ds-tile\"><div class=\"ds-tile-box\"><button class=\"ds-tile-fav\" aria-pressed=\"true\" aria-label=\"Favorite\"><svg viewBox=\"0 0 24 24\" width=\"22\" height=\"22\"><path fill=\"currentColor\" d=\"M12 21s-7.5-4.6-9.5-9.2C1 8.2 3.3 4.5 7 4.5c2 0 3.5 1.1 5 3 1.5-1.9 3-3 5-3 3.7 0 6 3.7 4.5 7.3C19.5 16.4 12 21 12 21z\"/></svg></button></div><div class=\"ds-tile-name\">Yoshi</div><div class=\"ds-tile-series\">Super Mario</div></div>",
+      "css": ".ds-tile{width:180px;font-family:'Atkinson Hyperlegible Next',system-ui,sans-serif}.ds-tile-box{position:relative;aspect-ratio:1/1.05;border-radius:10px;background:linear-gradient(180deg,transparent 84%,#6b4028 84%,#4a2a19 100%),radial-gradient(120% 80% at 50% 10%,color-mix(in srgb,#1f5a48 78%,#fff) 0%,#1f5a48 60%,#17473a 100%);box-shadow:inset 0 0 0 2.5px #f0c768,0 1px 2px rgb(20 25 31/.1),0 2px 6px rgb(20 25 31/.08)}.ds-tile-fav{position:absolute;top:8px;right:8px;display:grid;place-items:center;width:40px;height:40px;border:0;border-radius:50%;background:rgb(10 20 16/.45);color:#f4efe3;cursor:pointer}.ds-tile-fav:hover{background:rgb(10 20 16/.7)}.ds-tile-fav[aria-pressed=true]{color:#f0c768}.ds-tile-fav:focus-visible{outline:3px solid #f0c768;outline-offset:3px}.ds-tile-name{margin-top:10px;font-family:Anybody,sans-serif;font-size:1.0625rem;font-weight:800;font-stretch:105%;letter-spacing:-.01em}.ds-tile-series{font-size:.875rem;color:var(--ink-soft,#3b4652)}"
+    },
+    {
+      "name": "Search Field",
+      "kind": "input",
+      "refersTo": "input-search",
+      "description": "44px field; focus swaps the outline for a cobalt border and halo.",
+      "html": "<label class=\"ds-search\"><svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" aria-hidden=\"true\"><circle cx=\"11\" cy=\"11\" r=\"7\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><path d=\"M16.5 16.5L21 21\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg><input type=\"search\" placeholder=\"Search by name: Mario, Link...\"></label>",
+      "css": ".ds-search{position:relative;display:block;max-width:420px;color:var(--ink-soft,#3b4652)}.ds-search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%)}.ds-search input{width:100%;min-height:44px;padding:0 44px;border:1.5px solid var(--line-strong,#8d98a4);border-radius:10px;background:var(--surface-raised,#fff);color:var(--ink,#14191f);font-family:'Atkinson Hyperlegible Next',system-ui,sans-serif;font-size:1rem;caret-color:#2344d6;transition:border-color 160ms,box-shadow 160ms}.ds-search input:hover{border-color:var(--ink-soft,#3b4652)}.ds-search input:focus-visible{outline:none;border-color:#2344d6;box-shadow:0 0 0 3px color-mix(in srgb,#2344d6 30%,transparent)}"
+    },
+    {
+      "name": "Switch",
+      "kind": "input",
+      "refersTo": "switch-track",
+      "description": "Pill switch over a visually hidden native checkbox.",
+      "html": "<label class=\"ds-switch\"><input type=\"checkbox\" checked><span class=\"ds-switch-track\"></span>Favorites only</label>",
+      "css": ".ds-switch{display:inline-flex;align-items:center;gap:10px;min-height:44px;font-family:'Atkinson Hyperlegible Next',system-ui,sans-serif;font-weight:700;cursor:pointer}.ds-switch input{position:absolute;opacity:0;width:1px;height:1px}.ds-switch-track{position:relative;width:44px;height:26px;border-radius:999px;background:#8d98a4;transition:background-color 160ms}.ds-switch-track::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgb(20 25 31/.1),0 2px 6px rgb(20 25 31/.08);transition:transform 320ms cubic-bezier(.22,1,.36,1)}.ds-switch input:checked+.ds-switch-track{background:#2344d6}.ds-switch input:checked+.ds-switch-track::after{transform:translateX(18px)}.ds-switch input:focus-visible+.ds-switch-track{outline:3px solid #2344d6;outline-offset:3px}"
+    },
+    {
+      "name": "Navigation",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Bold links with a brass underline that scales in on the active route.",
+      "html": "<nav class=\"ds-nav\"><a href=\"#\" class=\"ds-nav-link is-active\">Collection</a><a href=\"#\" class=\"ds-nav-link\">Unlock</a></nav>",
+      "css": ".ds-nav{display:flex;gap:4px;font-family:'Atkinson Hyperlegible Next',system-ui,sans-serif}.ds-nav-link{position:relative;display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border-radius:10px;color:var(--ink-soft,#3b4652);font-weight:700;text-decoration:none;transition:color 160ms,background-color 160ms}.ds-nav-link:hover{color:var(--ink,#14191f);background:var(--surface,#f5f7f9)}.ds-nav-link:focus-visible{outline:3px solid #2344d6;outline-offset:3px}.ds-nav-link::after{content:'';position:absolute;left:14px;right:14px;bottom:5px;height:3px;border-radius:3px;background:#d4a03a;transform:scaleX(0);transition:transform 320ms cubic-bezier(.16,1,.3,1)}.ds-nav-link.is-active{color:var(--ink,#14191f)}.ds-nav-link.is-active::after{transform:scaleX(1)}"
+    },
+    {
+      "name": "Reveal Dialog",
+      "kind": "custom",
+      "refersTo": "dialog-reveal",
+      "description": "The reveal: a wall of the room with the name at poster scale and a brass action.",
+      "html": "<div class=\"ds-reveal\"><div class=\"ds-reveal-name\">Yoshi</div><p class=\"ds-reveal-desc\">From Super Mario. It's moving into your room.</p><button class=\"ds-reveal-btn\">Put it on the shelf</button></div>",
+      "css": ".ds-reveal{display:flex;flex-direction:column;align-items:flex-start;gap:20px;max-width:620px;padding:48px 48px 96px;border-radius:16px;background:linear-gradient(180deg,transparent 80%,#6b4028 80%,#4a2a19 100%),linear-gradient(90deg,#17473a 0%,#1f5a48 40%,#1f5a48 100%);color:#f6f1e4;box-shadow:0 0 0 3px #d4a03a,0 6px 14px rgb(20 25 31/.12),0 18px 40px rgb(20 25 31/.14);font-family:'Atkinson Hyperlegible Next',system-ui,sans-serif}.ds-reveal-name{font-family:Anybody,sans-serif;font-size:clamp(3rem,7.5vw,5rem);font-weight:850;font-stretch:120%;letter-spacing:-.04em;line-height:.92;text-shadow:0 3px 18px rgb(0 0 0/.3)}.ds-reveal-desc{margin:0;max-width:38ch;padding:10px 14px;border:1.5px solid #d4a03a;border-radius:6px;background:#321d11;color:#f0c768}.ds-reveal-btn{min-height:52px;padding:.75em 1.5em;border:1.5px solid #f0c768;border-radius:10px;background:#f0c768;color:#1d1406;font-family:'Atkinson Hyperlegible Next',system-ui,sans-serif;font-weight:700;font-size:1.0625rem;cursor:pointer;box-shadow:0 2px 4px rgb(0 0 0/.25),0 10px 24px rgb(0 0 0/.3)}.ds-reveal-btn:hover{background:#ffd887;border-color:#ffd887}.ds-reveal-btn:focus-visible{outline:3px solid #f0c768;outline-offset:3px}"
+    },
+    {
+      "name": "Toast",
+      "kind": "custom",
+      "refersTo": "toast",
+      "description": "Tag on a string at bottom center with a status icon.",
+      "html": "<div class=\"ds-toast\"><svg viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\" fill=\"none\" stroke=\"#1f6b4f\" stroke-width=\"2\"/><path d=\"M8 12.5l2.5 2.5L16 9.5\" fill=\"none\" stroke=\"#1f6b4f\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg>We'll let you know when the next gift arrives.</div>",
+      "css": ".ds-toast{position:relative;display:inline-flex;align-items:center;gap:10px;padding:12px 18px 12px 30px;border-radius:4px 10px 10px 4px;background:var(--surface-raised,#fff);color:var(--ink,#14191f);font-family:'Atkinson Hyperlegible Next',system-ui,sans-serif;font-weight:700;box-shadow:0 6px 14px rgb(20 25 31/.12),0 18px 40px rgb(20 25 31/.14)}.ds-toast::before{content:'';position:absolute;left:11px;top:50%;width:8px;height:8px;margin-top:-4px;border-radius:50%;background:var(--ground,#e3e7ec);box-shadow:inset 0 0 0 2px #d4a03a}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Collector's Den",
+    "overview": "The collection is a room you fill. An isometric SVG den (bottle-green painted walls, oak parquet, walnut shelves with brass lips, a cobalt rug) is the hero of both routes, drawn at roughly 60% of the viewport width with owned figures standing on its shelves. Every piece of interface chrome borrows the room's materials: counters are walnut plates edged in brass, notices hang as paper tags with punched, brass-ringed holes, the page title is an engraved nameplate with two slotted screws. The gift is cobalt wrap with a brass ribbon, set on the rug as the primary button.\n\nDay and night are the same room under different light. Day is a cool concrete-grey ground with daylight through the window; night is a dark slate ground with one warm floor lamp casting a pool of light (the lamp is the only glow in the system). Outside the room the page is quiet and legible: Atkinson Hyperlegible for everything you read, Anybody's variable width for the voice of headings, Atkinson Mono for anything that counts.\n\nThe collection ledger below the room is the operational part: familiar controls, a dense tile grid, scanability first. The one authored moment is the reveal: a native dialog that is itself a wall of the room, the figure under a brass spotlight, the name at poster scale, then \"Put it on the shelf\" flies the figure into its slot with a View Transition. The system rejects childish toy pastels, Nintendo trade dress, dark neon gamer styling and the sober admin dashboard.",
+    "keyCharacteristics": [
+      "An isometric room is the hero surface on both routes; figures live on its shelves.",
+      "UI chrome is made of room materials: walnut, brass, paper, bottle-green, cobalt.",
+      "Cobalt is the one action color; brass is ornament and trim.",
+      "Anybody carries hierarchy through width (105 to 120) and heavy weight, not size alone.",
+      "Numbers that count are set in Atkinson Mono with tabular figures.",
+      "Soft, two-layer ambient shadows; no hard offsets, no neon glows.",
+      "Motion is quick ease-out at rest; the reveal and the fly-to-shelf are the only choreographed sequence."
+    ],
+    "rules": [
+      {
+        "name": "The Room Materials Rule",
+        "body": "Interface chrome is built only from the room's materials: walnut, brass, paper, bottle green and cobalt, over the neutral ground. A new surface gets a material it already has, never a new hue.",
+        "section": "colors"
+      },
+      {
+        "name": "The Cobalt Acts Rule",
+        "body": "Cobalt means \"you can press this\". Brass is trim and engraving, never the fill of an action on the page. The one exception is the reveal dialog, where the wall is green and the action button becomes polished brass.",
+        "section": "colors"
+      },
+      {
+        "name": "The Lamp, Not Neon Rule",
+        "body": "Night is the same room lit by one warm floor lamp (a screen-blended pool driven by `--lamp-glow`). No cool, saturated or outer glows anywhere else.",
+        "section": "colors"
+      },
+      {
+        "name": "The Width Is the Voice Rule",
+        "body": "Anybody's hierarchy steps through width as much as size: 105 for tile names, 110 to 112 for headlines and nameplates, 120 for the brand name and the reveal name. Always 800 or heavier, always negative tracking.",
+        "section": "typography"
+      },
+      {
+        "name": "The Mono Counts Rule",
+        "body": "Any number that counts or ticks (figure tallies, series counts, countdowns, the wall clock) is Atkinson Mono with tabular figures, so digits never jitter.",
+        "section": "typography"
+      },
+      {
+        "name": "The Soft Hang Rule",
+        "body": "Shadows are soft, blurred and stacked in two layers. No hard offset shadows.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do take every new surface's material from the room: walnut plates edged in brass for counts, paper tags for notices, bottle green only for walls and display boxes.",
+      "Do keep cobalt for actions and the 3px cobalt focus ring (3px offset); switch the ring to polished brass (#f0c768) on green or walnut surfaces.",
+      "Do set every count and time in Atkinson Hyperlegible Mono with tabular figures.",
+      "Do keep controls at least 44px tall and use native elements (`<dialog>`, `<details>`, checkbox inputs) for their built-in keyboard behavior.",
+      "Do use `--ease-out` with 160ms for state changes and 320ms for entrances; reserve `--ease-settle` for things that land (figures, switch thumb, toasts, favorite pop).",
+      "Do give every animation a reduced-motion path: the global 1ms override, no confetti, and a direct close instead of the fly-to-shelf.",
+      "Do redefine a token on `body.dark-mode` instead of branching components by theme."
+    ],
+    "donts": [
+      "Don't introduce hues outside the room's materials, or childish toy pastels.",
+      "Don't use Nintendo logos or trade dress as the product's own branding; figure images come from the API.",
+      "Don't add neon, cool or saturated glows; the night lamp is the only light source.",
+      "Don't use hard offset shadows; shadows are soft and stacked.",
+      "Don't add kicker or eyebrow labels above headings.",
+      "Don't fill a page-level action with brass; brass is trim and engraving.",
+      "Don't let paper tags follow the dark theme; paper stays paper stock with its own dark ink."
+    ]
+  }
+}

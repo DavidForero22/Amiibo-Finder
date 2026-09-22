@@ -103,8 +103,9 @@
     transform: rotate(-0.6deg);
 }
 
+/* Ready: tint the paper stock itself so the tag keeps its chamfered silhouette */
 .delivery-tag.is-ready {
-    background: color-mix(in srgb, var(--brass-light) 30%, var(--surface-raised));
+    --paper: color-mix(in srgb, var(--brass-light) 34%, #faf7ef);
 }
 
 .delivery-tag-text {
