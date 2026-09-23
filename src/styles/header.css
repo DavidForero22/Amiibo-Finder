@@ -9,6 +9,8 @@
     background: color-mix(in srgb, var(--ground) 88%, transparent);
     backdrop-filter: saturate(1.4) blur(10px);
     border-bottom: 1px solid var(--line);
+    /* Own snapshot so page transitions leave the header still (room.css) */
+    view-transition-name: site-header;
 }
 
 .site-header-inner {

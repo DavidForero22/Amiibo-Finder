@@ -43,6 +43,12 @@ const clockArc = (cx: number, cy: number, r: number, fraction: number) => {
 
 const pad = (n: number) => n.toString().padStart(2, "0");
 
+/* The hover hop is class-driven so it plays to the end once the cursor leaves */
+const startHop = (e: React.MouseEvent<HTMLLIElement>) => e.currentTarget.classList.add("is-hopping");
+const endHop = (e: React.AnimationEvent<HTMLLIElement>) => {
+    if (e.animationName === "figure-hop") e.currentTarget.classList.remove("is-hopping");
+};
+
 /**
  * The collector's room: an isometric scene whose right-wall shelves display the
  * user's figures and whose wall clock shows the time until the next delivery.
@@ -239,6 +245,8 @@ const Room: React.FC<RoomProps> = ({
                             key={key}
                             className={`room-figure ${isHidden ? "is-hidden" : ""} ${isArriving ? "is-arriving" : ""}`}
                             style={{ ...pos, width: `${FIGURE_WIDTH_PCT}%` }}
+                            onMouseEnter={startHop}
+                            onAnimationEnd={endHop}
                         >
                             <FigureImage
                                 amiibo={amiibo}

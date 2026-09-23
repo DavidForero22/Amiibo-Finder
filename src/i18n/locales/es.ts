@@ -60,23 +60,15 @@ const es: Catalog = {
 	room: {
 		clockReady: "LISTO",
 	},
-	tally: {
-		figures_one: "{{count}} figura",
-		figures_other: "{{count}} figuras",
-		figuresOf_one: "{{count}} / {{total}} figuras",
-		figuresOf_other: "{{count}} / {{total}} figuras",
-		series_one: "{{count}} saga",
-		series_other: "{{count}} sagas",
-		favorites_one: "{{count}} favorita",
-		favorites_other: "{{count}} favoritas",
-	},
 	reveal: {
 		close: "Cerrar y poner la figura en la estantería",
 		desc: "De {{gameSeries}}, parte de la serie {{amiiboSeries}}. Se muda a tu habitación.",
 		place: "Ponerla en la estantería",
+		keep: "Añadirla a la colección",
+		closeKeep: "Cerrar y añadir la figura a la colección",
 	},
 	unlock: {
-		shelfLabel: "Figuras en tus estanterías, de la más nueva a la más antigua",
+		shelfLabel: "Tus figuras favoritas en exposición",
 		error: {
 			network: {
 				title: "El envío no ha podido llegar.",
@@ -125,12 +117,13 @@ const es: Catalog = {
 	},
 	collection: {
 		title: "Mi colección",
-		shelfLabel: "En exposición: primero las favoritas, luego las más nuevas",
+		shelfLabel: "Tus figuras favoritas en exposición",
 		lede: {
 			empty: "Tus estanterías están vacías. Tu primera figura te espera en la caja de regalo.",
-			filled: "Las favoritas ocupan los mejores sitios de las estanterías. Todo lo que tienes aparece en el registro de abajo.",
+			filled: "Tus favoritas se exponen en las estanterías. Todo lo que tienes aparece en el registro de abajo.",
 		},
-		shelfNote: "En las estanterías caben {{capacity}} de tus {{owned}} figuras. Marca favoritas para elegir cuáles se exponen.",
+		shelfEmpty: "Marca figuras como favoritas para exponerlas en las estanterías.",
+		shelfNote: "En las estanterías caben {{capacity}} de tus {{count}} favoritas. Las primeras se quedan los sitios.",
 		delivery: {
 			nextIn: "Próximo envío en <time>{{time}}</time>",
 			goToUnlock: "Ir a Desbloquear",

@@ -78,9 +78,10 @@ export const AmiiboProvider: React.FC<{ children: React.ReactNode }> = ({
 
 	/**
 	 * Adds a new Amiibo to the collection.
+	 * The very first figure starts as a favorite so the shelves aren't empty.
 	 */
 	const unlockAmiibo = (amiibo: Amiibo) => {
-		const newList = [...userAmiibos, { ...amiibo, isFavorite: false }];
+		const newList = [...userAmiibos, { ...amiibo, isFavorite: userAmiibos.length === 0 }];
 		saveToStorage(newList);
 	};
 

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { IoNotificationsOutline, IoRefresh, IoArrowForward } from "react-icons/io5";
 import Room from "../modules/Room";
-import { amiiboKey } from "../modules/roomGeometry";
+import { amiiboKey, SHELF_CAPACITY } from "../modules/roomGeometry";
 import GiftBox, { type GiftState } from "../modules/GiftBox";
 import ModalUnlocked from "../modules/ModalUnlocked";
 import { useUnlockLogic } from "../logic/useUnlockLogic";
@@ -41,28 +41,34 @@ const Unlock = () => {
     const { showToast } = useToast();
     const [arrivingKey, setArrivingKey] = useState<string | null>(null);
 
-    // Newest first, so a fresh figure lands on the top shelf
-    const shelfFigures = useMemo(() => [...userAmiibos].reverse(), [userAmiibos]);
+    // Only favorites go on display, in the order they were unlocked
+    const shelfFigures = useMemo(() => userAmiibos.filter((a) => a.isFavorite), [userAmiibos]);
     const catalogTotal = useMemo(
         () => readCachedAmiiboList()?.length ?? null,
         // Re-read after each unlock: the first unlock is what fills the cache
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [userAmiibos.length]
     );
-    const seriesCount = useMemo(
-        () => new Set(userAmiibos.map((a) => a.gameSeries)).size,
-        [userAmiibos]
-    );
+
+    // A new figure only flies to the shelf if it has a slot there (a favorite that fits)
+    const revealKey = unlockedAmiibo ? amiiboKey(unlockedAmiibo) : null;
+    const goesOnShelf =
+        revealKey !== null &&
+        shelfFigures.slice(0, SHELF_CAPACITY).some((a) => amiiboKey(a) === revealKey);
 
     let giftState: GiftState = "ready";
     if (isCollectionComplete) giftState = "hidden";
     else if (isOpeningAnim) giftState = "opening";
     else if (isLocked) giftState = "waiting";
 
-    /** Close the reveal and fly the figure to its shelf slot. */
+    /** Close the reveal and, if it has a slot, fly the figure to the shelf. */
     const placeOnShelf = () => {
-        if (!unlockedAmiibo) return;
-        const key = amiiboKey(unlockedAmiibo);
+        if (!revealKey) return;
+        if (!goesOnShelf) {
+            closeModal();
+            return;
+        }
+        const key = revealKey;
         const finish = () => setTimeout(() => setArrivingKey(null), 900);
 
         if (!document.startViewTransition || prefersReducedMotion()) {
@@ -112,7 +118,7 @@ const Unlock = () => {
                 <Room
                     figures={shelfFigures}
                     remainingTime={remainingTime}
-                    hiddenKey={unlockedAmiibo ? amiiboKey(unlockedAmiibo) : null}
+                    hiddenKey={revealKey}
                     arrivingKey={arrivingKey}
                     shelfLabel={t("unlock.shelfLabel")}
                     floorSlot={<GiftBox state={giftState} onOpen={handleUnlock} />}
@@ -172,20 +178,9 @@ const Unlock = () => {
                         </Link>
                     )}
                 </div>
-
-                <p className="stage-tally">
-                    <span className="plaque">
-                        {catalogTotal !== null
-                            ? t("tally.figuresOf", { count: userAmiibos.length, total: catalogTotal })
-                            : t("tally.figures", { count: userAmiibos.length })}
-                    </span>
-                    <span className="plaque">
-                        {t("tally.series", { count: seriesCount })}
-                    </span>
-                </p>
             </section>
 
-            <ModalUnlocked amiibo={unlockedAmiibo} onPlace={placeOnShelf} />
+            <ModalUnlocked amiibo={unlockedAmiibo} goesOnShelf={goesOnShelf} onPlace={placeOnShelf} />
         </div>
     );
 };

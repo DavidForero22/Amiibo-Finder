@@ -251,17 +251,19 @@ body.theme-switching .r-lamp-shade {
     100% { transform: none; }
 }
 
-/* A hand brushing past the shelf: the figure hops once, its shadow shrinks */
+/* A hand brushing past the shelf: the figure hops once, its shadow shrinks.
+   Room.tsx adds `is-hopping` on hover and drops it when the hop ends, so
+   moving the cursor away never cuts the hop short. */
 @media (hover: hover) {
     .room-figure picture {
         transform-origin: 50% 100%;
     }
 
-    .room-figure:hover picture {
+    .room-figure.is-hopping picture {
         animation: figure-hop 480ms var(--ease-out);
     }
 
-    .room-figure:hover::after {
+    .room-figure.is-hopping::after {
         animation: shadow-hop 480ms var(--ease-out);
     }
 }
@@ -309,6 +311,16 @@ body.theme-switching .r-lamp-shade {
 ::view-transition-group(arriving-figure) {
     animation-duration: 720ms;
     animation-timing-function: cubic-bezier(0.5, 0, 0.2, 1);
+}
+
+/* The header is the same on every page, so it stays put: no fade at all */
+::view-transition-group(site-header),
+::view-transition-new(site-header) {
+    animation: none;
+}
+
+::view-transition-old(site-header) {
+    display: none;
 }
 
 /* The rest of the page hands over in sequence (out, then in) so two panels

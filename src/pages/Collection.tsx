@@ -6,7 +6,6 @@ import { useAmiibo } from "../context/AmiiboContext";
 import { useFilter } from "../context/FilterContext";
 import { useFilteredCollection } from "../logic/useFilteredCollection";
 import { useUnlockLogic } from "../logic/useUnlockLogic";
-import { readCachedAmiiboList } from "../logic/utils";
 import Room from "../modules/Room";
 import { SHELF_CAPACITY } from "../modules/roomGeometry";
 import AmiiboList from "../modules/AmiiboList";
@@ -14,7 +13,7 @@ import Filters from "../modules/Filters";
 import "../styles/collection.css";
 
 /**
- * Collection page: the room with your best figures on display, then the
+ * Collection page: the room with your favorite figures on display, then the
  * ledger of everything you own with search, filters and sorting.
  */
 const Collection = () => {
@@ -24,18 +23,8 @@ const Collection = () => {
     const { filteredAmiibos, uniqueSeries } = useFilteredCollection(userAmiibos, filters);
     const { remainingTime, isLocked, isCollectionComplete, formatTime } = useUnlockLogic();
 
-    // Favorites get the shelves first, then the newest arrivals
-    const displayFigures = useMemo(() => {
-        const newestFirst = [...userAmiibos].reverse();
-        return [
-            ...newestFirst.filter((a) => a.isFavorite),
-            ...newestFirst.filter((a) => !a.isFavorite),
-        ];
-    }, [userAmiibos]);
-
-    const catalogTotal = useMemo(() => readCachedAmiiboList()?.length ?? null, []);
-    const favoritesCount = userAmiibos.filter((a) => a.isFavorite).length;
-    const seriesCount = uniqueSeries.length;
+    // Only favorites go on display, in the order they were unlocked
+    const favorites = useMemo(() => userAmiibos.filter((a) => a.isFavorite), [userAmiibos]);
     const owned = userAmiibos.length;
     const isEmpty = owned === 0;
 
@@ -44,7 +33,7 @@ const Collection = () => {
             <div className="collection-top">
                 <div className="collection-room">
                     <Room
-                        figures={displayFigures}
+                        figures={favorites}
                         remainingTime={remainingTime}
                         shelfLabel={t("collection.shelfLabel")}
                     />
@@ -61,21 +50,13 @@ const Collection = () => {
                             : t("collection.lede.filled")}
                     </p>
 
-                    {!isEmpty && (
-                        <p className="collection-tally">
-                            <span className="plaque">
-                                {catalogTotal !== null
-                                    ? t("tally.figuresOf", { count: owned, total: catalogTotal })
-                                    : t("tally.figures", { count: owned })}
-                            </span>
-                            <span className="plaque">{t("tally.series", { count: seriesCount })}</span>
-                            <span className="plaque">{t("tally.favorites", { count: favoritesCount })}</span>
-                        </p>
+                    {!isEmpty && favorites.length === 0 && (
+                        <p className="collection-note">{t("collection.shelfEmpty")}</p>
                     )}
 
-                    {owned > SHELF_CAPACITY && (
+                    {favorites.length > SHELF_CAPACITY && (
                         <p className="collection-note">
-                            {t("collection.shelfNote", { capacity: SHELF_CAPACITY, owned })}
+                            {t("collection.shelfNote", { capacity: SHELF_CAPACITY, count: favorites.length })}
                         </p>
                     )}
 

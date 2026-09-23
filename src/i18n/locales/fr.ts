@@ -63,23 +63,15 @@ const fr: Catalog = {
 	room: {
 		clockReady: "PRÊT",
 	},
-	tally: {
-		figures_one: "{{count}} figurine",
-		figures_other: "{{count}} figurines",
-		figuresOf_one: "{{count}} / {{total}} figurines",
-		figuresOf_other: "{{count}} / {{total}} figurines",
-		series_one: "{{count}} série",
-		series_other: "{{count}} séries",
-		favorites_one: "{{count}} favorite",
-		favorites_other: "{{count}} favorites",
-	},
 	reveal: {
 		close: "Fermer et poser la figurine sur l’étagère",
 		desc: "De {{gameSeries}}, de la série {{amiiboSeries}}. Elle emménage dans votre chambre.",
 		place: "La poser sur l’étagère",
+		keep: "L’ajouter à la collection",
+		closeKeep: "Fermer et ajouter la figurine à la collection",
 	},
 	unlock: {
-		shelfLabel: "Figurines sur vos étagères, les plus récentes d’abord",
+		shelfLabel: "Vos figurines favorites en vitrine",
 		error: {
 			network: {
 				title: "La livraison n’a pas pu vous parvenir.",
@@ -128,12 +120,13 @@ const fr: Catalog = {
 	},
 	collection: {
 		title: "Ma collection",
-		shelfLabel: "En vitrine : les favorites d’abord, puis les plus récentes",
+		shelfLabel: "Vos figurines favorites en vitrine",
 		lede: {
 			empty: "Vos étagères sont vides. Votre première figurine vous attend dans la boîte cadeau.",
-			filled: "Les favorites ont les meilleures places sur les étagères. Tout ce que vous possédez est listé dans le registre ci-dessous.",
+			filled: "Vos favorites sont exposées sur les étagères. Tout ce que vous possédez est listé dans le registre ci-dessous.",
 		},
-		shelfNote: "{{capacity}} de vos {{owned}} figurines tiennent sur les étagères. Marquez des favorites pour choisir celles qui sont exposées.",
+		shelfEmpty: "Marquez des figurines comme favorites pour les exposer sur les étagères.",
+		shelfNote: "{{capacity}} de vos {{count}} favorites tiennent sur les étagères. Les premières ont les places.",
 		delivery: {
 			nextIn: "Prochaine livraison dans <time>{{time}}</time>",
 			goToUnlock: "Aller à Débloquer",

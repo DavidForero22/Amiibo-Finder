@@ -76,12 +76,6 @@
     max-width: 38ch;
 }
 
-.collection-tally {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
 .collection-note {
     font-size: 0.9375rem;
     color: var(--ink-soft);

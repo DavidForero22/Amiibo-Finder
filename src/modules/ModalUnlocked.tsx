@@ -8,16 +8,18 @@ import "../styles/modal-unlock.css";
 interface Props {
     /** The figure just unlocked; the dialog is open while this is set. */
     amiibo: Amiibo | null;
-    /** Closes the reveal and places the figure on the shelf. */
+    /** Whether the figure gets a shelf slot (a favorite that fits) or just joins the collection. */
+    goesOnShelf: boolean;
+    /** Closes the reveal and places the figure on the shelf or in the collection. */
     onPlace: () => void;
 }
 
 /**
  * The reveal. A native modal <dialog> (focus containment, Escape and inert
  * background come from the platform) showing the new figure under a spotlight
- * with its name at poster scale. Every way of closing puts the figure on the shelf.
+ * with its name at poster scale. Every way of closing places the figure.
  */
-const ModalUnlocked: React.FC<Props> = ({ amiibo, onPlace }) => {
+const ModalUnlocked: React.FC<Props> = ({ amiibo, goesOnShelf, onPlace }) => {
     const { t } = useTranslation();
     const dialogRef = useRef<HTMLDialogElement>(null);
     const placeBtnRef = useRef<HTMLButtonElement>(null);
@@ -47,7 +49,7 @@ const ModalUnlocked: React.FC<Props> = ({ amiibo, onPlace }) => {
                 if (e.target === e.currentTarget) onPlace();
             }}
         >
-            <button type="button" className="icon-btn dialog-close reveal-close" onClick={onPlace} aria-label={t("reveal.close")}>
+            <button type="button" className="icon-btn dialog-close reveal-close" onClick={onPlace} aria-label={goesOnShelf ? t("reveal.close") : t("reveal.closeKeep")}>
                 <IoClose aria-hidden="true" />
             </button>
 
@@ -71,7 +73,7 @@ const ModalUnlocked: React.FC<Props> = ({ amiibo, onPlace }) => {
                     {t("reveal.desc", { gameSeries: amiibo.gameSeries, amiiboSeries: amiibo.amiiboSeries })}
                 </p>
                 <button ref={placeBtnRef} type="button" className="btn btn-primary btn-lg" onClick={onPlace}>
-                    {t("reveal.place")}
+                    {goesOnShelf ? t("reveal.place") : t("reveal.keep")}
                 </button>
             </div>
         </dialog>

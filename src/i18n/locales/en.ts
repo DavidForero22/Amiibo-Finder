@@ -61,23 +61,15 @@ const en = {
 	room: {
 		clockReady: "READY",
 	},
-	tally: {
-		figures_one: "{{count}} figure",
-		figures_other: "{{count}} figures",
-		figuresOf_one: "{{count}} / {{total}} figures",
-		figuresOf_other: "{{count}} / {{total}} figures",
-		series_one: "{{count}} series",
-		series_other: "{{count}} series",
-		favorites_one: "{{count}} favorite",
-		favorites_other: "{{count}} favorites",
-	},
 	reveal: {
 		close: "Close and put the figure on the shelf",
 		desc: "From {{gameSeries}}, part of the {{amiiboSeries}} series. It's moving into your room.",
 		place: "Put it on the shelf",
+		keep: "Add it to the collection",
+		closeKeep: "Close and add the figure to the collection",
 	},
 	unlock: {
-		shelfLabel: "Figures on your shelves, newest first",
+		shelfLabel: "Your favorite figures on display",
 		error: {
 			network: {
 				title: "The delivery couldn't reach you.",
@@ -126,12 +118,13 @@ const en = {
 	},
 	collection: {
 		title: "My Collection",
-		shelfLabel: "On display: favorites first, then newest",
+		shelfLabel: "Your favorite figures on display",
 		lede: {
 			empty: "Your shelves are empty. Your first figure is waiting in the gift box.",
-			filled: "Favorites get the best spots on the shelves. Everything you own is listed in the ledger below.",
+			filled: "Your favorites are on display on the shelves. Everything you own is listed in the ledger below.",
 		},
-		shelfNote: "{{capacity}} of your {{owned}} figures fit on the shelves. Mark favorites to choose who's on display.",
+		shelfEmpty: "Mark figures as favorites to put them on display.",
+		shelfNote: "{{capacity}} of your {{count}} favorites fit on the shelves. The first ones get the spots.",
 		delivery: {
 			nextIn: "Next delivery in <time>{{time}}</time>",
 			goToUnlock: "Go to Unlock",
