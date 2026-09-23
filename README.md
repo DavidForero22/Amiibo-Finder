@@ -122,7 +122,7 @@ Business logic is extracted into reusable hooks:
 ---
 
 ## 🔗 API
-This project relies on the community-maintained fork of AmiiboAPI to fetch figure data (the original amiiboapi.com service has been shut down).
+This project relies on the community-maintained fork of AmiiboAPI to fetch figure data (the original amiiboapi.com service has been shut down in january of 2026).
 
 - Documentation: https://amiiboapi.org/
 - Source: https://github.com/8bitDream/AmiiboAPI
