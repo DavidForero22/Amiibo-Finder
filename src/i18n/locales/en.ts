@@ -1,5 +1,5 @@
 /**
- * English catalog: the source of truth for keys. `es` and `fr` must match its shape.
+ * English catalog: the source of truth for keys. `es` must match its shape.
  * Figure names and series come from the API and are never translated.
  */
 const en = {

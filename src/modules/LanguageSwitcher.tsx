@@ -6,7 +6,7 @@ import "../styles/language-switcher.css";
 
 /**
  * Compact language picker for the header. The face shows only the language
- * code (EN/ES/FR); it opens a radio menu with each language named in itself
+ * code (EN/ES); it opens a radio menu with each language named in itself
  * (each item carries its own `lang`). Same keyboard model as the data menu.
  */
 const LanguageSwitcher = () => {

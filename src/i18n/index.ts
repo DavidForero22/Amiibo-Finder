@@ -3,22 +3,19 @@ import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import en from "./locales/en";
 import es from "./locales/es";
-import fr from "./locales/fr";
 
-export const SUPPORTED_LANGUAGES = ["en", "es", "fr"] as const;
+export const SUPPORTED_LANGUAGES = ["en", "es"] as const;
 export type Language = (typeof SUPPORTED_LANGUAGES)[number];
 
 /** Each language named in itself, as shown in the language picker. */
 export const LANGUAGE_NAMES: Record<Language, string> = {
 	en: "English",
 	es: "Español",
-	fr: "Français",
 };
 
 export const resources = {
 	en: { translation: en },
 	es: { translation: es },
-	fr: { translation: fr },
 } as const;
 
 /**
