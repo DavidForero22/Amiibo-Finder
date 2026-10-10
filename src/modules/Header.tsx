@@ -87,8 +87,6 @@ const Header = () => {
                         )}
                     </button>
 
-                    <LanguageSwitcher />
-
                     <button
                         type="button"
                         onClick={toggleTheme}
@@ -98,6 +96,8 @@ const Header = () => {
                     >
                         {nightTime ? <IoSunnyOutline aria-hidden="true" /> : <IoMoonOutline aria-hidden="true" />}
                     </button>
+
+                    <LanguageSwitcher />
 
                     <UserMenu />
                 </div>

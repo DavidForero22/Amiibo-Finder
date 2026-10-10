@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { IoSearch, IoOptionsOutline, IoCloseCircle } from "react-icons/io5";
 import type { FilterState } from "../context/FilterContext";
@@ -36,6 +36,7 @@ const Filters: React.FC<Props> = ({
     onReset,
 }) => {
     const { t } = useTranslation();
+    const searchRef = useRef<HTMLInputElement>(null);
     // Matches the panel-close animation in filters.css
     const panel = usePresence(isOpen, 220);
     const activeCount =
@@ -53,6 +54,7 @@ const Filters: React.FC<Props> = ({
                     </label>
                     <IoSearch className="search-icon" aria-hidden="true" />
                     <input
+                        ref={searchRef}
                         id="filter-name"
                         type="search"
                         placeholder={t("filters.searchPlaceholder")}
@@ -64,7 +66,10 @@ const Filters: React.FC<Props> = ({
                         <button
                             type="button"
                             className="search-clear"
-                            onClick={() => setFilters({ ...filters, name: "" })}
+                            onClick={() => {
+                                setFilters({ ...filters, name: "" });
+                                searchRef.current?.focus(); // the clear button is about to unmount
+                            }}
                             aria-label={t("filters.clearSearch")}
                         >
                             <IoCloseCircle aria-hidden="true" />

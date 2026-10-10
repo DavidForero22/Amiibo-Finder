@@ -5,6 +5,7 @@ const es: Catalog = {
 	common: {
 		appName: "Amiibo Finder",
 		skipToContent: "Saltar al contenido",
+		dismiss: "Descartar mensaje",
 	},
 	language: {
 		label: "Idioma",
@@ -31,7 +32,8 @@ const es: Catalog = {
 		},
 	},
 	userMenu: {
-		label: "Datos de la colección",
+		label: "Más opciones",
+		reduceMotion: "Reducir animaciones",
 		export: "Exportar colección",
 		import: "Importar colección",
 		delete: "Borrar colección",

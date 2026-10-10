@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import { AmiiboProvider } from "./context/AmiiboContext";
 import { ThemeProvider } from "./context/ThemeContext";
+import { MotionProvider } from "./context/MotionContext";
 import { FilterProvider } from "./context/FilterContext";
 import BaseLayout from "./layouts/BaseLayout";
 import Home from "./pages/Collection";
@@ -38,13 +39,15 @@ function App() {
     return (
         /* Global State Providers */
         <ThemeProvider>
-            <AmiiboProvider>
-                <FilterProvider>
-                    <ToastProvider>
-                        <RouterProvider router={router} />
-                    </ToastProvider>
-                </FilterProvider>
-            </AmiiboProvider>
+            <MotionProvider>
+                <AmiiboProvider>
+                    <FilterProvider>
+                        <ToastProvider>
+                            <RouterProvider router={router} />
+                        </ToastProvider>
+                    </FilterProvider>
+                </AmiiboProvider>
+            </MotionProvider>
         </ThemeProvider>
     );
 }

@@ -6,6 +6,7 @@ const en = {
 	common: {
 		appName: "Amiibo Finder",
 		skipToContent: "Skip to content",
+		dismiss: "Dismiss message",
 	},
 	language: {
 		label: "Language",
@@ -32,7 +33,8 @@ const en = {
 		},
 	},
 	userMenu: {
-		label: "Collection data",
+		label: "More options",
+		reduceMotion: "Reduce animations",
 		export: "Export collection",
 		import: "Import collection",
 		delete: "Delete collection",

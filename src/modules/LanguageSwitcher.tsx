@@ -30,13 +30,13 @@ const LanguageSwitcher = () => {
 				className="lang-face"
 				onClick={toggle}
 				onKeyDown={onButtonKeyDown}
-				aria-label={`${t("language.label")}: ${LANGUAGE_NAMES[current]}`}
+				aria-label={`${current.toUpperCase()}, ${t("language.label")}: ${LANGUAGE_NAMES[current]}`}
 				title={t("language.changeTo")}
 				aria-haspopup="menu"
 				aria-expanded={isOpen}
 				aria-controls={isMounted ? "lang-menu" : undefined}
 			>
-				<span aria-hidden="true">{current.toUpperCase()}</span>
+				<span>{current.toUpperCase()}</span>
 				<IoChevronDown className="lang-chevron" aria-hidden="true" />
 			</button>
 
@@ -63,7 +63,7 @@ const LanguageSwitcher = () => {
 						>
 							<IoCheckmark className="lang-check" aria-hidden="true" />
 							{LANGUAGE_NAMES[lng]}
-							<span className="lang-code" aria-hidden="true">{lng.toUpperCase()}</span>
+							<span className="lang-code">{lng.toUpperCase()}</span>
 						</button>
 					))}
 				</div>

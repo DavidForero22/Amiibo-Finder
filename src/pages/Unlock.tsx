@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -12,11 +12,9 @@ import { readCachedAmiiboList } from "../logic/utils";
 import { useAmiibo } from "../context/AmiiboContext";
 import { useNotifications } from "../modules/useNotifications";
 import { useToast } from "../context/ToastContext";
+import { useMotion } from "../context/MotionContext";
 import "../styles/unlock.css";
 
-
-const prefersReducedMotion = () =>
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 /**
  * Unlock page: the room with a delivery on the rug, and a status panel that
@@ -39,6 +37,9 @@ const Unlock = () => {
     const { userAmiibos } = useAmiibo();
     const { status: notifyStatus, request: requestNotifications } = useNotifications();
     const { showToast } = useToast();
+    const { reduceMotion } = useMotion();
+    const titleRef = useRef<HTMLHeadingElement>(null);
+    const hadReveal = useRef(false);
     const [arrivingKey, setArrivingKey] = useState<string | null>(null);
 
     // Only favorites go on display, in the order they were unlocked
@@ -49,6 +50,17 @@ const Unlock = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [userAmiibos.length]
     );
+
+    // The reveal dialog takes the focused button with it when it closes; land
+    // on the page title instead of dropping focus to the top of the document
+    useEffect(() => {
+        if (unlockedAmiibo) {
+            hadReveal.current = true;
+        } else if (hadReveal.current) {
+            hadReveal.current = false;
+            titleRef.current?.focus();
+        }
+    }, [unlockedAmiibo]);
 
     // A new figure only flies to the shelf if it has a slot there (a favorite that fits)
     const revealKey = unlockedAmiibo ? amiiboKey(unlockedAmiibo) : null;
@@ -71,7 +83,7 @@ const Unlock = () => {
         const key = revealKey;
         const finish = () => setTimeout(() => setArrivingKey(null), 900);
 
-        if (!document.startViewTransition || prefersReducedMotion()) {
+        if (!document.startViewTransition || reduceMotion) {
             closeModal();
             setArrivingKey(key);
             finish();
@@ -126,7 +138,7 @@ const Unlock = () => {
             </div>
 
             <section className="stage-panel" aria-labelledby="unlock-title">
-                <h1 id="unlock-title" className="stage-title">{title}</h1>
+                <h1 ref={titleRef} tabIndex={-1} id="unlock-title" className="stage-title">{title}</h1>
 
                 <p id="delivery-status" className="stage-body" role="status" aria-live="polite">
                     {body}

@@ -1,13 +1,16 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
 	IoEllipsisHorizontalCircleOutline,
 	IoDownloadOutline,
 	IoCloudUploadOutline,
 	IoTrashOutline,
+	IoPauseCircleOutline,
+	IoCheckmark,
 } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
 import { useAmiibo } from "../context/AmiiboContext";
 import { useToast } from "../context/ToastContext";
+import { useMotion } from "../context/MotionContext";
 import { useDropdown } from "./useDropdown";
 import DeleteCollectionModal from "./DeleteModal";
 
@@ -25,6 +28,7 @@ const UserMenu = () => {
 	const { t } = useTranslation();
 	const { userAmiibos, exportCollection, importFromFile, clearStorage } = useAmiibo();
 	const { showToast } = useToast();
+	const { reduceMotion, toggleMotion } = useMotion();
 	const {
 		isOpen, isMounted, state, rootRef, buttonRef, menuRef,
 		close, toggle, onButtonKeyDown, onMenuKeyDown,
@@ -32,6 +36,18 @@ const UserMenu = () => {
 
 	const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 	const fileInputRef = useRef<HTMLInputElement>(null);
+
+	// Once the confirmation is gone, hand focus back to the menu button. Doing it
+	// in the handlers is too early: the modal dialog still makes the page inert.
+	const wasConfirming = useRef(false);
+	useEffect(() => {
+		if (showDeleteConfirm) {
+			wasConfirming.current = true;
+		} else if (wasConfirming.current) {
+			wasConfirming.current = false;
+			buttonRef.current?.focus();
+		}
+	}, [showDeleteConfirm, buttonRef]);
 
 	const onExportClick = () => {
 		if (userAmiibos.length === 0) {
@@ -56,7 +72,6 @@ const UserMenu = () => {
 		clearStorage();
 		setShowDeleteConfirm(false);
 		showToast(t("userMenu.toast.deleted"));
-		buttonRef.current?.focus();
 	};
 
 	return (
@@ -107,6 +122,22 @@ const UserMenu = () => {
 
 					<div className="dropdown-divider" role="separator" />
 
+					{/* Stays open so the new state is visible */}
+					<button
+						type="button"
+						className="dropdown-item"
+						role="menuitemcheckbox"
+						aria-checked={reduceMotion}
+						tabIndex={-1}
+						onClick={toggleMotion}
+					>
+						<IoPauseCircleOutline aria-hidden="true" />
+						{t("userMenu.reduceMotion")}
+						<IoCheckmark className="menu-check" aria-hidden="true" />
+					</button>
+
+					<div className="dropdown-divider" role="separator" />
+
 					<button
 						type="button"
 						className="dropdown-item danger"
@@ -136,10 +167,7 @@ const UserMenu = () => {
 			{showDeleteConfirm && (
 				<DeleteCollectionModal
 					count={userAmiibos.length}
-					onCancel={() => {
-						setShowDeleteConfirm(false);
-						buttonRef.current?.focus();
-					}}
+					onCancel={() => setShowDeleteConfirm(false)}
 					onConfirm={onConfirmDelete}
 				/>
 			)}

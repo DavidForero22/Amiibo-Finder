@@ -121,7 +121,8 @@ body.dark-mode {
 
 html {
     -webkit-text-size-adjust: 100%;
-    scroll-padding-top: 88px; /* clears the sticky header */
+    scroll-padding-top: 112px; /* clears the sticky header (two rows on phones) */
+    scroll-padding-bottom: 96px; /* clears the toast at the foot of the screen */
     scrollbar-color: var(--line-strong) var(--ground);
 }
 
@@ -477,13 +478,24 @@ body.dark-mode .btn-danger {
     }
 }
 
+/* Calm every animation: the OS setting, unless the user chose "full" in the
+   app, or the in-app "Reduce animations" switch (<html data-motion>) */
 @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
+    :root:not([data-motion="full"]) *,
+    :root:not([data-motion="full"]) *::before,
+    :root:not([data-motion="full"]) *::after {
         animation-duration: 1ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 1ms !important;
         scroll-behavior: auto !important;
     }
+}
+
+:root[data-motion="reduce"] *,
+:root[data-motion="reduce"] *::before,
+:root[data-motion="reduce"] *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
 }

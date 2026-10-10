@@ -154,29 +154,26 @@ body.theme-switching .r-lamp-shade {
     transition: fill 320ms var(--ease-out);
 }
 
+/* One flicker, then steady: well under three flashes per second (2.3.1) */
 @keyframes lamp-on {
     0% { opacity: 0; }
-    8% { opacity: 0.75; }
-    14% { opacity: 0.05; }
-    26% { opacity: 0.9; }
-    34% { opacity: 0.25; }
-    48%, 100% { opacity: 1; }
+    20% { opacity: 0.8; }
+    32% { opacity: 0.35; }
+    50%, 100% { opacity: 1; }
 }
 
 @keyframes bulb-on {
     0% { opacity: 0.15; }
-    8% { opacity: 0.85; }
-    14% { opacity: 0.2; }
-    26% { opacity: 0.95; }
-    34% { opacity: 0.35; }
-    48%, 100% { opacity: 1; }
+    20% { opacity: 0.9; }
+    32% { opacity: 0.4; }
+    50%, 100% { opacity: 1; }
 }
 
 @keyframes shade-on {
-    0%, 14% { filter: brightness(0.6); }
-    8%, 26% { filter: brightness(1); }
-    34% { filter: brightness(0.7); }
-    48%, 100% { filter: none; }
+    0% { filter: brightness(0.6); }
+    20% { filter: brightness(1); }
+    32% { filter: brightness(0.75); }
+    50%, 100% { filter: none; }
 }
 
 @keyframes lamp-off {
@@ -300,11 +297,17 @@ body.theme-switching .r-lamp-shade {
 }
 
 @media (prefers-reduced-motion: reduce) {
-    ::view-transition-group(*),
-    ::view-transition-old(*),
-    ::view-transition-new(*) {
+    :root:not([data-motion="full"])::view-transition-group(*),
+    :root:not([data-motion="full"])::view-transition-old(*),
+    :root:not([data-motion="full"])::view-transition-new(*) {
         animation: none !important;
     }
+}
+
+:root[data-motion="reduce"]::view-transition-group(*),
+:root[data-motion="reduce"]::view-transition-old(*),
+:root[data-motion="reduce"]::view-transition-new(*) {
+    animation: none !important;
 }
 
 /* View transition: the figure flies from the reveal dialog to its shelf slot */

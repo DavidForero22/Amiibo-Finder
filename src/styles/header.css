@@ -188,6 +188,17 @@
     background: var(--danger-soft);
 }
 
+/* Trailing check of a checkable menu item (shown only when checked) */
+.dropdown-item .menu-check {
+    margin-left: auto;
+    visibility: hidden;
+    color: var(--cobalt);
+}
+
+.dropdown-item[aria-checked="true"] .menu-check {
+    visibility: visible;
+}
+
 .dropdown-divider {
     height: 1px;
     margin: 6px 4px;

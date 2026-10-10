@@ -15,7 +15,7 @@
     gap: 6px 24px;
     max-width: var(--page-max);
     margin: 0 auto;
-    padding: 22px var(--gutter) 28px;
+    padding: 22px var(--gutter) 88px; /* room for the toast so it never covers a link */
 }
 
 .site-footer-note {
@@ -30,6 +30,8 @@
 
 .site-footer-social a {
     display: inline-flex;
+    padding: 6px; /* 32px target around the 20px icon */
+    margin: -6px;
     color: var(--ink-soft);
     transition: color 0.2s ease;
 }
