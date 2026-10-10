@@ -179,7 +179,7 @@ const Unlock = () => {
                     {giftState === "waiting" && notifyStatus === "default" && (
                         <button type="button" className="btn btn-lg" onClick={onNotifyClick}>
                             <IoNotificationsOutline aria-hidden="true" />
-                            {t("unlock.actions.notify")}
+                            {t("header.notifications.turnOn")}
                         </button>
                     )}
 

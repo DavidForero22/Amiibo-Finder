@@ -166,6 +166,7 @@ export const triggerBrowserNotification = () => {
     if ("Notification" in window && Notification.permission === "granted") {
         new Notification(i18n.t("common.appName"), {
             body: i18n.t("notification.body"),
+            lang: i18n.resolvedLanguage,
         });
     }
 };

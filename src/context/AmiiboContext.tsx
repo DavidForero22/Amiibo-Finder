@@ -25,7 +25,9 @@ export interface Amiibo {
 	isFavorite?: boolean;
 }
 
-export type ImportResult = "ok" | "invalid" | "read";
+export type ImportResult =
+	| { status: "ok"; list: Amiibo[] }
+	| { status: "invalid" | "read" };
 
 /**
  * Defines the shape of the Context.
@@ -39,7 +41,10 @@ interface AmiiboContextType {
 
 	// Data Management Methods (Import/Export)
 	exportCollection: () => boolean;
-	importFromFile: (file: File) => Promise<ImportResult>;
+	/** Reads and validates an export without touching the saved collection. */
+	parseImportFile: (file: File) => Promise<ImportResult>;
+	/** Replaces the saved collection (callers confirm first when it is not empty). */
+	replaceCollection: (list: Amiibo[]) => void;
 
 	// Confetti State
 	isConfettiActive: boolean;
@@ -132,10 +137,11 @@ export const AmiiboProvider: React.FC<{ children: React.ReactNode }> = ({
 	};
 
 	/**
-	 * Replaces the collection with the contents of a JSON export.
-	 * @returns "ok" on success, "invalid" if the file is not a valid export, "read" if it could not be read.
+	 * Reads a JSON export and validates it. Nothing is saved: replacing the
+	 * collection is destructive, so the caller confirms and then calls
+	 * `replaceCollection`.
 	 */
-	const importFromFile = (file: File): Promise<ImportResult> => {
+	const parseImportFile = (file: File): Promise<ImportResult> => {
 		return new Promise((resolve) => {
 			const reader = new FileReader();
 
@@ -143,26 +149,27 @@ export const AmiiboProvider: React.FC<{ children: React.ReactNode }> = ({
 				try {
 					const json: unknown = JSON.parse(event.target?.result as string);
 					if (isAmiiboList(json)) {
-						saveToStorage(json);
-						resolve("ok");
+						resolve({ status: "ok", list: json });
 					} else {
 						console.error("Invalid format: not an Amiibo list");
-						resolve("invalid");
+						resolve({ status: "invalid" });
 					}
 				} catch (error) {
 					console.error("Error parsing JSON", error);
-					resolve("invalid");
+					resolve({ status: "invalid" });
 				}
 			};
 
 			reader.onerror = () => {
 				console.error("Error reading file");
-				resolve("read");
+				resolve({ status: "read" });
 			};
 
 			reader.readAsText(file);
 		});
 	};
+
+	const replaceCollection = (list: Amiibo[]) => saveToStorage(list);
 
 	const triggerConfetti = () => setIsConfettiActive(true);
 	const stopConfetti = () => setIsConfettiActive(false);
@@ -175,7 +182,8 @@ export const AmiiboProvider: React.FC<{ children: React.ReactNode }> = ({
 				toggleFavorite,
 				clearStorage,
 				exportCollection,
-				importFromFile,
+				parseImportFile,
+				replaceCollection,
 				isConfettiActive,
 				triggerConfetti,
 				stopConfetti,

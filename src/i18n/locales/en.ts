@@ -55,6 +55,12 @@ const en = {
 		cancel: "Keep my collection",
 		confirm: "Delete collection",
 	},
+	importModal: {
+		title: "Replace your collection?",
+		desc: "Your current collection ({{current}}) will be replaced by the one in the file ({{incoming}}). This can't be undone. Export your collection first if you want a backup.",
+		cancel: "Keep my collection",
+		confirm: "Replace collection",
+	},
 	footer: {
 		license: "© 2025-2026 Davitroon · MIT License",
 		dataFrom: "Figure data from the <api>AmiiboAPI community project<hint> (opens in a new tab)</hint></api>",
@@ -110,7 +116,6 @@ const en = {
 			retry: "Try again",
 			open: "Open the gift",
 			opening: "Opening…",
-			notify: "Notify me when it arrives",
 			seeCollection: "See your collection",
 		},
 		toast: {
@@ -151,7 +156,6 @@ const en = {
 		toggle: "Filters",
 		activeSr_one: "{{count}} active",
 		activeSr_other: "{{count}} active",
-		reset: "Reset",
 		series: "Game series",
 		allSeries: "All series",
 		sortBy: "Sort by",

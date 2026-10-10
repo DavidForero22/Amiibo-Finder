@@ -96,7 +96,7 @@ const Filters: React.FC<Props> = ({
 
                 {isDirty && (
                     <button type="button" className="btn btn-quiet" onClick={onReset}>
-                        {t("filters.reset")}
+                        {t("collection.ledger.resetFilters")}
                     </button>
                 )}
             </div>

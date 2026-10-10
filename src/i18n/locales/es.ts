@@ -54,6 +54,12 @@ const es: Catalog = {
 		cancel: "Conservar mi colección",
 		confirm: "Borrar colección",
 	},
+	importModal: {
+		title: "¿Reemplazar tu colección?",
+		desc: "Tu colección actual ({{current}}) se reemplazará por la del archivo ({{incoming}}). No se puede deshacer. Si quieres una copia de seguridad, exporta antes tu colección.",
+		cancel: "Conservar mi colección",
+		confirm: "Reemplazar colección",
+	},
 	footer: {
 		license: "© 2025-2026 Davitroon · Licencia MIT",
 		dataFrom: "Datos de figuras del <api>proyecto comunitario AmiiboAPI<hint> (se abre en una pestaña nueva)</hint></api>",
@@ -109,7 +115,6 @@ const es: Catalog = {
 			retry: "Reintentar",
 			open: "Abrir el regalo",
 			opening: "Abriendo…",
-			notify: "Avísame cuando llegue",
 			seeCollection: "Ver tu colección",
 		},
 		toast: {
@@ -150,7 +155,6 @@ const es: Catalog = {
 		toggle: "Filtros",
 		activeSr_one: "{{count}} activo",
 		activeSr_other: "{{count}} activos",
-		reset: "Restablecer",
 		series: "Saga",
 		allSeries: "Todas las sagas",
 		sortBy: "Ordenar por",

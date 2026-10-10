@@ -1,21 +1,28 @@
-import { useEffect, useRef } from "react";
-import { useTranslation } from "react-i18next";
-import { IoTrashOutline } from "react-icons/io5";
+import { useEffect, useId, useRef } from "react";
+import type { ReactNode } from "react";
 import "../styles/modal-delete.css";
 
 interface Props {
-    /** How many figures would be lost; named in the warning. */
-    count: number;
+    title: string;
+    desc: string;
+    /** Decorative icon in the header badge. */
+    icon: ReactNode;
+    /** The safe choice; it also receives the initial focus. */
+    cancelLabel: string;
+    /** The destructive choice. */
+    confirmLabel: string;
     onCancel: () => void;
     onConfirm: () => void;
 }
 
 /**
- * Confirmation for deleting the whole collection. Native modal <dialog> with the
- * alertdialog role; focus starts on the safe choice (Cancel).
+ * Confirmation before an action that cannot be undone (delete or replace the
+ * collection; WCAG 3.3.4). Native modal <dialog> with the alertdialog role;
+ * focus starts on the safe choice and Escape or a backdrop click cancels.
  */
-const DeleteModal = ({ count, onCancel, onConfirm }: Props) => {
-    const { t } = useTranslation();
+const ConfirmModal = ({ title, desc, icon, cancelLabel, confirmLabel, onCancel, onConfirm }: Props) => {
+    const titleId = useId();
+    const descId = useId();
     const dialogRef = useRef<HTMLDialogElement>(null);
     const cancelRef = useRef<HTMLButtonElement>(null);
 
@@ -32,8 +39,8 @@ const DeleteModal = ({ count, onCancel, onConfirm }: Props) => {
             ref={dialogRef}
             className="dialog confirm"
             role="alertdialog"
-            aria-labelledby="delete-title"
-            aria-describedby="delete-desc"
+            aria-labelledby={titleId}
+            aria-describedby={descId}
             onCancel={(e) => {
                 e.preventDefault();
                 onCancel();
@@ -44,22 +51,20 @@ const DeleteModal = ({ count, onCancel, onConfirm }: Props) => {
         >
             <div className="confirm-body">
                 <span className="confirm-icon" aria-hidden="true">
-                    <IoTrashOutline />
+                    {icon}
                 </span>
-                <h2 id="delete-title" className="confirm-title">
-                    {t("deleteModal.title")}
+                <h2 id={titleId} className="confirm-title">
+                    {title}
                 </h2>
-                <p id="delete-desc" className="confirm-desc">
-                    {count > 0
-                        ? t("deleteModal.desc", { count })
-                        : t("deleteModal.descEmpty")}
+                <p id={descId} className="confirm-desc">
+                    {desc}
                 </p>
                 <div className="confirm-actions">
                     <button ref={cancelRef} type="button" className="btn" onClick={onCancel}>
-                        {t("deleteModal.cancel")}
+                        {cancelLabel}
                     </button>
                     <button type="button" className="btn btn-danger" onClick={onConfirm}>
-                        {t("deleteModal.confirm")}
+                        {confirmLabel}
                     </button>
                 </div>
             </div>
@@ -67,4 +72,4 @@ const DeleteModal = ({ count, onCancel, onConfirm }: Props) => {
     );
 };
 
-export default DeleteModal;
+export default ConfirmModal;
