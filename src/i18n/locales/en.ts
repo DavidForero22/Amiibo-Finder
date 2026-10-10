@@ -54,7 +54,7 @@ const en = {
 		confirm: "Delete collection",
 	},
 	footer: {
-		license: "© 2025 Davitroon · MIT License",
+		license: "© 2025-2026 Davitroon · MIT License",
 		dataFrom: "Figure data from the <api>AmiiboAPI community project<hint> (opens in a new tab)</hint></api>",
 		disclaimer: "Fan-made project, not affiliated with or endorsed by Nintendo.",
 	},

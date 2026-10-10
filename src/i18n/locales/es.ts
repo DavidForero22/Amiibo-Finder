@@ -53,7 +53,7 @@ const es: Catalog = {
 		confirm: "Borrar colección",
 	},
 	footer: {
-		license: "© 2025 Davitroon · Licencia MIT",
+		license: "© 2025-2026 Davitroon · Licencia MIT",
 		dataFrom: "Datos de figuras del <api>proyecto comunitario AmiiboAPI<hint> (se abre en una pestaña nueva)</hint></api>",
 		disclaimer: "Proyecto hecho por fans, sin afiliación ni respaldo de Nintendo.",
 	},
