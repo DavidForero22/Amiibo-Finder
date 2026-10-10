@@ -140,7 +140,17 @@ const Unlock = () => {
             <section className="stage-panel" aria-labelledby="unlock-title">
                 <h1 ref={titleRef} tabIndex={-1} id="unlock-title" className="stage-title">{title}</h1>
 
-                <p id="delivery-status" className="stage-body" role="status" aria-live="polite">
+                {/* One announcement with the title and the body; errors interrupt */}
+                <div
+                    className="visually-hidden"
+                    role={error ? "alert" : "status"}
+                    aria-live={error ? "assertive" : "polite"}
+                    aria-atomic="true"
+                >
+                    {title} {body}
+                </div>
+
+                <p id="delivery-status" className="stage-body">
                     {body}
                 </p>
 

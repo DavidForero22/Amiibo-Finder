@@ -171,8 +171,6 @@ const en = {
 	},
 	card: {
 		favorite: "Favorite {{name}}",
-		addFavorite: "Add to favorites",
-		removeFavorite: "Remove from favorites",
 		detailsFor: "Details for {{name}}",
 		unlocked: "Unlocked",
 		amiiboSeries: "Amiibo series",

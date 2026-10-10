@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Trans, useTranslation } from "react-i18next";
 import { IoArrowForward } from "react-icons/io5";
@@ -23,6 +23,14 @@ const Collection = () => {
     const { filteredAmiibos, uniqueSeries } = useFilteredCollection(userAmiibos, filters);
     const { remainingTime, isLocked, isCollectionComplete, formatTime } = useUnlockLogic();
 
+    // The delivery tag changes on its own when the cooldown ends; say so (WCAG 4.1.3)
+    const [giftAnnouncement, setGiftAnnouncement] = useState("");
+    const wasLocked = useRef(isLocked);
+    useEffect(() => {
+        if (wasLocked.current && !isLocked) setGiftAnnouncement(t("collection.delivery.waiting"));
+        wasLocked.current = isLocked;
+    }, [isLocked, t]);
+
     // Only favorites go on display, in the order they were unlocked
     const favorites = useMemo(() => userAmiibos.filter((a) => a.isFavorite), [userAmiibos]);
     const owned = userAmiibos.length;
@@ -30,6 +38,10 @@ const Collection = () => {
 
     return (
         <div className="collection">
+            <div className="visually-hidden" role="status" aria-live="polite" aria-atomic="true">
+                {giftAnnouncement}
+            </div>
+
             <div className="collection-top">
                 <div className="collection-room">
                     <Room

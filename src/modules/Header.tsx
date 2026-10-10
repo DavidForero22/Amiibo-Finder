@@ -77,7 +77,8 @@ const Header = () => {
                         type="button"
                         onClick={toggleNotifications}
                         className={`icon-btn ${notifyOn ? "is-on" : ""}`}
-                        aria-label={notifyLabel}
+                        aria-label={t("header.notifications.turnOn")}
+                        aria-pressed={notifyOn}
                         title={notifyLabel}
                     >
                         {notifyOn ? (

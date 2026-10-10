@@ -28,6 +28,16 @@ const AmiiboCard: React.FC<Props> = ({ amiibo }) => {
 	return (
 		<li className={`tile ${isFavorite ? "is-favorite" : ""} ${isFlipped ? "is-flipped" : ""}`}>
 			<div className="tile-card">
+				{/* First in the DOM so the revealed card follows the button that opens it */}
+				<button
+					type="button"
+					className="tile-flip"
+					onClick={() => setIsFlipped((flipped) => !flipped)}
+					aria-expanded={isFlipped}
+					aria-controls={backId}
+					aria-label={t("card.detailsFor", { name: amiibo.name })}
+				/>
+
 				<div className="tile-inner">
 					<div className="tile-face tile-front">
 						<FigureImage amiibo={amiibo} alt="" className="tile-figure" />
@@ -60,20 +70,10 @@ const AmiiboCard: React.FC<Props> = ({ amiibo }) => {
 
 				<button
 					type="button"
-					className="tile-flip"
-					onClick={() => setIsFlipped((flipped) => !flipped)}
-					aria-expanded={isFlipped}
-					aria-controls={backId}
-					aria-label={t("card.detailsFor", { name: amiibo.name })}
-				/>
-
-				<button
-					type="button"
 					className="tile-fav"
 					onClick={() => toggleFavorite(amiibo)}
 					aria-pressed={isFavorite}
 					aria-label={t("card.favorite", { name: amiibo.name })}
-					title={isFavorite ? t("card.removeFavorite") : t("card.addFavorite")}
 				>
 					{isFavorite ? <IoHeart aria-hidden="true" /> : <IoHeartOutline aria-hidden="true" />}
 				</button>
