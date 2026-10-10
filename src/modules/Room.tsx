@@ -231,7 +231,7 @@ const Room: React.FC<RoomProps> = ({
             </svg>
 
             {/* Figures on the shelves (real content, exposed to assistive tech) */}
-            <ul className="room-shelf" aria-label={shelfLabel}>
+            <ul className="room-shelf" role="list" aria-label={shelfLabel}>
                 {onShelf.map((amiibo, i) => {
                     const shelf = Math.floor(i / SLOTS_PER_SHELF);
                     const slot = i % SLOTS_PER_SHELF;

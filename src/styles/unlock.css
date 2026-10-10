@@ -144,15 +144,72 @@
     animation: gift-hop 3.4s var(--ease-out) infinite;
 }
 
-.gift.is-ready:hover svg,
-.gift.is-ready:focus-visible svg {
-    animation-play-state: paused;
-    transform: translateY(-3%);
-    transition: transform var(--dur-mid) var(--ease-out);
+
+/* Hover: a reward moment. The box hops once; a golden halo and sparkles
+   appear around it and stay while the pointer rests there, then fade out
+   on leave. The lights loop gently all the time and only their group
+   opacity changes, so the fade never snaps. Pointer-only by design: the
+   labelled "Open the gift" button is the control for keyboard and AT. */
+.gift .gift-glow {
+    opacity: 0;
+    transform-box: fill-box; /* beats `.gift svg > *` above */
+    transform-origin: 50% 50%;
+    transition: opacity 600ms var(--ease-out); /* fade out on leave */
+    animation: glow-pulse 2.4s ease-in-out infinite;
 }
 
-.gift.is-ready .gift-bow {
-    animation: bow-wiggle 3.4s var(--ease-out) infinite;
+.gift-sparks {
+    opacity: 0;
+    transition: opacity 600ms var(--ease-out); /* fade out on leave */
+}
+
+.gift-spark {
+    fill: #fff1c4;
+    stroke: var(--brass-light);
+    stroke-width: 1.5;
+    stroke-linejoin: round;
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+    animation: spark-twinkle 1.8s ease-in-out infinite;
+}
+
+@media (hover: hover) {
+    .gift.is-ready:hover svg {
+        animation: gift-hover-hop 800ms var(--ease-out) 1;
+    }
+
+    .gift.is-ready:hover .gift-glow,
+    .gift.is-ready:hover .gift-sparks {
+        opacity: 1;
+        transition-duration: 220ms; /* quick on arrival */
+    }
+}
+
+@keyframes gift-hover-hop {
+    0%, 100% { transform: none; }
+    16% { transform: translateY(2%) scale(1.03, 0.94); }
+    42% { transform: translateY(-9%) scale(0.98, 1.04); }
+    66% { transform: translateY(1%) scale(1.02, 0.97); }
+    82% { transform: translateY(-1.5%); }
+}
+
+@keyframes bow-wiggle-once {
+    0%, 100% { rotate: 0deg; }
+    30% { rotate: -8deg; }
+    55% { rotate: 6deg; }
+    80% { rotate: -3deg; }
+}
+
+@keyframes glow-pulse {
+    0%, 100% { transform: scale(0.94); }
+    50% { transform: scale(1.06); }
+}
+
+/* A four-point star turned 90deg looks the same, so the loop is seamless */
+@keyframes spark-twinkle {
+    0%, 100% { opacity: 0.55; transform: scale(0.7) rotate(0deg); }
+    50% { opacity: 1; transform: scale(1.15) rotate(45deg); }
+    100% { transform: scale(0.7) rotate(90deg); }
 }
 
 @keyframes gift-hop {

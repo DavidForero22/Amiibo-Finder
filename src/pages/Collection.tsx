@@ -116,7 +116,7 @@ const Collection = () => {
                         <AmiiboList amiibos={filteredAmiibos} labelledBy="ledger-title" />
                     ) : (
                         <div className="ledger-empty">
-                            <p className="ledger-empty-title">{t("collection.ledger.noMatchTitle")}</p>
+                            <h3 className="ledger-empty-title">{t("collection.ledger.noMatchTitle")}</h3>
                             <p>{t("collection.ledger.noMatchBody")}</p>
                             <button type="button" className="btn" onClick={resetFilters}>
                                 {t("collection.ledger.resetFilters")}

@@ -14,7 +14,7 @@
     --ink: #14191f;
     --ink-soft: #3b4652;
     --line: #bcc4cd;
-    --line-strong: #8d98a4;
+    --line-strong: #6f7b88; /* control borders: ≥3:1 on ground and surface (WCAG 1.4.11) */
 
     /* Room materials */
     --wall: #1f5a48;
@@ -77,7 +77,7 @@ body.dark-mode {
     --ink: #eef2f4;
     --ink-soft: #a9b6bf;
     --line: #2f3d47;
-    --line-strong: #4b5c68;
+    --line-strong: #78899a;
 
     --wall: #143a2f;
     --wall-shade: #0e2b23;
@@ -390,6 +390,11 @@ body.dark-mode .btn-danger {
     --surface: #ebe3d1;
     --line: #cdc2ab;
     --line-strong: #9d927c;
+    /* The paper is light in both themes, so action colors use the day values
+       (the night cobalt would be 2:1 against it) */
+    --cobalt: #2344d6;
+    --cobalt-hover: #1b36b0;
+    --on-cobalt: #ffffff;
 
     position: relative;
     isolation: isolate;

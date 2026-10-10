@@ -29,10 +29,44 @@ interface GiftBoxProps {
     onOpen: () => void;
 }
 
+/* Hover sparkles: [x, y, scale, delay in ms], spread around the box */
+const SPARKS: [number, number, number, number][] = [
+    [-92, -70, 1.1, 0],
+    [94, -92, 0.9, 180],
+    [-70, -158, 0.8, 360],
+    [72, -170, 1.2, 90],
+    [0, -205, 1, 270],
+    [-104, -118, 0.7, 450],
+    [106, -30, 0.8, 540],
+    [-58, -20, 0.7, 630],
+];
+
 const GiftDrawing: React.FC = () => {
     const [tx, ty] = iso(0, 0, ZT);
     return (
         <svg viewBox={`${VIEW.x} ${VIEW.y} ${VIEW.w} ${VIEW.h}`} aria-hidden="true" focusable="false">
+            <defs>
+                <radialGradient id="gift-glow-grad" cx="0.5" cy="0.5" r="0.5">
+                    <stop offset="0" stopColor="#ffe9a8" stopOpacity="0.75" />
+                    <stop offset="0.6" stopColor="#f0c768" stopOpacity="0.28" />
+                    <stop offset="1" stopColor="#f0c768" stopOpacity="0" />
+                </radialGradient>
+            </defs>
+
+            {/* Reward halo and sparkles: only visible while hovered */}
+            <ellipse className="gift-glow" cx="0" cy="-85" rx="125" ry="135" fill="url(#gift-glow-grad)" />
+            <g className="gift-sparks">
+                {SPARKS.map(([x, y, s, delay]) => (
+                    <g key={`${x},${y}`} transform={`translate(${x} ${y}) scale(${s})`}>
+                        <path
+                            className="gift-spark"
+                            style={{ animationDelay: `${delay}ms` }}
+                            d="M0 -12 L3 -3 L12 0 L3 3 L0 12 L-3 3 L-12 0 L-3 -3 Z"
+                        />
+                    </g>
+                ))}
+            </g>
+
             <ellipse className="gift-shadow" cx="0" cy="4" rx="96" ry="44" />
 
             {/* Light escaping the box while it opens */}

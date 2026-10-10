@@ -9,7 +9,8 @@ interface Props {
 
 /** The ledger grid of owned figures. */
 const AmiiboList = ({ amiibos, labelledBy }: Props) => (
-    <ul className="ledger-grid" aria-labelledby={labelledBy}>
+    // role="list" keeps list semantics in Safari/VoiceOver despite `list-style: none`
+    <ul className="ledger-grid" role="list" aria-labelledby={labelledBy}>
         {amiibos.map((amiibo) => (
             <AmiiboCard key={amiibo.head + amiibo.tail} amiibo={amiibo} />
         ))}

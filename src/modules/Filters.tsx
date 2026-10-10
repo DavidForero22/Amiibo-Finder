@@ -45,7 +45,7 @@ const Filters: React.FC<Props> = ({
     const isDirty = activeCount > 0 || filters.name !== "";
 
     return (
-        <div className="filters">
+        <div className="filters" role="search" aria-label={t("filters.searchLabel")}>
             <div className="filters-bar">
                 <div className="search-field">
                     <label htmlFor="filter-name" className="visually-hidden">

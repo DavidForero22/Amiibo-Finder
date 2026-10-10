@@ -83,13 +83,14 @@
     bottom: 5px;
     height: 3px;
     border-radius: 3px;
-    background: var(--brass);
+    background: var(--ink);
     transform: scaleX(0);
     transition: transform var(--dur-mid) var(--ease-out);
 }
 
 .site-nav-link.active {
     color: var(--ink);
+    font-weight: 800; /* a cue that does not depend on color */
 }
 
 .site-nav-link.active::after {
@@ -206,14 +207,22 @@
         font-size: 1.1rem;
     }
 
+    /* Brand and nav share the first row, the actions take the second: visual
+       order matches DOM order, so reading and Tab order stay in step (1.3.2) */
     .site-nav {
-        order: 3;
-        width: 100%;
+        flex: 1;
+        min-width: 0;
     }
 
     .site-nav-link {
         flex: 1;
         justify-content: center;
+        padding: 0 8px;
+    }
+
+    .header-actions {
+        width: 100%;
+        justify-content: flex-end;
     }
 }
 
