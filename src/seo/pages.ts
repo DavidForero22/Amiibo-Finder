@@ -7,14 +7,16 @@
 /** Production origin. Canonical, Open Graph and sitemap URLs are built from it. */
 export const SITE_URL = "https://amiibofinder.vercel.app";
 
-export const SOCIAL_IMAGE = {
-	url: `${SITE_URL}/social_thumbnail.webp`,
-	width: 1200,
-	height: 630,
-	type: "image/webp",
-} as const;
-
 export type PageKey = "home" | "unlock" | "notFound";
+
+const SOCIAL_IMAGE_BASE = { width: 1200, height: 630, type: "image/webp" } as const;
+
+/** One link-preview image per page; the 404 borrows the home one. */
+export const SOCIAL_IMAGES = {
+	home: { ...SOCIAL_IMAGE_BASE, url: `${SITE_URL}/home_social_thumb.webp` },
+	unlock: { ...SOCIAL_IMAGE_BASE, url: `${SITE_URL}/unlock_social_thumb.webp` },
+	notFound: { ...SOCIAL_IMAGE_BASE, url: `${SITE_URL}/home_social_thumb.webp` },
+} as const satisfies Record<PageKey, typeof SOCIAL_IMAGE_BASE & { url: string }>;
 
 /** Indexable routes; the 404 has no URL of its own. */
 export const PAGE_PATHS = {

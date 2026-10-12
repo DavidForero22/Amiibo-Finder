@@ -42,6 +42,7 @@ const BaseLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     // language changes. Mirrors what the prerendered HTML ships for each route.
     useEffect(() => {
         applyHead({
+            page: pageKey,
             title: t(`seo.${pageKey}.title`),
             description: t(`seo.${pageKey}.description`),
             url: pageKey === "notFound" ? undefined : canonicalFor(pageKey),

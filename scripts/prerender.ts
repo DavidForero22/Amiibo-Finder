@@ -2,7 +2,7 @@ import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import type { Plugin } from "vite";
 import en from "../src/i18n/locales/en";
-import { PAGE_PATHS, SITE_URL, SOCIAL_IMAGE, canonicalFor, type PageKey } from "../src/seo/pages";
+import { PAGE_PATHS, SITE_URL, SOCIAL_IMAGES, canonicalFor, type PageKey } from "../src/seo/pages";
 
 /**
  * Prerender: gives every route its own static HTML (title, description,
@@ -31,6 +31,7 @@ const headFor = (key: PageKey): string => {
 	const { title, description } = text(key);
 	const indexable = key !== "notFound";
 	const url = indexable ? canonicalFor(key) : null;
+	const image = SOCIAL_IMAGES[key];
 	const tags = [
 		`<title>${escapeHtml(title)}</title>`,
 		`<meta name="description" content="${escapeHtml(description)}" />`,
@@ -42,15 +43,15 @@ const headFor = (key: PageKey): string => {
 		`<meta property="og:title" content="${escapeHtml(title)}" />`,
 		`<meta property="og:description" content="${escapeHtml(description)}" />`,
 		url ? `<meta property="og:url" content="${url}" />` : "",
-		`<meta property="og:image" content="${SOCIAL_IMAGE.url}" />`,
-		`<meta property="og:image:type" content="${SOCIAL_IMAGE.type}" />`,
-		`<meta property="og:image:width" content="${SOCIAL_IMAGE.width}" />`,
-		`<meta property="og:image:height" content="${SOCIAL_IMAGE.height}" />`,
+		`<meta property="og:image" content="${image.url}" />`,
+		`<meta property="og:image:type" content="${image.type}" />`,
+		`<meta property="og:image:width" content="${image.width}" />`,
+		`<meta property="og:image:height" content="${image.height}" />`,
 		`<meta property="og:image:alt" content="${escapeHtml(en.common.appName)}" />`,
 		`<meta name="twitter:card" content="summary_large_image" />`,
 		`<meta name="twitter:title" content="${escapeHtml(title)}" />`,
 		`<meta name="twitter:description" content="${escapeHtml(description)}" />`,
-		`<meta name="twitter:image" content="${SOCIAL_IMAGE.url}" />`,
+		`<meta name="twitter:image" content="${image.url}" />`,
 	];
 
 	if (key === "home") {

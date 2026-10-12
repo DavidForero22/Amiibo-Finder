@@ -73,11 +73,11 @@ const en = {
 			description: "Build your virtual Amiibo collection: open mystery gifts, unlock new figures and display your favorites!",
 		},
 		unlock: {
-			title: "Unlock a new Amiibo figure · Amiibo Safari",
+			title: "Amiibo Safari: Unlock a new Amiibo figure",
 			description: "Open the mystery gift and meet the next Amiibo figure joining your collection. A new delivery arrives every two hours.",
 		},
 		notFound: {
-			title: "Page not found · Amiibo Safari",
+			title: "Amiibo Safari: Page not found",
 			description: "This page doesn't exist. Head back to your Amiibo collection or open your next gift.",
 			heading: "This page isn't on the shelf.",
 			back: "Back to your collection",

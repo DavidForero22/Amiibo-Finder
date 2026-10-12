@@ -1,6 +1,7 @@
-import { SOCIAL_IMAGE } from "./pages";
+import { SOCIAL_IMAGES, type PageKey } from "./pages";
 
 interface HeadState {
+	page: PageKey;
 	title: string;
 	description: string;
 	/** Absolute canonical URL; omitted for pages that must not be indexed. */
@@ -28,7 +29,7 @@ const meta = (key: "name" | "property", name: string, value: string) =>
  * Mirrors what scripts/prerender.ts writes into each static page, so client-side
  * navigation and language switches keep the head accurate.
  */
-export const applyHead = ({ title, description, url, locale, noindex }: HeadState) => {
+export const applyHead = ({ page, title, description, url, locale, noindex }: HeadState) => {
 	document.title = title;
 	meta("name", "description", description);
 	meta("property", "og:title", title);
@@ -36,7 +37,8 @@ export const applyHead = ({ title, description, url, locale, noindex }: HeadStat
 	meta("property", "og:locale", locale);
 	meta("name", "twitter:title", title);
 	meta("name", "twitter:description", description);
-	meta("property", "og:image", SOCIAL_IMAGE.url);
+	meta("property", "og:image", SOCIAL_IMAGES[page].url);
+	meta("name", "twitter:image", SOCIAL_IMAGES[page].url);
 
 	if (url) {
 		upsert("link", 'link[rel="canonical"]', { rel: "canonical" }, ["href", url]);
