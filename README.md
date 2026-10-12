@@ -31,22 +31,6 @@ The core purpose of this application is to simulate the excitement of collecting
 
 The application persists data locally, allowing users to keep their collection across sessions.
 
-**Key Features**:
-
-- **Gacha System**: Open a mystery gift box to receive a random Amiibo.
-
-- **Cooldown Mechanic**: After opening a gift, a 2-hour timer prevents further unlocks, adding a real-time element to the game.
-
-- **Browser Notifications**: Alerts the user when their cooldown is over and a new gift is ready.
-
-- **Collection Management**: Filter your collection by game series, search by name, or sort by date/favorites.
-
-- **Data Persistence**: Uses localStorage to save the collection and timer state.
-
-- **Import/Export**: Users can backup their collection to a JSON file and restore it later.
-
-- **Theming**: Fully supported Dark/Light mode.
-
 ---
 
 ## ⚙️ Installation
