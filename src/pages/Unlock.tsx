@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { flushSync } from "react-dom";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { IoNotificationsOutline, IoRefresh, IoArrowForward } from "react-icons/io5";
 import Room from "../modules/Room";
@@ -34,7 +34,8 @@ const Unlock = () => {
         formatTime,
     } = useUnlockLogic();
     const { t } = useTranslation();
-    const { userAmiibos } = useAmiibo();
+    const { userAmiibos, toggleFavorite } = useAmiibo();
+    const navigate = useNavigate();
     const { status: notifyStatus, request: requestNotifications } = useNotifications();
     const { showToast } = useToast();
     const { reduceMotion } = useMotion();
@@ -67,17 +68,19 @@ const Unlock = () => {
     const goesOnShelf =
         revealKey !== null &&
         shelfFigures.slice(0, SHELF_CAPACITY).some((a) => amiiboKey(a) === revealKey);
+    const isRevealFavorite = revealKey !== null && userAmiibos.some((a) => amiiboKey(a) === revealKey && a.isFavorite);
 
     let giftState: GiftState = "ready";
     if (isCollectionComplete) giftState = "hidden";
     else if (isOpeningAnim) giftState = "opening";
     else if (isLocked) giftState = "waiting";
 
-    /** Close the reveal and, if it has a slot, fly the figure to the shelf. */
-    const placeOnShelf = () => {
+    /** Close the reveal and, if it has a slot, fly the figure to the shelf. `onDone` runs once it has closed. */
+    const placeOnShelf = (onDone?: () => void) => {
         if (!revealKey) return;
         if (!goesOnShelf) {
             closeModal();
+            onDone?.();
             return;
         }
         const key = revealKey;
@@ -87,6 +90,7 @@ const Unlock = () => {
             closeModal();
             setArrivingKey(key);
             finish();
+            onDone?.();
             return;
         }
         const transition = document.startViewTransition(() => {
@@ -95,7 +99,18 @@ const Unlock = () => {
                 setArrivingKey(key);
             });
         });
-        transition.finished.finally(finish);
+        // Wait for the figure to land on the shelf before leaving the page
+        transition.finished.finally(() => {
+            finish();
+            onDone?.();
+        });
+    };
+
+    /** "Aceptar": close the reveal, then go to the collection at /. */
+    const acceptReveal = () => placeOnShelf(() => navigate("/", { viewTransition: true }));
+
+    const toggleRevealFavorite = () => {
+        if (unlockedAmiibo) toggleFavorite(unlockedAmiibo);
     };
 
     const onNotifyClick = async () => {
@@ -202,7 +217,14 @@ const Unlock = () => {
                 </div>
             </section>
 
-            <ModalUnlocked amiibo={unlockedAmiibo} goesOnShelf={goesOnShelf} onPlace={placeOnShelf} />
+            <ModalUnlocked
+                amiibo={unlockedAmiibo}
+                goesOnShelf={goesOnShelf}
+                isFavorite={isRevealFavorite}
+                onToggleFavorite={toggleRevealFavorite}
+                onPlace={() => placeOnShelf()}
+                onAccept={acceptReveal}
+            />
         </div>
     );
 };

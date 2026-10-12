@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { IoClose } from "react-icons/io5";
+import { IoClose, IoHeart, IoHeartOutline } from "react-icons/io5";
 import type { Amiibo } from "../context/AmiiboContext";
 import FigureImage from "./FigureImage";
 import "../styles/modal-unlock.css";
@@ -10,16 +10,23 @@ interface Props {
     amiibo: Amiibo | null;
     /** Whether the figure gets a shelf slot (a favorite that fits) or just joins the collection. */
     goesOnShelf: boolean;
+    /** Whether the figure is currently a favorite. */
+    isFavorite: boolean;
+    /** Toggles the favorite status of the figure without closing the reveal. */
+    onToggleFavorite: () => void;
     /** Closes the reveal and places the figure on the shelf or in the collection. */
     onPlace: () => void;
+    /** The "Aceptar" button: same as closing, then the caller moves on to the home page. */
+    onAccept: () => void;
 }
 
 /**
  * The reveal. A native modal <dialog> (focus containment, Escape and inert
  * background come from the platform) showing the new figure under a spotlight
- * with its name at poster scale. Every way of closing places the figure.
+ * with its name at poster scale. The heart marks a favorite; "Aceptar" closes
+ * the reveal. Every other way of closing places the figure.
  */
-const ModalUnlocked: React.FC<Props> = ({ amiibo, goesOnShelf, onPlace }) => {
+const ModalUnlocked: React.FC<Props> = ({ amiibo, goesOnShelf, isFavorite, onToggleFavorite, onPlace, onAccept }) => {
     const { t } = useTranslation();
     const dialogRef = useRef<HTMLDialogElement>(null);
     const placeBtnRef = useRef<HTMLButtonElement>(null);
@@ -72,9 +79,21 @@ const ModalUnlocked: React.FC<Props> = ({ amiibo, goesOnShelf, onPlace }) => {
                 <p id="reveal-desc" className="reveal-desc">
                     {t("reveal.desc", { gameSeries: amiibo.gameSeries, amiiboSeries: amiibo.amiiboSeries })}
                 </p>
-                <button ref={placeBtnRef} type="button" className="btn btn-primary btn-lg" onClick={onPlace}>
-                    {goesOnShelf ? t("reveal.place") : t("reveal.keep")}
-                </button>
+                <div className="reveal-actions">
+                    <button
+                        type="button"
+                        className="reveal-fav"
+                        onClick={onToggleFavorite}
+                        aria-pressed={isFavorite}
+                        aria-label={t("reveal.favorite")}
+                        title={isFavorite ? t("reveal.favoriteRemove") : t("reveal.favoriteAdd")}
+                    >
+                        {isFavorite ? <IoHeart aria-hidden="true" /> : <IoHeartOutline aria-hidden="true" />}
+                    </button>
+                    <button ref={placeBtnRef} type="button" className="btn btn-primary btn-lg" onClick={onAccept}>
+                        {t("reveal.accept")}
+                    </button>
+                </div>
             </div>
         </dialog>
     );

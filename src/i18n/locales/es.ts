@@ -88,8 +88,10 @@ const es: Catalog = {
 	reveal: {
 		close: "Cerrar y poner la figura en la estantería",
 		desc: "De {{gameSeries}}, parte de la serie {{amiiboSeries}}. Se muda a tu habitación.",
-		place: "Ponerla en la estantería",
-		keep: "Añadirla a la colección",
+		favorite: "Marcar como favorita",
+		favoriteAdd: "Añadir a favoritos",
+		favoriteRemove: "Quitar de favoritos",
+		accept: "Aceptar",
 		closeKeep: "Cerrar y añadir la figura a la colección",
 	},
 	unlock: {

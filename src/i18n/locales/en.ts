@@ -89,8 +89,10 @@ const en = {
 	reveal: {
 		close: "Close and put the figure on the shelf",
 		desc: "From {{gameSeries}}, part of the {{amiiboSeries}} series. It's moving into your room.",
-		place: "Put it on the shelf",
-		keep: "Add it to the collection",
+		favorite: "Mark as favorite",
+		favoriteAdd: "Add to favorites",
+		favoriteRemove: "Remove from favorites",
+		accept: "Accept",
 		closeKeep: "Close and add the figure to the collection",
 	},
 	unlock: {

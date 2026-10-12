@@ -34,6 +34,7 @@
 }
 
 .reveal-close:focus-visible,
+.reveal-fav:focus-visible,
 .dialog.reveal .btn:focus-visible {
     outline-color: #f0c768;
 }
@@ -48,9 +49,12 @@
     padding: 40px 24px calc(20% * 0.5);
 }
 
+/* Decorative: the glow spills past the stage into the copy column, so it must
+   never take clicks meant for the text and buttons */
 .reveal-spot {
     position: absolute;
     inset: -25% -30% 15%;
+    pointer-events: none;
     background: radial-gradient(closest-side, rgb(255 214 130 / 0.5), rgb(255 214 130 / 0.12) 55%, transparent);
     animation: spot-on 900ms var(--ease-out) both;
 }
@@ -80,11 +84,13 @@
     transform: translate(-50%, 50%);
     border-radius: 50%;
     background: radial-gradient(closest-side, rgb(0 0 0 / 0.5), transparent);
+    pointer-events: none;
 }
 
 /* ---------- Copy ---------- */
 
 .reveal-copy {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -125,6 +131,66 @@
 .dialog.reveal .btn-primary:hover {
     --btn-bg: #ffd887;
     --btn-line: #ffd887;
+}
+
+.reveal-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+}
+
+/* The heart: a 48px target (WCAG 2.5.8), the state carried by aria-pressed
+   and shown in brass once it is a favorite */
+.reveal-fav {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 48px;
+    height: 48px;
+    border: 1.5px solid rgb(246 241 228 / 0.5);
+    border-radius: 50%;
+    background: rgb(255 255 255 / 0.08);
+    color: var(--reveal-ink);
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition:
+        background-color var(--dur-fast) var(--ease-out),
+        border-color var(--dur-fast) var(--ease-out),
+        color var(--dur-fast) var(--ease-out);
+}
+
+.reveal-fav svg {
+    transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.reveal-fav:hover {
+    background: rgb(240 199 104 / 0.2);
+    border-color: #f0c768;
+    color: #ffd887;
+}
+
+.reveal-fav:hover svg {
+    transform: scale(1.12);
+}
+
+.reveal-fav:active {
+    transform: translateY(1px);
+}
+
+.reveal-fav[aria-pressed="true"] {
+    border-color: #f0c768;
+    color: #f0c768;
+}
+
+.reveal-fav[aria-pressed="true"]:hover {
+    background: rgb(240 199 104 / 0.3);
+}
+
+.reveal-fav:focus-visible {
+    outline: 3px solid #f0c768;
+    outline-offset: 3px;
+    box-shadow: 0 0 0 6px rgb(240 199 104 / 0.25);
 }
 
 @keyframes spot-on {
@@ -172,6 +238,14 @@
 
     .reveal-copy .btn {
         align-self: stretch;
+    }
+
+    .reveal-actions {
+        align-self: stretch;
+    }
+
+    .reveal-actions .btn {
+        flex: 1 1 auto;
     }
 }
 
