@@ -6,6 +6,7 @@ import { FilterProvider } from "./context/FilterContext";
 import BaseLayout from "./layouts/BaseLayout";
 import Home from "./pages/Collection";
 import Unlock from "./pages/Unlock";
+import NotFound from "./pages/NotFound";
 import { ToastProvider } from "./context/ToastContext";
 
 /**
@@ -25,6 +26,9 @@ const router = createBrowserRouter([
 
             /* Unlock/Gacha Page */
             { path: "/unlock", element: <Unlock /> },
+
+            /* Anything else */
+            { path: "*", element: <NotFound /> },
         ],
     },
 ]);

@@ -67,6 +67,22 @@ const en = {
 		disclaimer: "Fan-made project, not affiliated with or endorsed by Nintendo. Amiibo and Nintendo are trademarks of Nintendo; the figure images belong to their respective owners.",
 		notices: "<licenses>Third-party licenses<hint> (opens in a new tab)</hint></licenses>",
 	},
+	seo: {
+		home: {
+			title: "Amiibo Finder: collect Amiibo figures, one gift at a time",
+			description: "Build your virtual Amiibo collection: open a mystery gift every two hours, unlock new figures and display your favorites on the shelves of your room.",
+		},
+		unlock: {
+			title: "Unlock a new Amiibo figure · Amiibo Finder",
+			description: "Open the mystery gift and meet the next Amiibo figure joining your collection. A new delivery arrives every two hours.",
+		},
+		notFound: {
+			title: "Page not found · Amiibo Finder",
+			description: "This page doesn't exist. Head back to your Amiibo collection or open your next gift.",
+			heading: "This page isn't on the shelf.",
+			back: "Back to your collection",
+		},
+	},
 	room: {
 		clockReady: "READY",
 	},

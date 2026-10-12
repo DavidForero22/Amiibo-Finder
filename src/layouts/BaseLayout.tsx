@@ -4,6 +4,8 @@ import Confetti from "react-confetti";
 import { useTranslation } from "react-i18next";
 import Header from "../modules/Header";
 import Footer from "../modules/Footer";
+import { applyHead } from "../seo/head";
+import { canonicalFor, pageKeyFor } from "../seo/pages";
 import { useAmiibo } from "../context/AmiiboContext";
 import { useMotion } from "../context/MotionContext";
 import "../styles/main.css";
@@ -28,12 +30,25 @@ const BaseLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [announcement, setAnnouncement] = useState("");
     const isFirstRoute = useRef(true);
 
-    const pageName = pathname === "/unlock" ? t("header.nav.unlock") : t("header.nav.collection");
+    const pageKey = pageKeyFor(pathname);
+    const pageName =
+        pageKey === "unlock"
+            ? t("header.nav.unlock")
+            : pageKey === "home"
+              ? t("header.nav.collection")
+              : t("seo.notFound.heading");
 
-    // Descriptive title per page (2.4.2); also follows language changes
+    // Title, description and social tags per page (2.4.2 and SEO); also follows
+    // language changes. Mirrors what the prerendered HTML ships for each route.
     useEffect(() => {
-        document.title = `${pageName} · ${t("common.appName")}`;
-    }, [pageName, t, i18n.resolvedLanguage]);
+        applyHead({
+            title: t(`seo.${pageKey}.title`),
+            description: t(`seo.${pageKey}.description`),
+            url: pageKey === "notFound" ? undefined : canonicalFor(pageKey),
+            locale: i18n.resolvedLanguage === "es" ? "es_ES" : "en_US",
+            noindex: pageKey === "notFound",
+        });
+    }, [pageKey, t, i18n.resolvedLanguage]);
 
     // Tell screen readers the page changed, but not on the first load
     useEffect(() => {

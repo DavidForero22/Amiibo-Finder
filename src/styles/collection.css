@@ -32,7 +32,6 @@
 /* Engraved nameplate: walnut plate, brass edge, two brass screws */
 .collection-title {
     position: relative;
-    max-width: 100%;
     padding: 0.22em 44px 0.26em;
     border: 3px solid var(--brass);
     border-radius: 8px;
@@ -74,6 +73,22 @@
     font-size: 1.125rem;
     color: var(--ink-soft);
     max-width: 38ch;
+}
+
+/* 404: the message sits in the middle of the page, both ways */
+.not-found {
+    align-items: center;
+    justify-content: center;
+    min-height: 55dvh;
+    max-width: none;
+    margin: 0 auto;
+    text-align: center;
+}
+
+@media (max-width: 480px) {
+    .not-found .collection-title {
+        padding-inline: 36px;
+    }
 }
 
 .collection-note {
