@@ -1,4 +1,4 @@
-<h1 align="center">Amiibo Finder</h1>
+<h1 align="center">Amiibo Safari</h1>
 
 <p align="center">
 <em>Unlock, collect, and manage your favorite Nintendo figures in this Gacha-style Amiibo discovery experience.</em>
@@ -27,7 +27,7 @@
 ---
 
 ## 📝 Description
-The core purpose of this application is to simulate the excitement of collecting. Users cannot simply view all Amiibos at once; they must "unlock" them. 
+The core purpose of this application is to simulate the excitement of collecting. Users cannot simply view all Amiibos at once; they must unlock them. 
 
 The application persists data locally, allowing users to keep their collection across sessions.
 

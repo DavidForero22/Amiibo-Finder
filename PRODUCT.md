@@ -17,7 +17,7 @@ The product must work as a genuinely engaging little game first; the craft is wh
 
 ## Product Purpose
 
-Amiibo Finder simulates the thrill of collecting. Users cannot browse the whole Amiibo catalogue; they earn figures one at a time by opening a mystery gift, then manage the collection they have built. Success means the unlock moment feels rewarding enough to come back for, and the collection feels like something the user owns and is proud of.
+Amiibo Safari simulates the thrill of collecting. Users cannot browse the whole Amiibo catalogue; they earn figures one at a time by opening a mystery gift, then manage the collection they have built. Success means the unlock moment feels rewarding enough to come back for, and the collection feels like something the user owns and is proud of.
 
 ## Positioning
 
@@ -42,7 +42,7 @@ Not a catalogue or database viewer: a gacha-style ritual around real Amiibo data
 
 ## Brand Commitments
 
-- Name: **Amiibo Finder**.
+- Name: **Amiibo Safari**.
 - Fan-made project, not affiliated with or endorsed by Nintendo. Nintendo logos and trade dress must not be used as the product's own branding; Amiibo figure images come from the API.
 - MIT licensed; footer carries the license and disclaimer.
 

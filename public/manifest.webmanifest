@@ -1,6 +1,6 @@
 {
-  "name": "Amiibo Finder",
-  "short_name": "Amiibo Finder",
+  "name": "Amiibo Safari",
+  "short_name": "Amiibo Safari",
   "description": "Open a mystery gift every two hours and fill your room with Amiibo figures.",
   "start_url": "/",
   "scope": "/",

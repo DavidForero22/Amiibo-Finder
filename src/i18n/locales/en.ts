@@ -4,7 +4,7 @@
  */
 const en = {
 	common: {
-		appName: "Amiibo Finder",
+		appName: "Amiibo Safari",
 		skipToContent: "Skip to content",
 		dismiss: "Dismiss message",
 	},
@@ -13,7 +13,7 @@ const en = {
 		changeTo: "Change language",
 	},
 	header: {
-		homeLink: "Amiibo Finder, go to your collection",
+		homeLink: "Amiibo Safari, go to your collection",
 		navLabel: "Main",
 		nav: {
 			collection: "Collection",
@@ -42,7 +42,7 @@ const en = {
 			nothingToExport: "Nothing to export yet. Unlock a figure first.",
 			exported: "Collection exported as a .json file.",
 			imported: "Collection imported. Your shelves are restocked.",
-			importInvalid: "That file isn't an Amiibo Finder export. Choose a .json file saved from this site.",
+			importInvalid: "That file isn't an Amiibo Safari export. Choose a .json file saved from this site.",
 			importRead: "The file couldn't be read. Try choosing it again.",
 			deleted: "Collection deleted. Your shelves are empty.",
 		},
@@ -69,15 +69,15 @@ const en = {
 	},
 	seo: {
 		home: {
-			title: "Amiibo Finder: collect Amiibo figures, one gift at a time",
-			description: "Build your virtual Amiibo collection: open a mystery gift every two hours, unlock new figures and display your favorites on the shelves of your room.",
+			title: "Amiibo Safari: collect Amiibo figures",
+			description: "Build your virtual Amiibo collection: open mystery gifts, unlock new figures and display your favorites!",
 		},
 		unlock: {
-			title: "Unlock a new Amiibo figure · Amiibo Finder",
+			title: "Unlock a new Amiibo figure · Amiibo Safari",
 			description: "Open the mystery gift and meet the next Amiibo figure joining your collection. A new delivery arrives every two hours.",
 		},
 		notFound: {
-			title: "Page not found · Amiibo Finder",
+			title: "Page not found · Amiibo Safari",
 			description: "This page doesn't exist. Head back to your Amiibo collection or open your next gift.",
 			heading: "This page isn't on the shelf.",
 			back: "Back to your collection",

@@ -3,7 +3,7 @@ import type { Catalog } from "./en";
 /** Spanish catalog. Informal "tú", as the app speaks to a single collector. */
 const es: Catalog = {
 	common: {
-		appName: "Amiibo Finder",
+		appName: "Amiibo Safari",
 		skipToContent: "Saltar al contenido",
 		dismiss: "Descartar mensaje",
 	},
@@ -12,7 +12,7 @@ const es: Catalog = {
 		changeTo: "Cambiar idioma",
 	},
 	header: {
-		homeLink: "Amiibo Finder, ir a tu colección",
+		homeLink: "Amiibo Safari, ir a tu colección",
 		navLabel: "Principal",
 		nav: {
 			collection: "Colección",
@@ -41,7 +41,7 @@ const es: Catalog = {
 			nothingToExport: "Aún no hay nada que exportar. Desbloquea una figura primero.",
 			exported: "Colección exportada como archivo .json.",
 			imported: "Colección importada. Tus estanterías vuelven a estar llenas.",
-			importInvalid: "Ese archivo no es una exportación de Amiibo Finder. Elige un archivo .json guardado desde esta web.",
+			importInvalid: "Ese archivo no es una exportación de Amiibo Safari. Elige un archivo .json guardado desde esta web.",
 			importRead: "No se pudo leer el archivo. Prueba a elegirlo de nuevo.",
 			deleted: "Colección borrada. Tus estanterías están vacías.",
 		},
@@ -68,15 +68,15 @@ const es: Catalog = {
 	},
 	seo: {
 		home: {
-			title: "Amiibo Finder: colecciona figuras Amiibo, un regalo cada vez",
-			description: "Construye tu colección virtual de Amiibo: abre un regalo sorpresa cada dos horas, desbloquea figuras nuevas y exhibe tus favoritas en las estanterías de tu habitación.",
+			title: "Amiibo Safari: colecciona figuras Amiibo",
+			description: "¡Construye tu colección virtual de Amiibo: abre regalos sorpresa, desbloquea figuras nuevas y exhibe tus favoritas!",
 		},
 		unlock: {
-			title: "Desbloquea una nueva figura Amiibo · Amiibo Finder",
+			title: "Desbloquea una nueva figura Amiibo · Amiibo Safari",
 			description: "Abre el regalo sorpresa y descubre la próxima figura Amiibo de tu colección. Llega un envío nuevo cada dos horas.",
 		},
 		notFound: {
-			title: "Página no encontrada · Amiibo Finder",
+			title: "Página no encontrada · Amiibo Safari",
 			description: "Esta página no existe. Vuelve a tu colección de Amiibo o abre tu próximo regalo.",
 			heading: "Esta página no está en la estantería.",
 			back: "Volver a tu colección",

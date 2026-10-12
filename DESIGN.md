@@ -1,5 +1,5 @@
 ---
-name: Amiibo Finder
+name: Amiibo Safari
 description: A collector's den you fill one gift at a time; an isometric room with walnut shelves, brass plaques and paper tags.
 colors:
   ground: "#e3e7ec"
@@ -204,7 +204,7 @@ components:
     height: "44px"
 ---
 
-# Design System: Amiibo Finder
+# Design System: Amiibo Safari
 
 ## Overview
 
