@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://amiibo-finder-flax.vercel.app/</loc>
+    <loc>https://amiibofinder.vercel.app/</loc>
   </url>
   <url>
-    <loc>https://amiibo-finder-flax.vercel.app/unlock</loc>
+    <loc>https://amiibofinder.vercel.app/unlock</loc>
   </url>
 </urlset>

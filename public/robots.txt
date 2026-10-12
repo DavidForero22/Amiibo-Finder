@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://amiibo-finder-flax.vercel.app/sitemap.xml
+Sitemap: https://amiibofinder.vercel.app/sitemap.xml

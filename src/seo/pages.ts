@@ -5,7 +5,7 @@
  */
 
 /** Production origin. Canonical, Open Graph and sitemap URLs are built from it. */
-export const SITE_URL = "https://amiibo-finder-flax.vercel.app";
+export const SITE_URL = "https://amiibofinder.vercel.app";
 
 export const SOCIAL_IMAGE = {
 	url: `${SITE_URL}/social_thumbnail.webp`,
