@@ -63,7 +63,8 @@ const es: Catalog = {
 	footer: {
 		license: "© 2025-2026 Davitroon · Licencia MIT",
 		dataFrom: "Datos de figuras del <api>proyecto comunitario AmiiboAPI<hint> (se abre en una pestaña nueva)</hint></api>",
-		disclaimer: "Proyecto hecho por fans, sin afiliación ni respaldo de Nintendo.",
+		disclaimer: "Proyecto hecho por fans, sin afiliación ni respaldo de Nintendo. Amiibo y Nintendo son marcas de Nintendo; las imágenes de las figuras pertenecen a sus respectivos titulares.",
+		notices: "<licenses>Licencias de terceros<hint> (se abre en una pestaña nueva)</hint></licenses>",
 	},
 	room: {
 		clockReady: "LISTO",

@@ -23,6 +23,17 @@ const Footer: React.FC = () => {
                         }}
                     />
                 </p>
+                <p>
+                    <Trans
+                        i18nKey="footer.notices"
+                        components={{
+                            licenses: (
+                                <a href="/THIRD_PARTY_NOTICES.txt" target="_blank" rel="noopener noreferrer" />
+                            ),
+                            hint: <span className="visually-hidden" />,
+                        }}
+                    />
+                </p>
                 <p className="site-footer-note">{t("footer.disclaimer")}</p>
                 <div className="site-footer-social">
                     <a

@@ -64,7 +64,8 @@ const en = {
 	footer: {
 		license: "© 2025-2026 Davitroon · MIT License",
 		dataFrom: "Figure data from the <api>AmiiboAPI community project<hint> (opens in a new tab)</hint></api>",
-		disclaimer: "Fan-made project, not affiliated with or endorsed by Nintendo.",
+		disclaimer: "Fan-made project, not affiliated with or endorsed by Nintendo. Amiibo and Nintendo are trademarks of Nintendo; the figure images belong to their respective owners.",
+		notices: "<licenses>Third-party licenses<hint> (opens in a new tab)</hint></licenses>",
 	},
 	room: {
 		clockReady: "READY",

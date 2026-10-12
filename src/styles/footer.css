@@ -12,10 +12,14 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 6px 24px;
+    gap: 30px 24px;
     max-width: var(--page-max);
     margin: 0 auto;
-    padding: 22px var(--gutter) 88px; /* room for the toast so it never covers a link */
+    padding: 22px var(--gutter) 48px;
+}
+
+.site-footer-inner p {
+    margin: auto;
 }
 
 .site-footer-note {
@@ -45,6 +49,7 @@
     .site-footer-inner {
         flex-direction: column;
         align-items: center;
+        text-align: center;
     }
 
     .site-footer-note {

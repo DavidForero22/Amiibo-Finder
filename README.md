@@ -136,7 +136,7 @@ The app implements a caching strategy (in `utils.ts`) that stores the full Amiib
 <div align="center">
 
 <sub>
-This project is licensed under the MIT License.  
+This project is licensed under the MIT License. Licenses and credits of the libraries, fonts, icons and data it uses are listed in [`public/THIRD_PARTY_NOTICES.txt`](public/THIRD_PARTY_NOTICES.txt), which the site also serves from its footer.  
 
 Disclaimer: Fan-made project, not affiliated with or endorsed by Nintendo.
 </sub>

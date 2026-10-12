@@ -1,0 +1,196 @@
+THIRD-PARTY NOTICES
+===================
+
+Amiibo Finder is a fan-made project released under the MIT License (see LICENSE).
+It is not affiliated with or endorsed by Nintendo. Amiibo and Nintendo are
+trademarks of Nintendo; the figure images belong to their respective owners.
+
+This file lists the third-party software, fonts, icons and data the site uses,
+with their licenses. Last reviewed: 2026-10-11.
+
+
+1. LIBRARIES (shipped in the production bundle)
+-----------------------------------------------
+Each is distributed under the license shown; the MIT permission notice and the BSD
+notice of tween-functions are reproduced at the end of this file.
+
+- @babel/runtime 7.29.7
+    License:   MIT
+    Copyright: Copyright (c) 2014-present Sebastian McKenzie and other contributors
+    Source:    https://babel.dev/docs/en/next/babel-runtime
+
+- cookie 1.1.1
+    License:   MIT
+    Copyright: Copyright (c) 2012-2014 Roman Shtylman <shtylman@gmail.com> | Copyright (c) 2015 Douglas Christopher Wilson <doug@somethingdoug.com>
+    Source:    jshttp/cookie
+
+- html-parse-stringify 4.0.1
+    License:   MIT
+    Copyright: Copyright (c) 2025 Henrik Joreteg <henrik@joreteg.com> | Copyright (c) 2026-present i18next (https://github.com/i18next)
+    Source:    https://github.com/i18next/html-parse-stringify
+
+- i18next 26.4.2
+    License:   MIT
+    Copyright: Copyright (c) 2011-present i18next
+    Source:    https://www.i18next.com
+
+- i18next-browser-languagedetector 8.2.1
+    License:   MIT
+    Copyright: Copyright (c) 2025 i18next
+    Source:    https://github.com/i18next/i18next-browser-languageDetector
+
+- react 19.2.3
+    License:   MIT
+    Copyright: Copyright (c) Meta Platforms, Inc. and affiliates.
+    Source:    https://react.dev/
+
+- react-confetti 6.4.0
+    License:   MIT
+    Copyright: Copyright (c) 2016 Aaron Lampros
+    Source:    https://github.com/alampros/react-confetti#readme
+
+- react-dom 19.2.3
+    License:   MIT
+    Copyright: Copyright (c) Meta Platforms, Inc. and affiliates.
+    Source:    https://react.dev/
+
+- react-i18next 17.0.15
+    License:   MIT
+    Copyright: Copyright (c) 2015-present i18next
+    Source:    https://github.com/i18next/react-i18next
+
+- react-icons 5.5.0
+    License:   MIT
+    Copyright: Copyright 2018 kamijin_fanta <kamijin@live.jp>
+    Source:    https://github.com/react-icons/react-icons#readme
+
+- react-router 7.11.0
+    License:   MIT
+    Copyright: Copyright (c) React Training LLC 2015-2019 | Copyright (c) Remix Software Inc. 2020-2021 | Copyright (c) Shopify Inc. 2022-2023
+    Source:    https://github.com/remix-run/react-router
+
+- react-router-dom 7.11.0
+    License:   MIT
+    Copyright: Copyright (c) React Training LLC 2015-2019 | Copyright (c) Remix Software Inc. 2020-2021 | Copyright (c) Shopify Inc. 2022-2023
+    Source:    https://github.com/remix-run/react-router
+
+- scheduler 0.27.0
+    License:   MIT
+    Copyright: Copyright (c) Meta Platforms, Inc. and affiliates.
+    Source:    https://react.dev/
+
+- set-cookie-parser 2.7.2
+    License:   MIT
+    Copyright: Copyright (c) 2015 Nathan Friedly <nathan@nfriedly.com> (http://nfriedly.com/)
+    Source:    https://github.com/nfriedly/set-cookie-parser
+
+- tween-functions 1.2.0
+    License:   BSD
+    Copyright: Copyright © 2001 Robert Penner
+    Source:    https://github.com/chenglou/tween-functions
+
+- use-sync-external-store 1.7.0
+    License:   MIT
+    Copyright: Copyright (c) Meta Platforms, Inc. and affiliates.
+    Source:    https://github.com/react/react
+
+
+2. FONTS (self-hosted via Fontsource)
+-------------------------------------
+Licensed under the SIL Open Font License 1.1 (https://openfontlicense.org).
+Free to use, including commercially; not sold on their own.
+
+- @fontsource-variable/anybody 5.3.0
+    License:   OFL-1.1
+    Copyright: Copyright 2020 The Anybody Project Authors (https://github.com/Etcetera-Type-Co/Anybody) Anybody-Italic[wdth,wght].ttf: Copyright 2020 The Anybody Project Authors (https://github.com/Etcetera-Type-Co/Anybody) | copyright statement(s).
+    Source:    https://fontsource.org/fonts/anybody
+
+- @fontsource-variable/atkinson-hyperlegible-mono 5.3.0
+    License:   OFL-1.1
+    Copyright: Copyright 2020-2024 The Atkinson Hyperlegible Mono Project Authors (https://github.com/googlefonts/atkinson-hyperlegible-next-mono) AtkinsonHyperlegibleMono-Italic[wght].ttf: Copyright 2020-2024 The Atkinson Hyperlegible Mono Project Authors (https://github.com/googlefonts/atkinson-hyperlegible-next-mono) | copyright statement(s).
+    Source:    https://fontsource.org/fonts/atkinson-hyperlegible-mono
+
+- @fontsource-variable/atkinson-hyperlegible-next 5.3.0
+    License:   OFL-1.1
+    Copyright: Copyright 2020-2024 The Atkinson Hyperlegible Next Project Authors (https://github.com/googlefonts/atkinson-hyperlegible-next) AtkinsonHyperlegibleNext-Italic[wght].ttf: Copyright 2020-2024 The Atkinson Hyperlegible Next Project Authors (https://github.com/googlefonts/atkinson-hyperlegible-next) | copyright statement(s).
+    Source:    https://fontsource.org/fonts/atkinson-hyperlegible-next
+
+Families: Anybody; Atkinson Hyperlegible Next and Atkinson Hyperlegible Mono
+(Braille Institute of America, Inc.).
+
+
+3. ICONS
+--------
+Ionicons 5, MIT License, Copyright (c) 2015-present Ionic (http://ionic.io/),
+used through react-icons (MIT).
+  https://github.com/ionic-team/ionicons
+
+
+4. FIGURE DATA AND IMAGES
+-------------------------
+Figure data and artwork are loaded at run time from the community AmiiboAPI
+(https://amiiboapi.org/, source: https://github.com/8bitDream/AmiiboAPI).
+The project's code is MIT-licensed; it states no separate license for the data
+or images, and the service describes itself as "for education purposes only".
+The artwork is the property of Nintendo and its respective owners; it is linked
+from its host, not copied into this project. The app is non-commercial and has
+no monetization.
+
+
+5. OWN ASSETS
+-------------
+The brand mark, favicon, room and gift illustrations are original works of this
+project, covered by its MIT License.
+
+
+6. MIT LICENSE (permission notice)
+----------------------------------
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+7. BSD LICENSE (tween-functions, a dependency of react-confetti)
+---------------------------------------------------------------
+TERMS OF USE - EASING EQUATIONS
+
+Open source under the BSD License.
+
+Copyright © 2001 Robert Penner
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+Redistributions of source code must retain the above copyright notice, this list of
+conditions and the following disclaimer.
+Redistributions in binary form must reproduce the above copyright notice, this list
+of conditions and the following disclaimer in the documentation and/or other materials
+provided with the distribution.
+
+Neither the name of the author nor the names of contributors may be used to endorse
+or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
+EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+ GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
+AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+OF THE POSSIBILITY OF SUCH DAMAGE.
